@@ -1,0 +1,29 @@
+{
+  "name": "OpenTelemetry",
+  "description": "OpenTelemetry for Matomo",
+  "version": "0.0.1",
+  "theme": false,
+  "require": {
+    "matomo": ">=5.0.0-alpha,<6.0.0-b1"
+  },
+  "authors": [
+    {
+      "name": "Digitalist Open Cloud",
+      "email": "",
+      "homepage": "https://digitalist.cloud"
+    }
+  ],
+  "support": {
+    "email": "",
+    "issues": "",
+    "forum": "",
+    "irc": "",
+    "wiki": "",
+    "source": "",
+    "docs": "",
+    "rss": ""
+  },
+  "homepage": "https://digitalist.cloud",
+  "license": "GPL v3+",
+  "keywords": []
+}
