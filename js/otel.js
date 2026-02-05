@@ -190,12 +190,12 @@
     })()
   );
   function logProxy(funcName, namespace, args) {
-    var logger = getGlobal("diag");
-    if (!logger) {
+    var logger2 = getGlobal("diag");
+    if (!logger2) {
       return;
     }
     args.unshift(namespace);
-    return logger[funcName].apply(logger, __spreadArray([], __read(args), false));
+    return logger2[funcName].apply(logger2, __spreadArray([], __read(args), false));
   }
 
   // node_modules/@opentelemetry/api/build/esm/diag/types.js
@@ -211,17 +211,17 @@
   })(DiagLogLevel || (DiagLogLevel = {}));
 
   // node_modules/@opentelemetry/api/build/esm/diag/internal/logLevelLogger.js
-  function createLogLevelDiagLogger(maxLevel, logger) {
+  function createLogLevelDiagLogger(maxLevel, logger2) {
     if (maxLevel < DiagLogLevel.NONE) {
       maxLevel = DiagLogLevel.NONE;
     } else if (maxLevel > DiagLogLevel.ALL) {
       maxLevel = DiagLogLevel.ALL;
     }
-    logger = logger || {};
+    logger2 = logger2 || {};
     function _filterFunc(funcName, theLevel) {
-      var theFunc = logger[funcName];
+      var theFunc = logger2[funcName];
       if (typeof theFunc === "function" && maxLevel >= theLevel) {
-        return theFunc.bind(logger);
+        return theFunc.bind(logger2);
       }
       return function() {
       };
@@ -273,19 +273,19 @@
             for (var _i = 0; _i < arguments.length; _i++) {
               args[_i] = arguments[_i];
             }
-            var logger = getGlobal("diag");
-            if (!logger)
+            var logger2 = getGlobal("diag");
+            if (!logger2)
               return;
-            return logger[funcName].apply(logger, __spreadArray2([], __read2(args), false));
+            return logger2[funcName].apply(logger2, __spreadArray2([], __read2(args), false));
           };
         }
         var self2 = this;
-        var setLogger = function(logger, optionsOrLogLevel) {
+        var setLogger = function(logger2, optionsOrLogLevel) {
           var _a, _b, _c;
           if (optionsOrLogLevel === void 0) {
             optionsOrLogLevel = { logLevel: DiagLogLevel.INFO };
           }
-          if (logger === self2) {
+          if (logger2 === self2) {
             var err = new Error("Cannot use diag as the logger for itself. Please use a DiagLogger implementation like ConsoleDiagLogger or a custom implementation");
             self2.error((_a = err.stack) !== null && _a !== void 0 ? _a : err.message);
             return false;
@@ -296,7 +296,7 @@
             };
           }
           var oldLogger = getGlobal("diag");
-          var newLogger = createLogLevelDiagLogger((_b = optionsOrLogLevel.logLevel) !== null && _b !== void 0 ? _b : DiagLogLevel.INFO, logger);
+          var newLogger = createLogLevelDiagLogger((_b = optionsOrLogLevel.logLevel) !== null && _b !== void 0 ? _b : DiagLogLevel.INFO, logger2);
           if (oldLogger && !optionsOrLogLevel.suppressOverrideMessage) {
             var stack = (_c = new Error().stack) !== null && _c !== void 0 ? _c : "<failed to generate stacktrace>";
             oldLogger.warn("Current logger will be overwritten from " + stack);
@@ -467,6 +467,166 @@
     })()
   );
   var ROOT_CONTEXT = new BaseContext();
+
+  // node_modules/@opentelemetry/api/build/esm/metrics/NoopMeter.js
+  var __extends = /* @__PURE__ */ (function() {
+    var extendStatics = function(d2, b2) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
+        d3.__proto__ = b3;
+      } || function(d3, b3) {
+        for (var p2 in b3) if (Object.prototype.hasOwnProperty.call(b3, p2)) d3[p2] = b3[p2];
+      };
+      return extendStatics(d2, b2);
+    };
+    return function(d2, b2) {
+      if (typeof b2 !== "function" && b2 !== null)
+        throw new TypeError("Class extends value " + String(b2) + " is not a constructor or null");
+      extendStatics(d2, b2);
+      function __() {
+        this.constructor = d2;
+      }
+      d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
+    };
+  })();
+  var NoopMeter = (
+    /** @class */
+    (function() {
+      function NoopMeter2() {
+      }
+      NoopMeter2.prototype.createGauge = function(_name, _options) {
+        return NOOP_GAUGE_METRIC;
+      };
+      NoopMeter2.prototype.createHistogram = function(_name, _options) {
+        return NOOP_HISTOGRAM_METRIC;
+      };
+      NoopMeter2.prototype.createCounter = function(_name, _options) {
+        return NOOP_COUNTER_METRIC;
+      };
+      NoopMeter2.prototype.createUpDownCounter = function(_name, _options) {
+        return NOOP_UP_DOWN_COUNTER_METRIC;
+      };
+      NoopMeter2.prototype.createObservableGauge = function(_name, _options) {
+        return NOOP_OBSERVABLE_GAUGE_METRIC;
+      };
+      NoopMeter2.prototype.createObservableCounter = function(_name, _options) {
+        return NOOP_OBSERVABLE_COUNTER_METRIC;
+      };
+      NoopMeter2.prototype.createObservableUpDownCounter = function(_name, _options) {
+        return NOOP_OBSERVABLE_UP_DOWN_COUNTER_METRIC;
+      };
+      NoopMeter2.prototype.addBatchObservableCallback = function(_callback, _observables) {
+      };
+      NoopMeter2.prototype.removeBatchObservableCallback = function(_callback) {
+      };
+      return NoopMeter2;
+    })()
+  );
+  var NoopMetric = (
+    /** @class */
+    /* @__PURE__ */ (function() {
+      function NoopMetric2() {
+      }
+      return NoopMetric2;
+    })()
+  );
+  var NoopCounterMetric = (
+    /** @class */
+    (function(_super) {
+      __extends(NoopCounterMetric2, _super);
+      function NoopCounterMetric2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      NoopCounterMetric2.prototype.add = function(_value, _attributes) {
+      };
+      return NoopCounterMetric2;
+    })(NoopMetric)
+  );
+  var NoopUpDownCounterMetric = (
+    /** @class */
+    (function(_super) {
+      __extends(NoopUpDownCounterMetric2, _super);
+      function NoopUpDownCounterMetric2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      NoopUpDownCounterMetric2.prototype.add = function(_value, _attributes) {
+      };
+      return NoopUpDownCounterMetric2;
+    })(NoopMetric)
+  );
+  var NoopGaugeMetric = (
+    /** @class */
+    (function(_super) {
+      __extends(NoopGaugeMetric2, _super);
+      function NoopGaugeMetric2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      NoopGaugeMetric2.prototype.record = function(_value, _attributes) {
+      };
+      return NoopGaugeMetric2;
+    })(NoopMetric)
+  );
+  var NoopHistogramMetric = (
+    /** @class */
+    (function(_super) {
+      __extends(NoopHistogramMetric2, _super);
+      function NoopHistogramMetric2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      NoopHistogramMetric2.prototype.record = function(_value, _attributes) {
+      };
+      return NoopHistogramMetric2;
+    })(NoopMetric)
+  );
+  var NoopObservableMetric = (
+    /** @class */
+    (function() {
+      function NoopObservableMetric2() {
+      }
+      NoopObservableMetric2.prototype.addCallback = function(_callback) {
+      };
+      NoopObservableMetric2.prototype.removeCallback = function(_callback) {
+      };
+      return NoopObservableMetric2;
+    })()
+  );
+  var NoopObservableCounterMetric = (
+    /** @class */
+    (function(_super) {
+      __extends(NoopObservableCounterMetric2, _super);
+      function NoopObservableCounterMetric2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      return NoopObservableCounterMetric2;
+    })(NoopObservableMetric)
+  );
+  var NoopObservableGaugeMetric = (
+    /** @class */
+    (function(_super) {
+      __extends(NoopObservableGaugeMetric2, _super);
+      function NoopObservableGaugeMetric2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      return NoopObservableGaugeMetric2;
+    })(NoopObservableMetric)
+  );
+  var NoopObservableUpDownCounterMetric = (
+    /** @class */
+    (function(_super) {
+      __extends(NoopObservableUpDownCounterMetric2, _super);
+      function NoopObservableUpDownCounterMetric2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      return NoopObservableUpDownCounterMetric2;
+    })(NoopObservableMetric)
+  );
+  var NOOP_METER = new NoopMeter();
+  var NOOP_COUNTER_METRIC = new NoopCounterMetric();
+  var NOOP_GAUGE_METRIC = new NoopGaugeMetric();
+  var NOOP_HISTOGRAM_METRIC = new NoopHistogramMetric();
+  var NOOP_UP_DOWN_COUNTER_METRIC = new NoopUpDownCounterMetric();
+  var NOOP_OBSERVABLE_COUNTER_METRIC = new NoopObservableCounterMetric();
+  var NOOP_OBSERVABLE_GAUGE_METRIC = new NoopObservableGaugeMetric();
+  var NOOP_OBSERVABLE_UP_DOWN_COUNTER_METRIC = new NoopObservableUpDownCounterMetric();
 
   // node_modules/@opentelemetry/api/build/esm/propagation/TextMapPropagator.js
   var defaultTextMapGetter = {
@@ -868,6 +1028,52 @@
   // node_modules/@opentelemetry/api/build/esm/diag-api.js
   var diag2 = DiagAPI.instance();
 
+  // node_modules/@opentelemetry/api/build/esm/metrics/NoopMeterProvider.js
+  var NoopMeterProvider = (
+    /** @class */
+    (function() {
+      function NoopMeterProvider2() {
+      }
+      NoopMeterProvider2.prototype.getMeter = function(_name, _version, _options) {
+        return NOOP_METER;
+      };
+      return NoopMeterProvider2;
+    })()
+  );
+  var NOOP_METER_PROVIDER = new NoopMeterProvider();
+
+  // node_modules/@opentelemetry/api/build/esm/api/metrics.js
+  var API_NAME3 = "metrics";
+  var MetricsAPI = (
+    /** @class */
+    (function() {
+      function MetricsAPI2() {
+      }
+      MetricsAPI2.getInstance = function() {
+        if (!this._instance) {
+          this._instance = new MetricsAPI2();
+        }
+        return this._instance;
+      };
+      MetricsAPI2.prototype.setGlobalMeterProvider = function(provider) {
+        return registerGlobal(API_NAME3, provider, DiagAPI.instance());
+      };
+      MetricsAPI2.prototype.getMeterProvider = function() {
+        return getGlobal(API_NAME3) || NOOP_METER_PROVIDER;
+      };
+      MetricsAPI2.prototype.getMeter = function(name, version, options) {
+        return this.getMeterProvider().getMeter(name, version, options);
+      };
+      MetricsAPI2.prototype.disable = function() {
+        unregisterGlobal(API_NAME3, DiagAPI.instance());
+      };
+      return MetricsAPI2;
+    })()
+  );
+
+  // node_modules/@opentelemetry/api/build/esm/metrics-api.js
+  var metrics = MetricsAPI.getInstance();
+
   // node_modules/@opentelemetry/api/build/esm/propagation/NoopTextMapPropagator.js
   var NoopTextMapPropagator = (
     /** @class */
@@ -902,7 +1108,7 @@
   }
 
   // node_modules/@opentelemetry/api/build/esm/api/propagation.js
-  var API_NAME3 = "propagation";
+  var API_NAME4 = "propagation";
   var NOOP_TEXT_MAP_PROPAGATOR = new NoopTextMapPropagator();
   var PropagationAPI = (
     /** @class */
@@ -921,7 +1127,7 @@
         return this._instance;
       };
       PropagationAPI2.prototype.setGlobalPropagator = function(propagator) {
-        return registerGlobal(API_NAME3, propagator, DiagAPI.instance());
+        return registerGlobal(API_NAME4, propagator, DiagAPI.instance());
       };
       PropagationAPI2.prototype.inject = function(context2, carrier, setter) {
         if (setter === void 0) {
@@ -939,10 +1145,10 @@
         return this._getGlobalPropagator().fields();
       };
       PropagationAPI2.prototype.disable = function() {
-        unregisterGlobal(API_NAME3, DiagAPI.instance());
+        unregisterGlobal(API_NAME4, DiagAPI.instance());
       };
       PropagationAPI2.prototype._getGlobalPropagator = function() {
-        return getGlobal(API_NAME3) || NOOP_TEXT_MAP_PROPAGATOR;
+        return getGlobal(API_NAME4) || NOOP_TEXT_MAP_PROPAGATOR;
       };
       return PropagationAPI2;
     })()
@@ -952,7 +1158,7 @@
   var propagation = PropagationAPI.getInstance();
 
   // node_modules/@opentelemetry/api/build/esm/api/trace.js
-  var API_NAME4 = "trace";
+  var API_NAME5 = "trace";
   var TraceAPI = (
     /** @class */
     (function() {
@@ -974,20 +1180,20 @@
         return this._instance;
       };
       TraceAPI2.prototype.setGlobalTracerProvider = function(provider) {
-        var success = registerGlobal(API_NAME4, this._proxyTracerProvider, DiagAPI.instance());
+        var success = registerGlobal(API_NAME5, this._proxyTracerProvider, DiagAPI.instance());
         if (success) {
           this._proxyTracerProvider.setDelegate(provider);
         }
         return success;
       };
       TraceAPI2.prototype.getTracerProvider = function() {
-        return getGlobal(API_NAME4) || this._proxyTracerProvider;
+        return getGlobal(API_NAME5) || this._proxyTracerProvider;
       };
       TraceAPI2.prototype.getTracer = function(name, version) {
         return this.getTracerProvider().getTracer(name, version);
       };
       TraceAPI2.prototype.disable = function() {
-        unregisterGlobal(API_NAME4, DiagAPI.instance());
+        unregisterGlobal(API_NAME5, DiagAPI.instance());
         this._proxyTracerProvider = new ProxyTracerProvider();
       };
       return TraceAPI2;
@@ -1218,19 +1424,30 @@
   function getNumberFromEnv(_2) {
     return void 0;
   }
+  function getStringListFromEnv(_2) {
+    return void 0;
+  }
 
   // node_modules/@opentelemetry/core/build/esm/version.js
   var VERSION2 = "2.5.0";
 
   // node_modules/@opentelemetry/semantic-conventions/build/esm/stable_attributes.js
+  var ATTR_ERROR_TYPE = "error.type";
   var ATTR_EXCEPTION_MESSAGE = "exception.message";
   var ATTR_EXCEPTION_STACKTRACE = "exception.stacktrace";
   var ATTR_EXCEPTION_TYPE = "exception.type";
+  var ATTR_HTTP_REQUEST_METHOD = "http.request.method";
+  var ATTR_HTTP_REQUEST_METHOD_ORIGINAL = "http.request.method_original";
+  var ATTR_HTTP_RESPONSE_STATUS_CODE = "http.response.status_code";
+  var ATTR_SERVER_ADDRESS = "server.address";
+  var ATTR_SERVER_PORT = "server.port";
   var ATTR_SERVICE_NAME = "service.name";
   var ATTR_TELEMETRY_SDK_LANGUAGE = "telemetry.sdk.language";
   var TELEMETRY_SDK_LANGUAGE_VALUE_WEBJS = "webjs";
   var ATTR_TELEMETRY_SDK_NAME = "telemetry.sdk.name";
   var ATTR_TELEMETRY_SDK_VERSION = "telemetry.sdk.version";
+  var ATTR_URL_FULL = "url.full";
+  var ATTR_USER_AGENT_ORIGINAL = "user_agent.original";
 
   // node_modules/@opentelemetry/core/build/esm/semconv.js
   var ATTR_PROCESS_RUNTIME_NAME = "process.runtime.name";
@@ -1261,6 +1478,21 @@
     const timeOrigin = millisToHrTime(otperformance.timeOrigin);
     const now = millisToHrTime(typeof performanceNow === "number" ? performanceNow : otperformance.now());
     return addHrTimes(timeOrigin, now);
+  }
+  function timeInputToHrTime(time) {
+    if (isTimeInputHrTime(time)) {
+      return time;
+    } else if (typeof time === "number") {
+      if (time < otperformance.timeOrigin) {
+        return hrTime(time);
+      } else {
+        return millisToHrTime(time);
+      }
+    } else if (time instanceof Date) {
+      return millisToHrTime(time.getTime());
+    } else {
+      throw TypeError("Invalid input type");
+    }
   }
   function hrTimeDuration(startTime, endTime) {
     let seconds = endTime[0] - startTime[0];
@@ -1642,6 +1874,26 @@
       return false;
     }
     return true;
+  }
+
+  // node_modules/@opentelemetry/core/build/esm/utils/url.js
+  function urlMatches(url, urlToMatch) {
+    if (typeof urlToMatch === "string") {
+      return url === urlToMatch;
+    } else {
+      return !!url.match(urlToMatch);
+    }
+  }
+  function isUrlIgnored(url, ignoredUrls) {
+    if (!ignoredUrls) {
+      return false;
+    }
+    for (const ignoreUrl of ignoredUrls) {
+      if (urlMatches(url, ignoreUrl)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // node_modules/@opentelemetry/core/build/esm/utils/promise.js
@@ -2918,6 +3170,1987 @@
     }
   };
 
+  // node_modules/@opentelemetry/sdk-trace-web/build/esm/enums/PerformanceTimingNames.js
+  var PerformanceTimingNames;
+  (function(PerformanceTimingNames2) {
+    PerformanceTimingNames2["CONNECT_END"] = "connectEnd";
+    PerformanceTimingNames2["CONNECT_START"] = "connectStart";
+    PerformanceTimingNames2["DECODED_BODY_SIZE"] = "decodedBodySize";
+    PerformanceTimingNames2["DOM_COMPLETE"] = "domComplete";
+    PerformanceTimingNames2["DOM_CONTENT_LOADED_EVENT_END"] = "domContentLoadedEventEnd";
+    PerformanceTimingNames2["DOM_CONTENT_LOADED_EVENT_START"] = "domContentLoadedEventStart";
+    PerformanceTimingNames2["DOM_INTERACTIVE"] = "domInteractive";
+    PerformanceTimingNames2["DOMAIN_LOOKUP_END"] = "domainLookupEnd";
+    PerformanceTimingNames2["DOMAIN_LOOKUP_START"] = "domainLookupStart";
+    PerformanceTimingNames2["ENCODED_BODY_SIZE"] = "encodedBodySize";
+    PerformanceTimingNames2["FETCH_START"] = "fetchStart";
+    PerformanceTimingNames2["LOAD_EVENT_END"] = "loadEventEnd";
+    PerformanceTimingNames2["LOAD_EVENT_START"] = "loadEventStart";
+    PerformanceTimingNames2["NAVIGATION_START"] = "navigationStart";
+    PerformanceTimingNames2["REDIRECT_END"] = "redirectEnd";
+    PerformanceTimingNames2["REDIRECT_START"] = "redirectStart";
+    PerformanceTimingNames2["REQUEST_START"] = "requestStart";
+    PerformanceTimingNames2["RESPONSE_END"] = "responseEnd";
+    PerformanceTimingNames2["RESPONSE_START"] = "responseStart";
+    PerformanceTimingNames2["SECURE_CONNECTION_START"] = "secureConnectionStart";
+    PerformanceTimingNames2["START_TIME"] = "startTime";
+    PerformanceTimingNames2["UNLOAD_EVENT_END"] = "unloadEventEnd";
+    PerformanceTimingNames2["UNLOAD_EVENT_START"] = "unloadEventStart";
+  })(PerformanceTimingNames || (PerformanceTimingNames = {}));
+
+  // node_modules/@opentelemetry/sdk-trace-web/build/esm/semconv.js
+  var ATTR_HTTP_RESPONSE_CONTENT_LENGTH = "http.response_content_length";
+  var ATTR_HTTP_RESPONSE_CONTENT_LENGTH_UNCOMPRESSED = "http.response_content_length_uncompressed";
+
+  // node_modules/@opentelemetry/sdk-trace-web/build/esm/utils.js
+  var urlNormalizingAnchor;
+  function getUrlNormalizingAnchor() {
+    if (!urlNormalizingAnchor) {
+      urlNormalizingAnchor = document.createElement("a");
+    }
+    return urlNormalizingAnchor;
+  }
+  function hasKey(obj, key) {
+    return key in obj;
+  }
+  function addSpanNetworkEvent(span, performanceName, entries, ignoreZeros = true) {
+    if (hasKey(entries, performanceName) && typeof entries[performanceName] === "number" && !(ignoreZeros && entries[performanceName] === 0)) {
+      return span.addEvent(performanceName, entries[performanceName]);
+    }
+    return void 0;
+  }
+  function addSpanNetworkEvents(span, resource, ignoreNetworkEvents = false, ignoreZeros, skipOldSemconvContentLengthAttrs) {
+    if (ignoreZeros === void 0) {
+      ignoreZeros = resource[PerformanceTimingNames.START_TIME] !== 0;
+    }
+    if (!ignoreNetworkEvents) {
+      addSpanNetworkEvent(span, PerformanceTimingNames.FETCH_START, resource, ignoreZeros);
+      addSpanNetworkEvent(span, PerformanceTimingNames.DOMAIN_LOOKUP_START, resource, ignoreZeros);
+      addSpanNetworkEvent(span, PerformanceTimingNames.DOMAIN_LOOKUP_END, resource, ignoreZeros);
+      addSpanNetworkEvent(span, PerformanceTimingNames.CONNECT_START, resource, ignoreZeros);
+      addSpanNetworkEvent(span, PerformanceTimingNames.SECURE_CONNECTION_START, resource, ignoreZeros);
+      addSpanNetworkEvent(span, PerformanceTimingNames.CONNECT_END, resource, ignoreZeros);
+      addSpanNetworkEvent(span, PerformanceTimingNames.REQUEST_START, resource, ignoreZeros);
+      addSpanNetworkEvent(span, PerformanceTimingNames.RESPONSE_START, resource, ignoreZeros);
+      addSpanNetworkEvent(span, PerformanceTimingNames.RESPONSE_END, resource, ignoreZeros);
+    }
+    if (!skipOldSemconvContentLengthAttrs) {
+      const encodedLength = resource[PerformanceTimingNames.ENCODED_BODY_SIZE];
+      if (encodedLength !== void 0) {
+        span.setAttribute(ATTR_HTTP_RESPONSE_CONTENT_LENGTH, encodedLength);
+      }
+      const decodedLength = resource[PerformanceTimingNames.DECODED_BODY_SIZE];
+      if (decodedLength !== void 0 && encodedLength !== decodedLength) {
+        span.setAttribute(ATTR_HTTP_RESPONSE_CONTENT_LENGTH_UNCOMPRESSED, decodedLength);
+      }
+    }
+  }
+  function sortResources(filteredResources) {
+    return filteredResources.slice().sort((a2, b2) => {
+      const valueA = a2[PerformanceTimingNames.FETCH_START];
+      const valueB = b2[PerformanceTimingNames.FETCH_START];
+      if (valueA > valueB) {
+        return 1;
+      } else if (valueA < valueB) {
+        return -1;
+      }
+      return 0;
+    });
+  }
+  function getOrigin() {
+    return typeof location !== "undefined" ? location.origin : void 0;
+  }
+  function getResource(spanUrl, startTimeHR, endTimeHR, resources, ignoredResources = /* @__PURE__ */ new WeakSet(), initiatorType) {
+    const parsedSpanUrl = parseUrl(spanUrl);
+    spanUrl = parsedSpanUrl.toString();
+    const filteredResources = filterResourcesForSpan(spanUrl, startTimeHR, endTimeHR, resources, ignoredResources, initiatorType);
+    if (filteredResources.length === 0) {
+      return {
+        mainRequest: void 0
+      };
+    }
+    if (filteredResources.length === 1) {
+      return {
+        mainRequest: filteredResources[0]
+      };
+    }
+    const sorted = sortResources(filteredResources);
+    if (parsedSpanUrl.origin !== getOrigin() && sorted.length > 1) {
+      let corsPreFlightRequest = sorted[0];
+      let mainRequest = findMainRequest(sorted, corsPreFlightRequest[PerformanceTimingNames.RESPONSE_END], endTimeHR);
+      const responseEnd = corsPreFlightRequest[PerformanceTimingNames.RESPONSE_END];
+      const fetchStart = mainRequest[PerformanceTimingNames.FETCH_START];
+      if (fetchStart < responseEnd) {
+        mainRequest = corsPreFlightRequest;
+        corsPreFlightRequest = void 0;
+      }
+      return {
+        corsPreFlightRequest,
+        mainRequest
+      };
+    } else {
+      return {
+        mainRequest: filteredResources[0]
+      };
+    }
+  }
+  function findMainRequest(resources, corsPreFlightRequestEndTime, spanEndTimeHR) {
+    const spanEndTime = hrTimeToNanoseconds(spanEndTimeHR);
+    const minTime = hrTimeToNanoseconds(timeInputToHrTime(corsPreFlightRequestEndTime));
+    let mainRequest = resources[1];
+    let bestGap;
+    const length = resources.length;
+    for (let i2 = 1; i2 < length; i2++) {
+      const resource = resources[i2];
+      const resourceStartTime = hrTimeToNanoseconds(timeInputToHrTime(resource[PerformanceTimingNames.FETCH_START]));
+      const resourceEndTime = hrTimeToNanoseconds(timeInputToHrTime(resource[PerformanceTimingNames.RESPONSE_END]));
+      const currentGap = spanEndTime - resourceEndTime;
+      if (resourceStartTime >= minTime && (!bestGap || currentGap < bestGap)) {
+        bestGap = currentGap;
+        mainRequest = resource;
+      }
+    }
+    return mainRequest;
+  }
+  function filterResourcesForSpan(spanUrl, startTimeHR, endTimeHR, resources, ignoredResources, initiatorType) {
+    const startTime = hrTimeToNanoseconds(startTimeHR);
+    const endTime = hrTimeToNanoseconds(endTimeHR);
+    let filteredResources = resources.filter((resource) => {
+      const resourceStartTime = hrTimeToNanoseconds(timeInputToHrTime(resource[PerformanceTimingNames.FETCH_START]));
+      const resourceEndTime = hrTimeToNanoseconds(timeInputToHrTime(resource[PerformanceTimingNames.RESPONSE_END]));
+      return resource.initiatorType.toLowerCase() === (initiatorType || "xmlhttprequest") && resource.name === spanUrl && resourceStartTime >= startTime && resourceEndTime <= endTime;
+    });
+    if (filteredResources.length > 0) {
+      filteredResources = filteredResources.filter((resource) => {
+        return !ignoredResources.has(resource);
+      });
+    }
+    return filteredResources;
+  }
+  function parseUrl(url) {
+    if (typeof URL === "function") {
+      return new URL(url, typeof document !== "undefined" ? document.baseURI : typeof location !== "undefined" ? location.href : void 0);
+    }
+    const element = getUrlNormalizingAnchor();
+    element.href = url;
+    return element;
+  }
+  function getElementXPath(target, optimised) {
+    if (target.nodeType === Node.DOCUMENT_NODE) {
+      return "/";
+    }
+    const targetValue = getNodeValue(target, optimised);
+    if (optimised && targetValue.indexOf("@id") > 0) {
+      return targetValue;
+    }
+    let xpath = "";
+    if (target.parentNode) {
+      xpath += getElementXPath(target.parentNode, false);
+    }
+    xpath += targetValue;
+    return xpath;
+  }
+  function getNodeIndex(target) {
+    if (!target.parentNode) {
+      return 0;
+    }
+    const allowedTypes = [target.nodeType];
+    if (target.nodeType === Node.CDATA_SECTION_NODE) {
+      allowedTypes.push(Node.TEXT_NODE);
+    }
+    let elements = Array.from(target.parentNode.childNodes);
+    elements = elements.filter((element) => {
+      const localName = element.localName;
+      return allowedTypes.indexOf(element.nodeType) >= 0 && localName === target.localName;
+    });
+    if (elements.length >= 1) {
+      return elements.indexOf(target) + 1;
+    }
+    return 0;
+  }
+  function getNodeValue(target, optimised) {
+    const nodeType = target.nodeType;
+    const index = getNodeIndex(target);
+    let nodeValue = "";
+    if (nodeType === Node.ELEMENT_NODE) {
+      const id = target.getAttribute("id");
+      if (optimised && id) {
+        return `//*[@id="${id}"]`;
+      }
+      nodeValue = target.localName;
+    } else if (nodeType === Node.TEXT_NODE || nodeType === Node.CDATA_SECTION_NODE) {
+      nodeValue = "text()";
+    } else if (nodeType === Node.COMMENT_NODE) {
+      nodeValue = "comment()";
+    } else {
+      return "";
+    }
+    if (nodeValue && index > 1) {
+      return `/${nodeValue}[${index}]`;
+    }
+    return `/${nodeValue}`;
+  }
+  function shouldPropagateTraceHeaders(spanUrl, propagateTraceHeaderCorsUrls) {
+    let propagateTraceHeaderUrls = propagateTraceHeaderCorsUrls || [];
+    if (typeof propagateTraceHeaderUrls === "string" || propagateTraceHeaderUrls instanceof RegExp) {
+      propagateTraceHeaderUrls = [propagateTraceHeaderUrls];
+    }
+    const parsedSpanUrl = parseUrl(spanUrl);
+    if (parsedSpanUrl.origin === getOrigin()) {
+      return true;
+    } else {
+      return propagateTraceHeaderUrls.some((propagateTraceHeaderUrl) => urlMatches(spanUrl, propagateTraceHeaderUrl));
+    }
+  }
+
+  // node_modules/@opentelemetry/api-logs/build/esm/NoopLogger.js
+  var NoopLogger = class {
+    emit(_logRecord) {
+    }
+  };
+  var NOOP_LOGGER = new NoopLogger();
+
+  // node_modules/@opentelemetry/api-logs/build/esm/internal/global-utils.js
+  var GLOBAL_LOGS_API_KEY = /* @__PURE__ */ Symbol.for("io.opentelemetry.js.api.logs");
+  var _global2 = globalThis;
+  function makeGetter(requiredVersion, instance, fallback) {
+    return (version) => version === requiredVersion ? instance : fallback;
+  }
+  var API_BACKWARDS_COMPATIBILITY_VERSION = 1;
+
+  // node_modules/@opentelemetry/api-logs/build/esm/NoopLoggerProvider.js
+  var NoopLoggerProvider = class {
+    getLogger(_name, _version, _options) {
+      return new NoopLogger();
+    }
+  };
+  var NOOP_LOGGER_PROVIDER = new NoopLoggerProvider();
+
+  // node_modules/@opentelemetry/api-logs/build/esm/ProxyLogger.js
+  var ProxyLogger = class {
+    constructor(provider, name, version, options) {
+      this._provider = provider;
+      this.name = name;
+      this.version = version;
+      this.options = options;
+    }
+    /**
+     * Emit a log record. This method should only be used by log appenders.
+     *
+     * @param logRecord
+     */
+    emit(logRecord) {
+      this._getLogger().emit(logRecord);
+    }
+    /**
+     * Try to get a logger from the proxy logger provider.
+     * If the proxy logger provider has no delegate, return a noop logger.
+     */
+    _getLogger() {
+      if (this._delegate) {
+        return this._delegate;
+      }
+      const logger2 = this._provider._getDelegateLogger(this.name, this.version, this.options);
+      if (!logger2) {
+        return NOOP_LOGGER;
+      }
+      this._delegate = logger2;
+      return this._delegate;
+    }
+  };
+
+  // node_modules/@opentelemetry/api-logs/build/esm/ProxyLoggerProvider.js
+  var ProxyLoggerProvider = class {
+    getLogger(name, version, options) {
+      var _a;
+      return (_a = this._getDelegateLogger(name, version, options)) !== null && _a !== void 0 ? _a : new ProxyLogger(this, name, version, options);
+    }
+    /**
+     * Get the delegate logger provider.
+     * Used by tests only.
+     * @internal
+     */
+    _getDelegate() {
+      var _a;
+      return (_a = this._delegate) !== null && _a !== void 0 ? _a : NOOP_LOGGER_PROVIDER;
+    }
+    /**
+     * Set the delegate logger provider
+     * @internal
+     */
+    _setDelegate(delegate) {
+      this._delegate = delegate;
+    }
+    /**
+     * @internal
+     */
+    _getDelegateLogger(name, version, options) {
+      var _a;
+      return (_a = this._delegate) === null || _a === void 0 ? void 0 : _a.getLogger(name, version, options);
+    }
+  };
+
+  // node_modules/@opentelemetry/api-logs/build/esm/api/logs.js
+  var LogsAPI = class _LogsAPI {
+    constructor() {
+      this._proxyLoggerProvider = new ProxyLoggerProvider();
+    }
+    static getInstance() {
+      if (!this._instance) {
+        this._instance = new _LogsAPI();
+      }
+      return this._instance;
+    }
+    setGlobalLoggerProvider(provider) {
+      if (_global2[GLOBAL_LOGS_API_KEY]) {
+        return this.getLoggerProvider();
+      }
+      _global2[GLOBAL_LOGS_API_KEY] = makeGetter(API_BACKWARDS_COMPATIBILITY_VERSION, provider, NOOP_LOGGER_PROVIDER);
+      this._proxyLoggerProvider._setDelegate(provider);
+      return provider;
+    }
+    /**
+     * Returns the global logger provider.
+     *
+     * @returns LoggerProvider
+     */
+    getLoggerProvider() {
+      var _a, _b;
+      return (_b = (_a = _global2[GLOBAL_LOGS_API_KEY]) === null || _a === void 0 ? void 0 : _a.call(_global2, API_BACKWARDS_COMPATIBILITY_VERSION)) !== null && _b !== void 0 ? _b : this._proxyLoggerProvider;
+    }
+    /**
+     * Returns a logger from the global logger provider.
+     *
+     * @returns Logger
+     */
+    getLogger(name, version, options) {
+      return this.getLoggerProvider().getLogger(name, version, options);
+    }
+    /** Remove the global logger provider */
+    disable() {
+      delete _global2[GLOBAL_LOGS_API_KEY];
+      this._proxyLoggerProvider = new ProxyLoggerProvider();
+    }
+  };
+
+  // node_modules/@opentelemetry/api-logs/build/esm/index.js
+  var logs = LogsAPI.getInstance();
+
+  // node_modules/@opentelemetry/instrumentation/build/esm/autoLoaderUtils.js
+  function enableInstrumentations(instrumentations, tracerProvider, meterProvider, loggerProvider) {
+    for (let i2 = 0, j = instrumentations.length; i2 < j; i2++) {
+      const instrumentation = instrumentations[i2];
+      if (tracerProvider) {
+        instrumentation.setTracerProvider(tracerProvider);
+      }
+      if (meterProvider) {
+        instrumentation.setMeterProvider(meterProvider);
+      }
+      if (loggerProvider && instrumentation.setLoggerProvider) {
+        instrumentation.setLoggerProvider(loggerProvider);
+      }
+      if (!instrumentation.getConfig().enabled) {
+        instrumentation.enable();
+      }
+    }
+  }
+  function disableInstrumentations(instrumentations) {
+    instrumentations.forEach((instrumentation) => instrumentation.disable());
+  }
+
+  // node_modules/@opentelemetry/instrumentation/build/esm/autoLoader.js
+  function registerInstrumentations(options) {
+    var _a, _b;
+    const tracerProvider = options.tracerProvider || trace.getTracerProvider();
+    const meterProvider = options.meterProvider || metrics.getMeterProvider();
+    const loggerProvider = options.loggerProvider || logs.getLoggerProvider();
+    const instrumentations = (_b = (_a = options.instrumentations) == null ? void 0 : _a.flat()) != null ? _b : [];
+    enableInstrumentations(instrumentations, tracerProvider, meterProvider, loggerProvider);
+    return () => {
+      disableInstrumentations(instrumentations);
+    };
+  }
+
+  // node_modules/@opentelemetry/instrumentation/build/esm/shimmer.js
+  var logger = console.error.bind(console);
+  function defineProperty(obj, name, value) {
+    const enumerable = !!obj[name] && Object.prototype.propertyIsEnumerable.call(obj, name);
+    Object.defineProperty(obj, name, {
+      configurable: true,
+      enumerable,
+      writable: true,
+      value
+    });
+  }
+  var wrap = (nodule, name, wrapper) => {
+    if (!nodule || !nodule[name]) {
+      logger("no original function " + String(name) + " to wrap");
+      return;
+    }
+    if (!wrapper) {
+      logger("no wrapper function");
+      logger(new Error().stack);
+      return;
+    }
+    const original = nodule[name];
+    if (typeof original !== "function" || typeof wrapper !== "function") {
+      logger("original object and wrapper must be functions");
+      return;
+    }
+    const wrapped = wrapper(original, name);
+    defineProperty(wrapped, "__original", original);
+    defineProperty(wrapped, "__unwrap", () => {
+      if (nodule[name] === wrapped) {
+        defineProperty(nodule, name, original);
+      }
+    });
+    defineProperty(wrapped, "__wrapped", true);
+    defineProperty(nodule, name, wrapped);
+    return wrapped;
+  };
+  var massWrap = (nodules, names, wrapper) => {
+    if (!nodules) {
+      logger("must provide one or more modules to patch");
+      logger(new Error().stack);
+      return;
+    } else if (!Array.isArray(nodules)) {
+      nodules = [nodules];
+    }
+    if (!(names && Array.isArray(names))) {
+      logger("must provide one or more functions to wrap on modules");
+      return;
+    }
+    nodules.forEach((nodule) => {
+      names.forEach((name) => {
+        wrap(nodule, name, wrapper);
+      });
+    });
+  };
+  var unwrap = (nodule, name) => {
+    if (!nodule || !nodule[name]) {
+      logger("no function to unwrap.");
+      logger(new Error().stack);
+      return;
+    }
+    const wrapped = nodule[name];
+    if (!wrapped.__unwrap) {
+      logger("no original to unwrap to -- has " + String(name) + " already been unwrapped?");
+    } else {
+      wrapped.__unwrap();
+      return;
+    }
+  };
+  var massUnwrap = (nodules, names) => {
+    if (!nodules) {
+      logger("must provide one or more modules to patch");
+      logger(new Error().stack);
+      return;
+    } else if (!Array.isArray(nodules)) {
+      nodules = [nodules];
+    }
+    if (!(names && Array.isArray(names))) {
+      logger("must provide one or more functions to unwrap on modules");
+      return;
+    }
+    nodules.forEach((nodule) => {
+      names.forEach((name) => {
+        unwrap(nodule, name);
+      });
+    });
+  };
+  function shimmer(options) {
+    if (options && options.logger) {
+      if (typeof options.logger !== "function") {
+        logger("new logger isn't a function, not replacing");
+      } else {
+        logger = options.logger;
+      }
+    }
+  }
+  shimmer.wrap = wrap;
+  shimmer.massWrap = massWrap;
+  shimmer.unwrap = unwrap;
+  shimmer.massUnwrap = massUnwrap;
+
+  // node_modules/@opentelemetry/instrumentation/build/esm/instrumentation.js
+  var InstrumentationAbstract = class {
+    constructor(instrumentationName, instrumentationVersion, config) {
+      __publicField(this, "_config", {});
+      __publicField(this, "_tracer");
+      __publicField(this, "_meter");
+      __publicField(this, "_logger");
+      __publicField(this, "_diag");
+      __publicField(this, "instrumentationName");
+      __publicField(this, "instrumentationVersion");
+      /* Api to wrap instrumented method */
+      __publicField(this, "_wrap", wrap);
+      /* Api to unwrap instrumented methods */
+      __publicField(this, "_unwrap", unwrap);
+      /* Api to mass wrap instrumented method */
+      __publicField(this, "_massWrap", massWrap);
+      /* Api to mass unwrap instrumented methods */
+      __publicField(this, "_massUnwrap", massUnwrap);
+      this.instrumentationName = instrumentationName;
+      this.instrumentationVersion = instrumentationVersion;
+      this.setConfig(config);
+      this._diag = diag2.createComponentLogger({
+        namespace: instrumentationName
+      });
+      this._tracer = trace.getTracer(instrumentationName, instrumentationVersion);
+      this._meter = metrics.getMeter(instrumentationName, instrumentationVersion);
+      this._logger = logs.getLogger(instrumentationName, instrumentationVersion);
+      this._updateMetricInstruments();
+    }
+    /* Returns meter */
+    get meter() {
+      return this._meter;
+    }
+    /**
+     * Sets MeterProvider to this plugin
+     * @param meterProvider
+     */
+    setMeterProvider(meterProvider) {
+      this._meter = meterProvider.getMeter(this.instrumentationName, this.instrumentationVersion);
+      this._updateMetricInstruments();
+    }
+    /* Returns logger */
+    get logger() {
+      return this._logger;
+    }
+    /**
+     * Sets LoggerProvider to this plugin
+     * @param loggerProvider
+     */
+    setLoggerProvider(loggerProvider) {
+      this._logger = loggerProvider.getLogger(this.instrumentationName, this.instrumentationVersion);
+    }
+    /**
+     * @experimental
+     *
+     * Get module definitions defined by {@link init}.
+     * This can be used for experimental compile-time instrumentation.
+     *
+     * @returns an array of {@link InstrumentationModuleDefinition}
+     */
+    getModuleDefinitions() {
+      var _a;
+      const initResult = (_a = this.init()) != null ? _a : [];
+      if (!Array.isArray(initResult)) {
+        return [initResult];
+      }
+      return initResult;
+    }
+    /**
+     * Sets the new metric instruments with the current Meter.
+     */
+    _updateMetricInstruments() {
+      return;
+    }
+    /* Returns InstrumentationConfig */
+    getConfig() {
+      return this._config;
+    }
+    /**
+     * Sets InstrumentationConfig to this plugin
+     * @param config
+     */
+    setConfig(config) {
+      this._config = {
+        enabled: true,
+        ...config
+      };
+    }
+    /**
+     * Sets TraceProvider to this plugin
+     * @param tracerProvider
+     */
+    setTracerProvider(tracerProvider) {
+      this._tracer = tracerProvider.getTracer(this.instrumentationName, this.instrumentationVersion);
+    }
+    /* Returns tracer */
+    get tracer() {
+      return this._tracer;
+    }
+    /**
+     * Execute span customization hook, if configured, and log any errors.
+     * Any semantics of the trigger and info are defined by the specific instrumentation.
+     * @param hookHandler The optional hook handler which the user has configured via instrumentation config
+     * @param triggerName The name of the trigger for executing the hook for logging purposes
+     * @param span The span to which the hook should be applied
+     * @param info The info object to be passed to the hook, with useful data the hook may use
+     */
+    _runSpanCustomizationHook(hookHandler, triggerName, span, info) {
+      if (!hookHandler) {
+        return;
+      }
+      try {
+        hookHandler(span, info);
+      } catch (e2) {
+        this._diag.error(`Error running span customization hook due to exception in handler`, { triggerName }, e2);
+      }
+    }
+  };
+
+  // node_modules/@opentelemetry/instrumentation/build/esm/platform/browser/instrumentation.js
+  var InstrumentationBase = class extends InstrumentationAbstract {
+    constructor(instrumentationName, instrumentationVersion, config) {
+      super(instrumentationName, instrumentationVersion, config);
+      if (this._config.enabled) {
+        this.enable();
+      }
+    }
+  };
+
+  // node_modules/@opentelemetry/instrumentation/build/esm/utils.js
+  function safeExecuteInTheMiddle(execute, onFinish, preventThrowingError) {
+    let error;
+    let result;
+    try {
+      result = execute();
+    } catch (e2) {
+      error = e2;
+    } finally {
+      onFinish(error, result);
+      if (error && !preventThrowingError) {
+        throw error;
+      }
+      return result;
+    }
+  }
+  function isWrapped(func) {
+    return typeof func === "function" && typeof func.__original === "function" && typeof func.__unwrap === "function" && func.__wrapped === true;
+  }
+
+  // node_modules/@opentelemetry/instrumentation/build/esm/semconvStability.js
+  var SemconvStability;
+  (function(SemconvStability2) {
+    SemconvStability2[SemconvStability2["STABLE"] = 1] = "STABLE";
+    SemconvStability2[SemconvStability2["OLD"] = 2] = "OLD";
+    SemconvStability2[SemconvStability2["DUPLICATE"] = 3] = "DUPLICATE";
+  })(SemconvStability || (SemconvStability = {}));
+  function semconvStabilityFromStr(namespace, str) {
+    let semconvStability = SemconvStability.OLD;
+    const entries = str == null ? void 0 : str.split(",").map((v2) => v2.trim()).filter((s2) => s2 !== "");
+    for (const entry of entries != null ? entries : []) {
+      if (entry.toLowerCase() === namespace + "/dup") {
+        semconvStability = SemconvStability.DUPLICATE;
+        break;
+      } else if (entry.toLowerCase() === namespace) {
+        semconvStability = SemconvStability.STABLE;
+      }
+    }
+    return semconvStability;
+  }
+
+  // node_modules/@opentelemetry/instrumentation-document-load/build/esm/enums/AttributeNames.js
+  var AttributeNames;
+  (function(AttributeNames4) {
+    AttributeNames4["DOCUMENT_LOAD"] = "documentLoad";
+    AttributeNames4["DOCUMENT_FETCH"] = "documentFetch";
+    AttributeNames4["RESOURCE_FETCH"] = "resourceFetch";
+  })(AttributeNames || (AttributeNames = {}));
+
+  // node_modules/@opentelemetry/instrumentation-document-load/build/esm/version.js
+  var PACKAGE_VERSION = "0.56.0";
+  var PACKAGE_NAME = "@opentelemetry/instrumentation-document-load";
+
+  // node_modules/@opentelemetry/instrumentation-document-load/build/esm/semconv.js
+  var ATTR_HTTP_URL = "http.url";
+  var ATTR_HTTP_USER_AGENT = "http.user_agent";
+
+  // node_modules/@opentelemetry/instrumentation-document-load/build/esm/enums/EventNames.js
+  var EventNames;
+  (function(EventNames3) {
+    EventNames3["FIRST_PAINT"] = "firstPaint";
+    EventNames3["FIRST_CONTENTFUL_PAINT"] = "firstContentfulPaint";
+  })(EventNames || (EventNames = {}));
+
+  // node_modules/@opentelemetry/instrumentation-document-load/build/esm/utils.js
+  var getPerformanceNavigationEntries = () => {
+    var _a, _b;
+    const entries = {};
+    const performanceNavigationTiming = (_b = (_a = otperformance).getEntriesByType) == null ? void 0 : _b.call(_a, "navigation")[0];
+    if (performanceNavigationTiming) {
+      const keys = Object.values(PerformanceTimingNames);
+      keys.forEach((key) => {
+        if (hasKey(performanceNavigationTiming, key)) {
+          const value = performanceNavigationTiming[key];
+          if (typeof value === "number") {
+            entries[key] = value;
+          }
+        }
+      });
+    } else {
+      const perf = otperformance;
+      const performanceTiming = perf.timing;
+      if (performanceTiming) {
+        const keys = Object.values(PerformanceTimingNames);
+        keys.forEach((key) => {
+          if (hasKey(performanceTiming, key)) {
+            const value = performanceTiming[key];
+            if (typeof value === "number") {
+              entries[key] = value;
+            }
+          }
+        });
+      }
+    }
+    return entries;
+  };
+  var performancePaintNames = {
+    "first-paint": EventNames.FIRST_PAINT,
+    "first-contentful-paint": EventNames.FIRST_CONTENTFUL_PAINT
+  };
+  var addSpanPerformancePaintEvents = (span) => {
+    var _a, _b;
+    const performancePaintTiming = (_b = (_a = otperformance).getEntriesByType) == null ? void 0 : _b.call(_a, "paint");
+    if (performancePaintTiming) {
+      performancePaintTiming.forEach(({ name, startTime }) => {
+        if (hasKey(performancePaintNames, name)) {
+          span.addEvent(performancePaintNames[name], startTime);
+        }
+      });
+    }
+  };
+
+  // node_modules/@opentelemetry/instrumentation-document-load/build/esm/instrumentation.js
+  var DocumentLoadInstrumentation = class extends InstrumentationBase {
+    constructor(config = {}) {
+      super(PACKAGE_NAME, PACKAGE_VERSION, config);
+      __publicField(this, "component", "document-load");
+      __publicField(this, "version", "1");
+      __publicField(this, "moduleName", this.component);
+      __publicField(this, "_semconvStability");
+      this._semconvStability = semconvStabilityFromStr("http", config == null ? void 0 : config.semconvStabilityOptIn);
+    }
+    init() {
+    }
+    /**
+     * callback to be executed when page is loaded
+     */
+    _onDocumentLoaded() {
+      window.setTimeout(() => {
+        this._collectPerformance();
+      });
+    }
+    /**
+     * Adds spans for all resources
+     * @param rootSpan
+     */
+    _addResourcesSpans(rootSpan) {
+      var _a, _b;
+      const resources = (_b = (_a = otperformance).getEntriesByType) == null ? void 0 : _b.call(_a, "resource");
+      if (resources) {
+        resources.forEach((resource) => {
+          this._initResourceSpan(resource, rootSpan);
+        });
+      }
+    }
+    /**
+     * Collects information about performance and creates appropriate spans
+     */
+    _collectPerformance() {
+      const metaElement = Array.from(document.getElementsByTagName("meta")).find((e2) => e2.getAttribute("name") === TRACE_PARENT_HEADER);
+      const entries = getPerformanceNavigationEntries();
+      const traceparent = metaElement && metaElement.content || "";
+      context.with(propagation.extract(ROOT_CONTEXT, { traceparent }), () => {
+        var _a;
+        const rootSpan = this._startSpan(AttributeNames.DOCUMENT_LOAD, PerformanceTimingNames.FETCH_START, entries);
+        if (!rootSpan) {
+          return;
+        }
+        context.with(trace.setSpan(context.active(), rootSpan), () => {
+          const fetchSpan = this._startSpan(AttributeNames.DOCUMENT_FETCH, PerformanceTimingNames.FETCH_START, entries);
+          if (fetchSpan) {
+            if (this._semconvStability & SemconvStability.OLD) {
+              fetchSpan.setAttribute(ATTR_HTTP_URL, location.href);
+            }
+            if (this._semconvStability & SemconvStability.STABLE) {
+              fetchSpan.setAttribute(ATTR_URL_FULL, location.href);
+            }
+            context.with(trace.setSpan(context.active(), fetchSpan), () => {
+              var _a2;
+              const skipOldSemconvContentLengthAttrs = !(this._semconvStability & SemconvStability.OLD);
+              addSpanNetworkEvents(fetchSpan, entries, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
+              this._addCustomAttributesOnSpan(fetchSpan, (_a2 = this.getConfig().applyCustomAttributesOnSpan) == null ? void 0 : _a2.documentFetch);
+              this._endSpan(fetchSpan, PerformanceTimingNames.RESPONSE_END, entries);
+            });
+          }
+        });
+        if (this._semconvStability & SemconvStability.OLD) {
+          rootSpan.setAttribute(ATTR_HTTP_URL, location.href);
+          rootSpan.setAttribute(ATTR_HTTP_USER_AGENT, navigator.userAgent);
+        }
+        if (this._semconvStability & SemconvStability.STABLE) {
+          rootSpan.setAttribute(ATTR_URL_FULL, location.href);
+          rootSpan.setAttribute(ATTR_USER_AGENT_ORIGINAL, navigator.userAgent);
+        }
+        this._addResourcesSpans(rootSpan);
+        if (!this.getConfig().ignoreNetworkEvents) {
+          addSpanNetworkEvent(rootSpan, PerformanceTimingNames.FETCH_START, entries);
+          addSpanNetworkEvent(rootSpan, PerformanceTimingNames.UNLOAD_EVENT_START, entries);
+          addSpanNetworkEvent(rootSpan, PerformanceTimingNames.UNLOAD_EVENT_END, entries);
+          addSpanNetworkEvent(rootSpan, PerformanceTimingNames.DOM_INTERACTIVE, entries);
+          addSpanNetworkEvent(rootSpan, PerformanceTimingNames.DOM_CONTENT_LOADED_EVENT_START, entries);
+          addSpanNetworkEvent(rootSpan, PerformanceTimingNames.DOM_CONTENT_LOADED_EVENT_END, entries);
+          addSpanNetworkEvent(rootSpan, PerformanceTimingNames.DOM_COMPLETE, entries);
+          addSpanNetworkEvent(rootSpan, PerformanceTimingNames.LOAD_EVENT_START, entries);
+          addSpanNetworkEvent(rootSpan, PerformanceTimingNames.LOAD_EVENT_END, entries);
+        }
+        if (!this.getConfig().ignorePerformancePaintEvents) {
+          addSpanPerformancePaintEvents(rootSpan);
+        }
+        this._addCustomAttributesOnSpan(rootSpan, (_a = this.getConfig().applyCustomAttributesOnSpan) == null ? void 0 : _a.documentLoad);
+        this._endSpan(rootSpan, PerformanceTimingNames.LOAD_EVENT_END, entries);
+      });
+    }
+    /**
+     * Helper function for ending span
+     * @param span
+     * @param performanceName name of performance entry for time end
+     * @param entries
+     */
+    _endSpan(span, performanceName, entries) {
+      if (span) {
+        if (hasKey(entries, performanceName)) {
+          span.end(entries[performanceName]);
+        } else {
+          span.end();
+        }
+      }
+    }
+    /**
+     * Creates and ends a span with network information about resource added as timed events
+     * @param resource
+     * @param parentSpan
+     */
+    _initResourceSpan(resource, parentSpan) {
+      var _a;
+      const span = this._startSpan(AttributeNames.RESOURCE_FETCH, PerformanceTimingNames.FETCH_START, resource, parentSpan);
+      if (span) {
+        if (this._semconvStability & SemconvStability.OLD) {
+          span.setAttribute(ATTR_HTTP_URL, resource.name);
+        }
+        if (this._semconvStability & SemconvStability.STABLE) {
+          span.setAttribute(ATTR_URL_FULL, resource.name);
+        }
+        const skipOldSemconvContentLengthAttrs = !(this._semconvStability & SemconvStability.OLD);
+        addSpanNetworkEvents(span, resource, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
+        this._addCustomAttributesOnResourceSpan(span, resource, (_a = this.getConfig().applyCustomAttributesOnSpan) == null ? void 0 : _a.resourceFetch);
+        this._endSpan(span, PerformanceTimingNames.RESPONSE_END, resource);
+      }
+    }
+    /**
+     * Helper function for starting a span
+     * @param spanName name of span
+     * @param performanceName name of performance entry for time start
+     * @param entries
+     * @param parentSpan
+     */
+    _startSpan(spanName, performanceName, entries, parentSpan) {
+      if (hasKey(entries, performanceName) && typeof entries[performanceName] === "number") {
+        const span = this.tracer.startSpan(spanName, {
+          startTime: entries[performanceName]
+        }, parentSpan ? trace.setSpan(context.active(), parentSpan) : void 0);
+        return span;
+      }
+      return void 0;
+    }
+    /**
+     * executes callback {_onDocumentLoaded} when the page is loaded
+     */
+    _waitForPageLoad() {
+      if (window.document.readyState === "complete") {
+        this._onDocumentLoaded();
+      } else {
+        this._onDocumentLoaded = this._onDocumentLoaded.bind(this);
+        window.addEventListener("load", this._onDocumentLoaded);
+      }
+    }
+    /**
+     * adds custom attributes to root span if configured
+     */
+    _addCustomAttributesOnSpan(span, applyCustomAttributesOnSpan) {
+      if (applyCustomAttributesOnSpan) {
+        safeExecuteInTheMiddle(() => applyCustomAttributesOnSpan(span), (error) => {
+          if (!error) {
+            return;
+          }
+          this._diag.error("addCustomAttributesOnSpan", error);
+        }, true);
+      }
+    }
+    /**
+     * adds custom attributes to span if configured
+     */
+    _addCustomAttributesOnResourceSpan(span, resource, applyCustomAttributesOnSpan) {
+      if (applyCustomAttributesOnSpan) {
+        safeExecuteInTheMiddle(() => applyCustomAttributesOnSpan(span, resource), (error) => {
+          if (!error) {
+            return;
+          }
+          this._diag.error("addCustomAttributesOnResourceSpan", error);
+        }, true);
+      }
+    }
+    /**
+     * implements enable function
+     */
+    enable() {
+      window.removeEventListener("load", this._onDocumentLoaded);
+      this._waitForPageLoad();
+    }
+    /**
+     * implements disable function
+     */
+    disable() {
+      window.removeEventListener("load", this._onDocumentLoaded);
+    }
+  };
+
+  // node_modules/@opentelemetry/instrumentation-user-interaction/build/esm/enums/AttributeNames.js
+  var AttributeNames2;
+  (function(AttributeNames4) {
+    AttributeNames4["EVENT_TYPE"] = "event_type";
+    AttributeNames4["TARGET_ELEMENT"] = "target_element";
+    AttributeNames4["TARGET_XPATH"] = "target_xpath";
+    AttributeNames4["HTTP_URL"] = "http.url";
+  })(AttributeNames2 || (AttributeNames2 = {}));
+
+  // node_modules/@opentelemetry/instrumentation-user-interaction/build/esm/version.js
+  var PACKAGE_VERSION2 = "0.55.0";
+  var PACKAGE_NAME2 = "@opentelemetry/instrumentation-user-interaction";
+
+  // node_modules/@opentelemetry/instrumentation-user-interaction/build/esm/instrumentation.js
+  var ZONE_CONTEXT_KEY = "OT_ZONE_CONTEXT";
+  var EVENT_NAVIGATION_NAME = "Navigation:";
+  var DEFAULT_EVENT_NAMES = ["click"];
+  function defaultShouldPreventSpanCreation() {
+    return false;
+  }
+  var UserInteractionInstrumentation = class extends InstrumentationBase {
+    constructor(config = {}) {
+      var _a;
+      super(PACKAGE_NAME2, PACKAGE_VERSION2, config);
+      __publicField(this, "version", PACKAGE_VERSION2);
+      __publicField(this, "moduleName", "user-interaction");
+      __publicField(this, "_spansData", /* @__PURE__ */ new WeakMap());
+      // for addEventListener/removeEventListener state
+      __publicField(this, "_wrappedListeners", /* @__PURE__ */ new WeakMap());
+      // for event bubbling
+      __publicField(this, "_eventsSpanMap", /* @__PURE__ */ new WeakMap());
+      __publicField(this, "_eventNames");
+      __publicField(this, "_shouldPreventSpanCreation");
+      this._eventNames = new Set((_a = config == null ? void 0 : config.eventNames) != null ? _a : DEFAULT_EVENT_NAMES);
+      this._shouldPreventSpanCreation = typeof (config == null ? void 0 : config.shouldPreventSpanCreation) === "function" ? config.shouldPreventSpanCreation : defaultShouldPreventSpanCreation;
+    }
+    init() {
+    }
+    /**
+     * This will check if last task was timeout and will save the time to
+     * fix the user interaction when nothing happens
+     * This timeout comes from xhr plugin which is needed to collect information
+     * about last xhr main request from observer
+     * @param task
+     * @param span
+     */
+    _checkForTimeout(task, span) {
+      const spanData = this._spansData.get(span);
+      if (spanData) {
+        if (task.source === "setTimeout") {
+          spanData.hrTimeLastTimeout = hrTime();
+        } else if (task.source !== "Promise.then" && task.source !== "setTimeout") {
+          spanData.hrTimeLastTimeout = void 0;
+        }
+      }
+    }
+    /**
+     * Controls whether or not to create a span, based on the event type.
+     */
+    _allowEventName(eventName) {
+      return this._eventNames.has(eventName);
+    }
+    /**
+     * Creates a new span
+     * @param element
+     * @param eventName
+     * @param parentSpan
+     */
+    _createSpan(element, eventName, parentSpan) {
+      if (!(element instanceof HTMLElement)) {
+        return void 0;
+      }
+      if (!element.getAttribute) {
+        return void 0;
+      }
+      if (element.hasAttribute("disabled")) {
+        return void 0;
+      }
+      if (!this._allowEventName(eventName)) {
+        return void 0;
+      }
+      const xpath = getElementXPath(element, true);
+      try {
+        const span = this.tracer.startSpan(eventName, {
+          attributes: {
+            [AttributeNames2.EVENT_TYPE]: eventName,
+            [AttributeNames2.TARGET_ELEMENT]: element.tagName,
+            [AttributeNames2.TARGET_XPATH]: xpath,
+            [AttributeNames2.HTTP_URL]: window.location.href
+          }
+        }, parentSpan ? trace.setSpan(context.active(), parentSpan) : void 0);
+        if (this._shouldPreventSpanCreation(eventName, element, span) === true) {
+          return void 0;
+        }
+        this._spansData.set(span, {
+          taskCount: 0
+        });
+        return span;
+      } catch (e2) {
+        this._diag.error("failed to start create new user interaction span", e2);
+      }
+      return void 0;
+    }
+    /**
+     * Decrement number of tasks that left in zone,
+     * This is needed to be able to end span when no more tasks left
+     * @param span
+     */
+    _decrementTask(span) {
+      const spanData = this._spansData.get(span);
+      if (spanData) {
+        spanData.taskCount--;
+        if (spanData.taskCount === 0) {
+          this._tryToEndSpan(span, spanData.hrTimeLastTimeout);
+        }
+      }
+    }
+    /**
+     * Return the current span
+     * @param zone
+     * @private
+     */
+    _getCurrentSpan(zone) {
+      const context2 = zone.get(ZONE_CONTEXT_KEY);
+      if (context2) {
+        return trace.getSpan(context2);
+      }
+      return context2;
+    }
+    /**
+     * Increment number of tasks that are run within the same zone.
+     *     This is needed to be able to end span when no more tasks left
+     * @param span
+     */
+    _incrementTask(span) {
+      const spanData = this._spansData.get(span);
+      if (spanData) {
+        spanData.taskCount++;
+      }
+    }
+    /**
+     * Returns true iff we should use the patched callback; false if it's already been patched
+     */
+    addPatchedListener(on, type, listener, wrappedListener) {
+      let listener2Type = this._wrappedListeners.get(listener);
+      if (!listener2Type) {
+        listener2Type = /* @__PURE__ */ new Map();
+        this._wrappedListeners.set(listener, listener2Type);
+      }
+      let element2patched = listener2Type.get(type);
+      if (!element2patched) {
+        element2patched = /* @__PURE__ */ new Map();
+        listener2Type.set(type, element2patched);
+      }
+      if (element2patched.has(on)) {
+        return false;
+      }
+      element2patched.set(on, wrappedListener);
+      return true;
+    }
+    /**
+     * Returns the patched version of the callback (or undefined)
+     */
+    removePatchedListener(on, type, listener) {
+      const listener2Type = this._wrappedListeners.get(listener);
+      if (!listener2Type) {
+        return void 0;
+      }
+      const element2patched = listener2Type.get(type);
+      if (!element2patched) {
+        return void 0;
+      }
+      const patched = element2patched.get(on);
+      if (patched) {
+        element2patched.delete(on);
+        if (element2patched.size === 0) {
+          listener2Type.delete(type);
+          if (listener2Type.size === 0) {
+            this._wrappedListeners.delete(listener);
+          }
+        }
+      }
+      return patched;
+    }
+    // utility method to deal with the Function|EventListener nature of addEventListener
+    _invokeListener(listener, target, args) {
+      if (typeof listener === "function") {
+        return listener.apply(target, args);
+      } else {
+        return listener.handleEvent(args[0]);
+      }
+    }
+    /**
+     * This patches the addEventListener of HTMLElement to be able to
+     * auto instrument the click events
+     * This is done when zone is not available
+     */
+    _patchAddEventListener() {
+      const plugin = this;
+      return (original) => {
+        return function addEventListenerPatched(type, listener, useCapture) {
+          if (!listener) {
+            return original.call(this, type, listener, useCapture);
+          }
+          const once = useCapture && typeof useCapture === "object" && useCapture.once;
+          const patchedListener = function(...args) {
+            let parentSpan;
+            const event = args[0];
+            const target = event == null ? void 0 : event.target;
+            if (event) {
+              parentSpan = plugin._eventsSpanMap.get(event);
+            }
+            if (once) {
+              plugin.removePatchedListener(this, type, listener);
+            }
+            const span = plugin._createSpan(target, type, parentSpan);
+            if (span) {
+              if (event) {
+                plugin._eventsSpanMap.set(event, span);
+              }
+              return context.with(trace.setSpan(context.active(), span), () => {
+                const result = plugin._invokeListener(listener, this, args);
+                span.end();
+                return result;
+              });
+            } else {
+              return plugin._invokeListener(listener, this, args);
+            }
+          };
+          if (plugin.addPatchedListener(this, type, listener, patchedListener)) {
+            return original.call(this, type, patchedListener, useCapture);
+          }
+        };
+      };
+    }
+    /**
+     * This patches the removeEventListener of HTMLElement to handle the fact that
+     * we patched the original callbacks
+     * This is done when zone is not available
+     */
+    _patchRemoveEventListener() {
+      const plugin = this;
+      return (original) => {
+        return function removeEventListenerPatched(type, listener, useCapture) {
+          const wrappedListener = plugin.removePatchedListener(this, type, listener);
+          if (wrappedListener) {
+            return original.call(this, type, wrappedListener, useCapture);
+          } else {
+            return original.call(this, type, listener, useCapture);
+          }
+        };
+      };
+    }
+    /**
+     * Most browser provide event listener api via EventTarget in prototype chain.
+     * Exception to this is IE 11 which has it on the prototypes closest to EventTarget:
+     *
+     * * - has addEventListener in IE
+     * ** - has addEventListener in all other browsers
+     * ! - missing in IE
+     *
+     * HTMLElement -> Element -> Node * -> EventTarget **! -> Object
+     * Document -> Node * -> EventTarget **! -> Object
+     * Window * -> WindowProperties ! -> EventTarget **! -> Object
+     */
+    _getPatchableEventTargets() {
+      return window.EventTarget ? [EventTarget.prototype] : [Node.prototype, Window.prototype];
+    }
+    /**
+     * Patches the history api
+     */
+    _patchHistoryApi() {
+      this._unpatchHistoryApi();
+      this._wrap(history, "replaceState", this._patchHistoryMethod());
+      this._wrap(history, "pushState", this._patchHistoryMethod());
+      this._wrap(history, "back", this._patchHistoryMethod());
+      this._wrap(history, "forward", this._patchHistoryMethod());
+      this._wrap(history, "go", this._patchHistoryMethod());
+    }
+    /**
+     * Patches the certain history api method
+     */
+    _patchHistoryMethod() {
+      const plugin = this;
+      return (original) => {
+        return function patchHistoryMethod(...args) {
+          const url = `${location.pathname}${location.hash}${location.search}`;
+          const result = original.apply(this, args);
+          const urlAfter = `${location.pathname}${location.hash}${location.search}`;
+          if (url !== urlAfter) {
+            plugin._updateInteractionName(urlAfter);
+          }
+          return result;
+        };
+      };
+    }
+    /**
+     * unpatch the history api methods
+     */
+    _unpatchHistoryApi() {
+      if (isWrapped(history.replaceState))
+        this._unwrap(history, "replaceState");
+      if (isWrapped(history.pushState))
+        this._unwrap(history, "pushState");
+      if (isWrapped(history.back))
+        this._unwrap(history, "back");
+      if (isWrapped(history.forward))
+        this._unwrap(history, "forward");
+      if (isWrapped(history.go))
+        this._unwrap(history, "go");
+    }
+    /**
+     * Updates interaction span name
+     * @param url
+     */
+    _updateInteractionName(url) {
+      const span = trace.getSpan(context.active());
+      if (span && typeof span.updateName === "function") {
+        span.updateName(`${EVENT_NAVIGATION_NAME} ${url}`);
+      }
+    }
+    /**
+     * Patches zone cancel task - this is done to be able to correctly
+     * decrement the number of remaining tasks
+     */
+    _patchZoneCancelTask() {
+      const plugin = this;
+      return (original) => {
+        return function patchCancelTask(task) {
+          const currentZone = Zone.current;
+          const currentSpan = plugin._getCurrentSpan(currentZone);
+          if (currentSpan && plugin._shouldCountTask(task, currentZone)) {
+            plugin._decrementTask(currentSpan);
+          }
+          return original.call(this, task);
+        };
+      };
+    }
+    /**
+     * Patches zone schedule task - this is done to be able to correctly
+     * increment the number of tasks running within current zone but also to
+     * save time in case of timeout running from xhr plugin when waiting for
+     * main request from PerformanceResourceTiming
+     */
+    _patchZoneScheduleTask() {
+      const plugin = this;
+      return (original) => {
+        return function patchScheduleTask(task) {
+          const currentZone = Zone.current;
+          const currentSpan = plugin._getCurrentSpan(currentZone);
+          if (currentSpan && plugin._shouldCountTask(task, currentZone)) {
+            plugin._incrementTask(currentSpan);
+            plugin._checkForTimeout(task, currentSpan);
+          }
+          return original.call(this, task);
+        };
+      };
+    }
+    /**
+     * Patches zone run task - this is done to be able to create a span when
+     * user interaction starts
+     * @private
+     */
+    _patchZoneRunTask() {
+      const plugin = this;
+      return (original) => {
+        return function patchRunTask(task, applyThis, applyArgs) {
+          const event = Array.isArray(applyArgs) && applyArgs[0] instanceof Event ? applyArgs[0] : void 0;
+          const target = event == null ? void 0 : event.target;
+          let span;
+          const activeZone = this;
+          if (target) {
+            span = plugin._createSpan(target, task.eventName);
+            if (span) {
+              plugin._incrementTask(span);
+              return activeZone.run(() => {
+                try {
+                  return context.with(trace.setSpan(context.active(), span), () => {
+                    const currentZone = Zone.current;
+                    task._zone = currentZone;
+                    return original.call(currentZone, task, applyThis, applyArgs);
+                  });
+                } finally {
+                  plugin._decrementTask(span);
+                }
+              });
+            }
+          } else {
+            span = plugin._getCurrentSpan(activeZone);
+          }
+          try {
+            return original.call(activeZone, task, applyThis, applyArgs);
+          } finally {
+            if (span && plugin._shouldCountTask(task, activeZone)) {
+              plugin._decrementTask(span);
+            }
+          }
+        };
+      };
+    }
+    /**
+     * Decides if task should be counted.
+     * @param task
+     * @param currentZone
+     * @private
+     */
+    _shouldCountTask(task, currentZone) {
+      if (task._zone) {
+        currentZone = task._zone;
+      }
+      if (!currentZone || !task.data || task.data.isPeriodic) {
+        return false;
+      }
+      const currentSpan = this._getCurrentSpan(currentZone);
+      if (!currentSpan) {
+        return false;
+      }
+      if (!this._spansData.get(currentSpan)) {
+        return false;
+      }
+      return task.type === "macroTask" || task.type === "microTask";
+    }
+    /**
+     * Will try to end span when such span still exists.
+     * @param span
+     * @param endTime
+     * @private
+     */
+    _tryToEndSpan(span, endTime) {
+      if (span) {
+        const spanData = this._spansData.get(span);
+        if (spanData) {
+          span.end(endTime);
+          this._spansData.delete(span);
+        }
+      }
+    }
+    /**
+     * implements enable function
+     */
+    enable() {
+      const ZoneWithPrototype = this._getZoneWithPrototype();
+      this._diag.debug("applying patch to", this.moduleName, this.version, "zone:", !!ZoneWithPrototype);
+      if (ZoneWithPrototype) {
+        if (isWrapped(ZoneWithPrototype.prototype.runTask)) {
+          this._unwrap(ZoneWithPrototype.prototype, "runTask");
+          this._diag.debug("removing previous patch from method runTask");
+        }
+        if (isWrapped(ZoneWithPrototype.prototype.scheduleTask)) {
+          this._unwrap(ZoneWithPrototype.prototype, "scheduleTask");
+          this._diag.debug("removing previous patch from method scheduleTask");
+        }
+        if (isWrapped(ZoneWithPrototype.prototype.cancelTask)) {
+          this._unwrap(ZoneWithPrototype.prototype, "cancelTask");
+          this._diag.debug("removing previous patch from method cancelTask");
+        }
+        this._zonePatched = true;
+        this._wrap(ZoneWithPrototype.prototype, "runTask", this._patchZoneRunTask());
+        this._wrap(ZoneWithPrototype.prototype, "scheduleTask", this._patchZoneScheduleTask());
+        this._wrap(ZoneWithPrototype.prototype, "cancelTask", this._patchZoneCancelTask());
+      } else {
+        this._zonePatched = false;
+        const targets = this._getPatchableEventTargets();
+        targets.forEach((target) => {
+          if (isWrapped(target.addEventListener)) {
+            this._unwrap(target, "addEventListener");
+            this._diag.debug("removing previous patch from method addEventListener");
+          }
+          if (isWrapped(target.removeEventListener)) {
+            this._unwrap(target, "removeEventListener");
+            this._diag.debug("removing previous patch from method removeEventListener");
+          }
+          this._wrap(target, "addEventListener", this._patchAddEventListener());
+          this._wrap(target, "removeEventListener", this._patchRemoveEventListener());
+        });
+      }
+      this._patchHistoryApi();
+    }
+    /**
+     * implements unpatch function
+     */
+    disable() {
+      const ZoneWithPrototype = this._getZoneWithPrototype();
+      this._diag.debug("removing patch from", this.moduleName, this.version, "zone:", !!ZoneWithPrototype);
+      if (ZoneWithPrototype && this._zonePatched) {
+        if (isWrapped(ZoneWithPrototype.prototype.runTask)) {
+          this._unwrap(ZoneWithPrototype.prototype, "runTask");
+        }
+        if (isWrapped(ZoneWithPrototype.prototype.scheduleTask)) {
+          this._unwrap(ZoneWithPrototype.prototype, "scheduleTask");
+        }
+        if (isWrapped(ZoneWithPrototype.prototype.cancelTask)) {
+          this._unwrap(ZoneWithPrototype.prototype, "cancelTask");
+        }
+      } else {
+        const targets = this._getPatchableEventTargets();
+        targets.forEach((target) => {
+          if (isWrapped(target.addEventListener)) {
+            this._unwrap(target, "addEventListener");
+          }
+          if (isWrapped(target.removeEventListener)) {
+            this._unwrap(target, "removeEventListener");
+          }
+        });
+      }
+      this._unpatchHistoryApi();
+    }
+    /**
+     * returns Zone
+     */
+    _getZoneWithPrototype() {
+      const _window = window;
+      return _window.Zone;
+    }
+  };
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/build/esm/semconv.js
+  var ATTR_HTTP_HOST = "http.host";
+  var ATTR_HTTP_METHOD = "http.method";
+  var ATTR_HTTP_REQUEST_BODY_SIZE = "http.request.body.size";
+  var ATTR_HTTP_REQUEST_CONTENT_LENGTH_UNCOMPRESSED = "http.request_content_length_uncompressed";
+  var ATTR_HTTP_SCHEME = "http.scheme";
+  var ATTR_HTTP_STATUS_CODE = "http.status_code";
+  var ATTR_HTTP_URL2 = "http.url";
+  var ATTR_HTTP_USER_AGENT2 = "http.user_agent";
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/build/esm/enums/EventNames.js
+  var EventNames2;
+  (function(EventNames3) {
+    EventNames3["METHOD_OPEN"] = "open";
+    EventNames3["METHOD_SEND"] = "send";
+    EventNames3["EVENT_ABORT"] = "abort";
+    EventNames3["EVENT_ERROR"] = "error";
+    EventNames3["EVENT_LOAD"] = "loaded";
+    EventNames3["EVENT_TIMEOUT"] = "timeout";
+  })(EventNames2 || (EventNames2 = {}));
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/build/esm/utils.js
+  var DIAG_LOGGER = diag2.createComponentLogger({
+    namespace: "@opentelemetry/opentelemetry-instrumentation-xml-http-request/utils"
+  });
+  function isDocument(value) {
+    return typeof Document !== "undefined" && value instanceof Document;
+  }
+  function getXHRBodyLength(body) {
+    if (isDocument(body)) {
+      return new XMLSerializer().serializeToString(document).length;
+    }
+    if (typeof body === "string") {
+      return getByteLength(body);
+    }
+    if (body instanceof Blob) {
+      return body.size;
+    }
+    if (body instanceof FormData) {
+      return getFormDataSize(body);
+    }
+    if (body instanceof URLSearchParams) {
+      return getByteLength(body.toString());
+    }
+    if (body.byteLength !== void 0) {
+      return body.byteLength;
+    }
+    DIAG_LOGGER.warn("unknown body type");
+    return void 0;
+  }
+  var TEXT_ENCODER = new TextEncoder();
+  function getByteLength(s2) {
+    return TEXT_ENCODER.encode(s2).byteLength;
+  }
+  function getFormDataSize(formData) {
+    let size = 0;
+    for (const [key, value] of formData.entries()) {
+      size += key.length;
+      if (value instanceof Blob) {
+        size += value.size;
+      } else {
+        size += value.length;
+      }
+    }
+    return size;
+  }
+  function normalizeHttpRequestMethod(method) {
+    const knownMethods2 = getKnownMethods();
+    const methUpper = method.toUpperCase();
+    if (methUpper in knownMethods2) {
+      return methUpper;
+    } else {
+      return "_OTHER";
+    }
+  }
+  var DEFAULT_KNOWN_METHODS = {
+    CONNECT: true,
+    DELETE: true,
+    GET: true,
+    HEAD: true,
+    OPTIONS: true,
+    PATCH: true,
+    POST: true,
+    PUT: true,
+    TRACE: true,
+    // QUERY from https://datatracker.ietf.org/doc/draft-ietf-httpbis-safe-method-w-body/
+    QUERY: true
+  };
+  var knownMethods;
+  function getKnownMethods() {
+    if (knownMethods === void 0) {
+      const cfgMethods = getStringListFromEnv("OTEL_INSTRUMENTATION_HTTP_KNOWN_METHODS");
+      if (cfgMethods && cfgMethods.length > 0) {
+        knownMethods = {};
+        cfgMethods.forEach((m2) => {
+          knownMethods[m2] = true;
+        });
+      } else {
+        knownMethods = DEFAULT_KNOWN_METHODS;
+      }
+    }
+    return knownMethods;
+  }
+  var HTTP_PORT_FROM_PROTOCOL = {
+    "https:": "443",
+    "http:": "80"
+  };
+  function serverPortFromUrl(url) {
+    const serverPort = Number(url.port || HTTP_PORT_FROM_PROTOCOL[url.protocol]);
+    if (serverPort && !isNaN(serverPort)) {
+      return serverPort;
+    } else {
+      return void 0;
+    }
+  }
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/build/esm/version.js
+  var VERSION4 = "0.211.0";
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/build/esm/enums/AttributeNames.js
+  var AttributeNames3;
+  (function(AttributeNames4) {
+    AttributeNames4["HTTP_STATUS_TEXT"] = "http.status_text";
+  })(AttributeNames3 || (AttributeNames3 = {}));
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/build/esm/xhr.js
+  var OBSERVER_WAIT_TIME_MS = 300;
+  var XMLHttpRequestInstrumentation = class extends InstrumentationBase {
+    constructor(config = {}) {
+      super("@opentelemetry/instrumentation-xml-http-request", VERSION4, config);
+      __publicField(this, "component", "xml-http-request");
+      __publicField(this, "version", VERSION4);
+      __publicField(this, "moduleName", this.component);
+      __publicField(this, "_tasksCount", 0);
+      __publicField(this, "_xhrMem", /* @__PURE__ */ new WeakMap());
+      __publicField(this, "_usedResources", /* @__PURE__ */ new WeakSet());
+      __publicField(this, "_semconvStability");
+      this._semconvStability = semconvStabilityFromStr("http", config == null ? void 0 : config.semconvStabilityOptIn);
+    }
+    init() {
+    }
+    /**
+     * Adds custom headers to XMLHttpRequest
+     * @param xhr
+     * @param spanUrl
+     * @private
+     */
+    _addHeaders(xhr, spanUrl) {
+      const url = parseUrl(spanUrl).href;
+      if (!shouldPropagateTraceHeaders(url, this.getConfig().propagateTraceHeaderCorsUrls)) {
+        const headers2 = {};
+        propagation.inject(context.active(), headers2);
+        if (Object.keys(headers2).length > 0) {
+          this._diag.debug("headers inject skipped due to CORS policy");
+        }
+        return;
+      }
+      const headers = {};
+      propagation.inject(context.active(), headers);
+      Object.keys(headers).forEach((key) => {
+        xhr.setRequestHeader(key, String(headers[key]));
+      });
+    }
+    /**
+     * Add cors pre flight child span
+     * @param span
+     * @param corsPreFlightRequest
+     * @private
+     */
+    _addChildSpan(span, corsPreFlightRequest) {
+      context.with(trace.setSpan(context.active(), span), () => {
+        const childSpan = this.tracer.startSpan("CORS Preflight", {
+          startTime: corsPreFlightRequest[PerformanceTimingNames.FETCH_START]
+        });
+        const skipOldSemconvContentLengthAttrs = !(this._semconvStability & SemconvStability.OLD);
+        addSpanNetworkEvents(childSpan, corsPreFlightRequest, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
+        childSpan.end(corsPreFlightRequest[PerformanceTimingNames.RESPONSE_END]);
+      });
+    }
+    /**
+     * Add attributes when span is going to end
+     * @param span
+     * @param xhr
+     * @param spanUrl
+     * @private
+     */
+    _addFinalSpanAttributes(span, xhrMem, spanUrl) {
+      if (this._semconvStability & SemconvStability.OLD) {
+        if (xhrMem.status !== void 0) {
+          span.setAttribute(ATTR_HTTP_STATUS_CODE, xhrMem.status);
+        }
+        if (xhrMem.statusText !== void 0) {
+          span.setAttribute(AttributeNames3.HTTP_STATUS_TEXT, xhrMem.statusText);
+        }
+        if (typeof spanUrl === "string") {
+          const parsedUrl = parseUrl(spanUrl);
+          span.setAttribute(ATTR_HTTP_HOST, parsedUrl.host);
+          span.setAttribute(ATTR_HTTP_SCHEME, parsedUrl.protocol.replace(":", ""));
+        }
+        span.setAttribute(ATTR_HTTP_USER_AGENT2, navigator.userAgent);
+      }
+      if (this._semconvStability & SemconvStability.STABLE) {
+        if (xhrMem.status) {
+          span.setAttribute(ATTR_HTTP_RESPONSE_STATUS_CODE, xhrMem.status);
+        }
+      }
+    }
+    _applyAttributesAfterXHR(span, xhr) {
+      const applyCustomAttributesOnSpan = this.getConfig().applyCustomAttributesOnSpan;
+      if (typeof applyCustomAttributesOnSpan === "function") {
+        safeExecuteInTheMiddle(() => applyCustomAttributesOnSpan(span, xhr), (error) => {
+          if (!error) {
+            return;
+          }
+          this._diag.error("applyCustomAttributesOnSpan", error);
+        }, true);
+      }
+    }
+    /**
+     * will collect information about all resources created
+     * between "send" and "end" with additional waiting for main resource
+     * @param xhr
+     * @param spanUrl
+     * @private
+     */
+    _addResourceObserver(xhr, spanUrl) {
+      const xhrMem = this._xhrMem.get(xhr);
+      if (!xhrMem || typeof PerformanceObserver !== "function" || typeof PerformanceResourceTiming !== "function") {
+        return;
+      }
+      xhrMem.createdResources = {
+        observer: new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          const parsedUrl = parseUrl(spanUrl);
+          entries.forEach((entry) => {
+            if (entry.initiatorType === "xmlhttprequest" && entry.name === parsedUrl.href) {
+              if (xhrMem.createdResources) {
+                xhrMem.createdResources.entries.push(entry);
+              }
+            }
+          });
+        }),
+        entries: []
+      };
+      xhrMem.createdResources.observer.observe({
+        entryTypes: ["resource"]
+      });
+    }
+    /**
+     * Clears the resource timings and all resources assigned with spans
+     *     when {@link XMLHttpRequestInstrumentationConfig.clearTimingResources} is
+     *     set to true (default false)
+     * @private
+     */
+    _clearResources() {
+      if (this._tasksCount === 0 && this.getConfig().clearTimingResources) {
+        otperformance.clearResourceTimings();
+        this._xhrMem = /* @__PURE__ */ new WeakMap();
+        this._usedResources = /* @__PURE__ */ new WeakSet();
+      }
+    }
+    /**
+     * Finds appropriate resource and add network events to the span
+     * @param span
+     */
+    _findResourceAndAddNetworkEvents(xhrMem, span, spanUrl, startTime, endTime) {
+      if (!spanUrl || !startTime || !endTime || !xhrMem.createdResources) {
+        return;
+      }
+      let resources = xhrMem.createdResources.entries;
+      if (!resources || !resources.length) {
+        resources = otperformance.getEntriesByType("resource");
+      }
+      const resource = getResource(parseUrl(spanUrl).href, startTime, endTime, resources, this._usedResources);
+      if (resource.mainRequest) {
+        const mainRequest = resource.mainRequest;
+        this._markResourceAsUsed(mainRequest);
+        const corsPreFlightRequest = resource.corsPreFlightRequest;
+        if (corsPreFlightRequest) {
+          this._addChildSpan(span, corsPreFlightRequest);
+          this._markResourceAsUsed(corsPreFlightRequest);
+        }
+        const skipOldSemconvContentLengthAttrs = !(this._semconvStability & SemconvStability.OLD);
+        addSpanNetworkEvents(span, mainRequest, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
+      }
+    }
+    /**
+     * Removes the previous information about span.
+     * This might happened when the same xhr is used again.
+     * @param xhr
+     * @private
+     */
+    _cleanPreviousSpanInformation(xhr) {
+      const xhrMem = this._xhrMem.get(xhr);
+      if (xhrMem) {
+        const callbackToRemoveEvents = xhrMem.callbackToRemoveEvents;
+        if (callbackToRemoveEvents) {
+          callbackToRemoveEvents();
+        }
+        this._xhrMem.delete(xhr);
+      }
+    }
+    /**
+     * Creates a new span when method "open" is called
+     * @param xhr
+     * @param url
+     * @param method
+     * @private
+     */
+    _createSpan(xhr, url, method) {
+      if (isUrlIgnored(url, this.getConfig().ignoreUrls)) {
+        this._diag.debug("ignoring span as url matches ignored url");
+        return;
+      }
+      let name = "";
+      const parsedUrl = parseUrl(url);
+      const attributes = {};
+      if (this._semconvStability & SemconvStability.OLD) {
+        name = method.toUpperCase();
+        attributes[ATTR_HTTP_METHOD] = method;
+        attributes[ATTR_HTTP_URL2] = parsedUrl.toString();
+      }
+      if (this._semconvStability & SemconvStability.STABLE) {
+        const origMethod = method;
+        const normMethod = normalizeHttpRequestMethod(method);
+        if (!name) {
+          name = normMethod;
+        }
+        attributes[ATTR_HTTP_REQUEST_METHOD] = normMethod;
+        if (normMethod !== origMethod) {
+          attributes[ATTR_HTTP_REQUEST_METHOD_ORIGINAL] = origMethod;
+        }
+        attributes[ATTR_URL_FULL] = parsedUrl.toString();
+        attributes[ATTR_SERVER_ADDRESS] = parsedUrl.hostname;
+        const serverPort = serverPortFromUrl(parsedUrl);
+        if (serverPort) {
+          attributes[ATTR_SERVER_PORT] = serverPort;
+        }
+      }
+      const currentSpan = this.tracer.startSpan(name, {
+        kind: SpanKind.CLIENT,
+        attributes
+      });
+      currentSpan.addEvent(EventNames2.METHOD_OPEN);
+      this._cleanPreviousSpanInformation(xhr);
+      this._xhrMem.set(xhr, {
+        span: currentSpan,
+        spanUrl: url
+      });
+      return currentSpan;
+    }
+    /**
+     * Marks certain [resource]{@link PerformanceResourceTiming} when information
+     * from this is used to add events to span.
+     * This is done to avoid reusing the same resource again for next span
+     * @param resource
+     * @private
+     */
+    _markResourceAsUsed(resource) {
+      this._usedResources.add(resource);
+    }
+    /**
+     * Patches the method open
+     * @private
+     */
+    _patchOpen() {
+      return (original) => {
+        const plugin = this;
+        return function patchOpen(...args) {
+          const method = args[0];
+          const url = args[1];
+          plugin._createSpan(this, url, method);
+          return original.apply(this, args);
+        };
+      };
+    }
+    /**
+     * Patches the method send
+     * @private
+     */
+    _patchSend() {
+      const plugin = this;
+      function endSpanTimeout(eventName, xhrMem, performanceEndTime, endTime) {
+        const callbackToRemoveEvents = xhrMem.callbackToRemoveEvents;
+        if (typeof callbackToRemoveEvents === "function") {
+          callbackToRemoveEvents();
+        }
+        const { span, spanUrl, sendStartTime } = xhrMem;
+        if (span) {
+          plugin._findResourceAndAddNetworkEvents(xhrMem, span, spanUrl, sendStartTime, performanceEndTime);
+          span.addEvent(eventName, endTime);
+          plugin._addFinalSpanAttributes(span, xhrMem, spanUrl);
+          span.end(endTime);
+          plugin._tasksCount--;
+        }
+        plugin._clearResources();
+      }
+      function endSpan(eventName, xhr, isError, errorType) {
+        const xhrMem = plugin._xhrMem.get(xhr);
+        if (!xhrMem) {
+          return;
+        }
+        xhrMem.status = xhr.status;
+        xhrMem.statusText = xhr.statusText;
+        plugin._xhrMem.delete(xhr);
+        if (xhrMem.span) {
+          const span = xhrMem.span;
+          plugin._applyAttributesAfterXHR(span, xhr);
+          if (plugin._semconvStability & SemconvStability.STABLE) {
+            if (isError) {
+              if (errorType) {
+                span.setStatus({
+                  code: SpanStatusCode.ERROR,
+                  message: errorType
+                });
+                span.setAttribute(ATTR_ERROR_TYPE, errorType);
+              }
+            } else if (xhrMem.status && xhrMem.status >= 400) {
+              span.setStatus({ code: SpanStatusCode.ERROR });
+              span.setAttribute(ATTR_ERROR_TYPE, String(xhrMem.status));
+            }
+          }
+        }
+        const performanceEndTime = hrTime();
+        const endTime = Date.now();
+        setTimeout(() => {
+          endSpanTimeout(eventName, xhrMem, performanceEndTime, endTime);
+        }, OBSERVER_WAIT_TIME_MS);
+      }
+      function onError() {
+        endSpan(EventNames2.EVENT_ERROR, this, true, "error");
+      }
+      function onAbort() {
+        endSpan(EventNames2.EVENT_ABORT, this, false);
+      }
+      function onTimeout() {
+        endSpan(EventNames2.EVENT_TIMEOUT, this, true, "timeout");
+      }
+      function onLoad() {
+        if (this.status < 299) {
+          endSpan(EventNames2.EVENT_LOAD, this, false);
+        } else {
+          endSpan(EventNames2.EVENT_ERROR, this, false);
+        }
+      }
+      function unregister(xhr) {
+        xhr.removeEventListener("abort", onAbort);
+        xhr.removeEventListener("error", onError);
+        xhr.removeEventListener("load", onLoad);
+        xhr.removeEventListener("timeout", onTimeout);
+        const xhrMem = plugin._xhrMem.get(xhr);
+        if (xhrMem) {
+          xhrMem.callbackToRemoveEvents = void 0;
+        }
+      }
+      return (original) => {
+        return function patchSend(...args) {
+          const xhrMem = plugin._xhrMem.get(this);
+          if (!xhrMem) {
+            return original.apply(this, args);
+          }
+          const currentSpan = xhrMem.span;
+          const spanUrl = xhrMem.spanUrl;
+          if (currentSpan && spanUrl) {
+            if (plugin.getConfig().measureRequestSize && (args == null ? void 0 : args[0])) {
+              const body = args[0];
+              const bodyLength = getXHRBodyLength(body);
+              if (bodyLength !== void 0) {
+                if (plugin._semconvStability & SemconvStability.OLD) {
+                  currentSpan.setAttribute(ATTR_HTTP_REQUEST_CONTENT_LENGTH_UNCOMPRESSED, bodyLength);
+                }
+                if (plugin._semconvStability & SemconvStability.STABLE) {
+                  currentSpan.setAttribute(ATTR_HTTP_REQUEST_BODY_SIZE, bodyLength);
+                }
+              }
+            }
+            context.with(trace.setSpan(context.active(), currentSpan), () => {
+              plugin._tasksCount++;
+              xhrMem.sendStartTime = hrTime();
+              currentSpan.addEvent(EventNames2.METHOD_SEND);
+              this.addEventListener("abort", onAbort);
+              this.addEventListener("error", onError);
+              this.addEventListener("load", onLoad);
+              this.addEventListener("timeout", onTimeout);
+              xhrMem.callbackToRemoveEvents = () => {
+                unregister(this);
+                if (xhrMem.createdResources) {
+                  xhrMem.createdResources.observer.disconnect();
+                }
+              };
+              plugin._addHeaders(this, spanUrl);
+              plugin._addResourceObserver(this, spanUrl);
+            });
+          }
+          return original.apply(this, args);
+        };
+      };
+    }
+    /**
+     * implements enable function
+     */
+    enable() {
+      this._diag.debug("applying patch to", this.moduleName, this.version);
+      if (isWrapped(XMLHttpRequest.prototype.open)) {
+        this._unwrap(XMLHttpRequest.prototype, "open");
+        this._diag.debug("removing previous patch from method open");
+      }
+      if (isWrapped(XMLHttpRequest.prototype.send)) {
+        this._unwrap(XMLHttpRequest.prototype, "send");
+        this._diag.debug("removing previous patch from method send");
+      }
+      this._wrap(XMLHttpRequest.prototype, "open", this._patchOpen());
+      this._wrap(XMLHttpRequest.prototype, "send", this._patchSend());
+    }
+    /**
+     * implements disable function
+     */
+    disable() {
+      this._diag.debug("removing patch from", this.moduleName, this.version);
+      this._unwrap(XMLHttpRequest.prototype, "open");
+      this._unwrap(XMLHttpRequest.prototype, "send");
+      this._tasksCount = 0;
+      this._xhrMem = /* @__PURE__ */ new WeakMap();
+      this._usedResources = /* @__PURE__ */ new WeakSet();
+    }
+  };
+
   // node_modules/@opentelemetry/otlp-exporter-base/build/esm/OTLPExporterBase.js
   var OTLPExporterBase = class {
     constructor(delegate) {
@@ -3905,35 +6138,44 @@
       ]
     });
     provider.register();
+    registerInstrumentations({
+      instrumentations: [
+        new DocumentLoadInstrumentation(),
+        new UserInteractionInstrumentation(),
+        new XMLHttpRequestInstrumentation()
+      ]
+    });
     const tracer = trace.getTracer(SERVICE_NAME);
     let currentPageSpan = null;
     let currentPageContext = context.active();
-    function startPageSpan() {
-      if (currentPageSpan) {
-        currentPageSpan.end();
-      }
-      currentPageSpan = tracer.startSpan("ui.page", {
-        attributes: {
-          "browser.page.url": window.location.href,
-          "browser.page.path": window.location.pathname,
-          "browser.page.hash": window.location.hash,
-          "browser.page.title": document.title
+    if (CONFIG.enableUxMonitoring) {
+      let startPageSpan = function() {
+        if (currentPageSpan) {
+          currentPageSpan.end();
+        }
+        currentPageSpan = tracer.startSpan("ui.page", {
+          attributes: {
+            "browser.page.url": window.location.href,
+            "browser.page.path": window.location.pathname,
+            "browser.page.hash": window.location.hash,
+            "browser.page.title": document.title
+          }
+        });
+        currentPageContext = trace.setSpan(
+          context.active(),
+          currentPageSpan
+        );
+      };
+      startPageSpan();
+      window.addEventListener("hashchange", () => {
+        startPageSpan();
+      });
+      window.addEventListener("beforeunload", () => {
+        if (currentPageSpan) {
+          currentPageSpan.end();
         }
       });
-      currentPageContext = trace.setSpan(
-        context.active(),
-        currentPageSpan
-      );
     }
-    startPageSpan();
-    window.addEventListener("hashchange", () => {
-      startPageSpan();
-    });
-    window.addEventListener("beforeunload", () => {
-      if (currentPageSpan) {
-        currentPageSpan.end();
-      }
-    });
     function recordErrorSpan(name, error) {
       var _a2;
       try {
@@ -4010,29 +6252,31 @@
     } else {
       observeAjaxErrors();
     }
-    function emitWebVital(metric) {
-      const span = tracer.startSpan(
-        "browser.web_vital",
-        {
-          attributes: {
-            "browser.page.url": window.location.href,
-            "browser.page.path": window.location.pathname
-          }
-        },
-        currentPageContext
-      );
-      span.addEvent("browser.web_vital", {
-        name: metric.name,
-        value: metric.value,
-        delta: metric.delta,
-        id: metric.id
-      });
-      span.end();
+    if (CONFIG.enableWebVitals) {
+      let emitWebVital = function(metric) {
+        const span = tracer.startSpan(
+          "browser.web_vital",
+          {
+            attributes: {
+              "browser.page.url": window.location.href,
+              "browser.page.path": window.location.pathname
+            }
+          },
+          currentPageContext
+        );
+        span.addEvent("browser.web_vital", {
+          name: metric.name,
+          value: metric.value,
+          delta: metric.delta,
+          id: metric.id
+        });
+        span.end();
+      };
+      L(emitWebVital);
+      x(emitWebVital);
+      S(emitWebVital);
     }
-    L(emitWebVital);
-    x(emitWebVital);
-    S(emitWebVital);
-    if ("PerformanceObserver" in window && ((_c = PerformanceObserver.supportedEntryTypes) == null ? void 0 : _c.includes("longtask"))) {
+    if (CONFIG.enableUxMonitoring && "PerformanceObserver" in window && ((_c = PerformanceObserver.supportedEntryTypes) == null ? void 0 : _c.includes("longtask"))) {
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           const span = tracer.startSpan(

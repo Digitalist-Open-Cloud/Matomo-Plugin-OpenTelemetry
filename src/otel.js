@@ -1,5 +1,9 @@
 import { trace, SpanStatusCode, context } from '@opentelemetry/api';
 import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
+import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
+import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
+import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { resourceFromAttributes } from '@opentelemetry/resources';
@@ -37,49 +41,57 @@ import { onCLS, onLCP, onINP } from 'web-vitals';
 
   provider.register();
 
-  const tracer = trace.getTracer(SERVICE_NAME);
+  registerInstrumentations({
+    instrumentations: [
+      new DocumentLoadInstrumentation(),
+      new UserInteractionInstrumentation(),
+      new XMLHttpRequestInstrumentation(),
+    ],
+  });
 
+  const tracer = trace.getTracer(SERVICE_NAME);
+  let currentPageSpan = null;
+  let currentPageContext = context.active();
   /* ------------------------------------------------------------------
   * UI page span handling
   * ------------------------------------------------------------------ */
-  let currentPageSpan = null;
-  let currentPageContext = context.active();
+  if (CONFIG.enableUxMonitoring) {
+    function startPageSpan() {
+      // End previous page span
+      if (currentPageSpan) {
+        currentPageSpan.end();
+      }
 
-  function startPageSpan() {
-    // End previous page span
-    if (currentPageSpan) {
-      currentPageSpan.end();
+      currentPageSpan = tracer.startSpan('ui.page', {
+        attributes: {
+          'browser.page.url': window.location.href,
+          'browser.page.path': window.location.pathname,
+          'browser.page.hash': window.location.hash,
+          'browser.page.title': document.title,
+        },
+      });
+
+      currentPageContext = trace.setSpan(
+        context.active(),
+        currentPageSpan
+      );
     }
 
-    currentPageSpan = tracer.startSpan('ui.page', {
-      attributes: {
-        'browser.page.url': window.location.href,
-        'browser.page.path': window.location.pathname,
-        'browser.page.hash': window.location.hash,
-        'browser.page.title': document.title,
-      },
+    // Initial page
+    startPageSpan();
+
+    // Listen on page changes
+    window.addEventListener('hashchange', () => {
+      startPageSpan();
     });
 
-    currentPageContext = trace.setSpan(
-      context.active(),
-      currentPageSpan
-    );
+    // End page span when leaving the document
+    window.addEventListener('beforeunload', () => {
+      if (currentPageSpan) {
+        currentPageSpan.end();
+      }
+    });
   }
-
-  // Initial page
-  startPageSpan();
-
-  // Listen on page changes
-  window.addEventListener('hashchange', () => {
-    startPageSpan();
-  });
-
-  // End page span when leaving the document
-  window.addEventListener('beforeunload', () => {
-    if (currentPageSpan) {
-      currentPageSpan.end();
-    }
-  });
 
   /* ------------------------------------------------------------------
   * Error tracking
@@ -187,36 +199,39 @@ import { onCLS, onLCP, onINP } from 'web-vitals';
   /* ------------------------------------------------------------------
   * Web vitals
   * ------------------------------------------------------------------ */
-  function emitWebVital(metric) {
-    const span = tracer.startSpan(
-      'browser.web_vital',
-      {
-        attributes: {
-          'browser.page.url': window.location.href,
-          'browser.page.path': window.location.pathname,
+  if (CONFIG.enableWebVitals) {
+    function emitWebVital(metric) {
+      const span = tracer.startSpan(
+        'browser.web_vital',
+        {
+          attributes: {
+            'browser.page.url': window.location.href,
+            'browser.page.path': window.location.pathname,
+          },
         },
-      },
-      currentPageContext
-    );
+        currentPageContext
+      );
 
-    span.addEvent('browser.web_vital', {
-      name: metric.name,
-      value: metric.value,
-      delta: metric.delta,
-      id: metric.id,
-    });
+      span.addEvent('browser.web_vital', {
+        name: metric.name,
+        value: metric.value,
+        delta: metric.delta,
+        id: metric.id,
+      });
 
-    span.end();
+      span.end();
+    }
+
+    onCLS(emitWebVital);
+    onLCP(emitWebVital);
+    onINP(emitWebVital);
   }
-
-  onCLS(emitWebVital);
-  onLCP(emitWebVital);
-  onINP(emitWebVital);
 
   /* ------------------------------------------------------------------
   * Web vitals: long tasks (>50ms)
   * ------------------------------------------------------------------ */
   if (
+    CONFIG.enableUxMonitoring &&
     'PerformanceObserver' in window &&
     PerformanceObserver.supportedEntryTypes?.includes('longtask')
   ) {
