@@ -81,11 +81,11 @@
   var GLOBAL_OPENTELEMETRY_API_KEY = /* @__PURE__ */ Symbol.for("opentelemetry.js.api." + major);
   var _global = _globalThis;
   function registerGlobal(type, instance, diag3, allowOverride) {
-    var _a5;
+    var _a4;
     if (allowOverride === void 0) {
       allowOverride = false;
     }
-    var api = _global[GLOBAL_OPENTELEMETRY_API_KEY] = (_a5 = _global[GLOBAL_OPENTELEMETRY_API_KEY]) !== null && _a5 !== void 0 ? _a5 : {
+    var api = _global[GLOBAL_OPENTELEMETRY_API_KEY] = (_a4 = _global[GLOBAL_OPENTELEMETRY_API_KEY]) !== null && _a4 !== void 0 ? _a4 : {
       version: VERSION
     };
     if (!allowOverride && api[type]) {
@@ -103,12 +103,12 @@
     return true;
   }
   function getGlobal(type) {
-    var _a5, _b2;
-    var globalVersion = (_a5 = _global[GLOBAL_OPENTELEMETRY_API_KEY]) === null || _a5 === void 0 ? void 0 : _a5.version;
+    var _a4, _b;
+    var globalVersion = (_a4 = _global[GLOBAL_OPENTELEMETRY_API_KEY]) === null || _a4 === void 0 ? void 0 : _a4.version;
     if (!globalVersion || !isCompatible(globalVersion)) {
       return;
     }
-    return (_b2 = _global[GLOBAL_OPENTELEMETRY_API_KEY]) === null || _b2 === void 0 ? void 0 : _b2[type];
+    return (_b = _global[GLOBAL_OPENTELEMETRY_API_KEY]) === null || _b === void 0 ? void 0 : _b[type];
   }
   function unregisterGlobal(type, diag3) {
     diag3.debug("@opentelemetry/api: Unregistering a global for " + type + " v" + VERSION + ".");
@@ -281,13 +281,13 @@
         }
         var self2 = this;
         var setLogger = function(logger, optionsOrLogLevel) {
-          var _a5, _b2, _c;
+          var _a4, _b, _c;
           if (optionsOrLogLevel === void 0) {
             optionsOrLogLevel = { logLevel: DiagLogLevel.INFO };
           }
           if (logger === self2) {
             var err = new Error("Cannot use diag as the logger for itself. Please use a DiagLogger implementation like ConsoleDiagLogger or a custom implementation");
-            self2.error((_a5 = err.stack) !== null && _a5 !== void 0 ? _a5 : err.message);
+            self2.error((_a4 = err.stack) !== null && _a4 !== void 0 ? _a4 : err.message);
             return false;
           }
           if (typeof optionsOrLogLevel === "number") {
@@ -296,7 +296,7 @@
             };
           }
           var oldLogger = getGlobal("diag");
-          var newLogger = createLogLevelDiagLogger((_b2 = optionsOrLogLevel.logLevel) !== null && _b2 !== void 0 ? _b2 : DiagLogLevel.INFO, logger);
+          var newLogger = createLogLevelDiagLogger((_b = optionsOrLogLevel.logLevel) !== null && _b !== void 0 ? _b : DiagLogLevel.INFO, logger);
           if (oldLogger && !optionsOrLogLevel.suppressOverrideMessage) {
             var stack = (_c = new Error().stack) !== null && _c !== void 0 ? _c : "<failed to generate stacktrace>";
             oldLogger.warn("Current logger will be overwritten from " + stack);
@@ -370,8 +370,8 @@
         return Object.assign({}, entry);
       };
       BaggageImpl2.prototype.getAllEntries = function() {
-        return Array.from(this._entries.entries()).map(function(_a5) {
-          var _b2 = __read3(_a5, 2), k2 = _b2[0], v2 = _b2[1];
+        return Array.from(this._entries.entries()).map(function(_a4) {
+          var _b = __read3(_a4, 2), k2 = _b[0], v2 = _b[1];
           return [k2, v2];
         });
       };
@@ -386,7 +386,7 @@
         return newBaggage;
       };
       BaggageImpl2.prototype.removeEntries = function() {
-        var e_1, _a5;
+        var e_1, _a4;
         var keys = [];
         for (var _i = 0; _i < arguments.length; _i++) {
           keys[_i] = arguments[_i];
@@ -401,7 +401,7 @@
           e_1 = { error: e_1_1 };
         } finally {
           try {
-            if (keys_1_1 && !keys_1_1.done && (_a5 = keys_1.return)) _a5.call(keys_1);
+            if (keys_1_1 && !keys_1_1.done && (_a4 = keys_1.return)) _a4.call(keys_1);
           } finally {
             if (e_1) throw e_1.error;
           }
@@ -594,12 +594,12 @@
         return this._getContextManager().active();
       };
       ContextAPI2.prototype.with = function(context2, fn, thisArg) {
-        var _a5;
+        var _a4;
         var args = [];
         for (var _i = 3; _i < arguments.length; _i++) {
           args[_i - 3] = arguments[_i];
         }
-        return (_a5 = this._getContextManager()).with.apply(_a5, __spreadArray4([context2, fn, thisArg], __read5(args), false));
+        return (_a4 = this._getContextManager()).with.apply(_a4, __spreadArray4([context2, fn, thisArg], __read5(args), false));
       };
       ContextAPI2.prototype.bind = function(context2, target) {
         return this._getContextManager().bind(context2, target);
@@ -694,8 +694,8 @@
     return setSpan(context2, new NonRecordingSpan(spanContext));
   }
   function getSpanContext(context2) {
-    var _a5;
-    return (_a5 = getSpan(context2)) === null || _a5 === void 0 ? void 0 : _a5.spanContext();
+    var _a4;
+    return (_a4 = getSpan(context2)) === null || _a4 === void 0 ? void 0 : _a4.spanContext();
   }
 
   // node_modules/@opentelemetry/api/build/esm/trace/spancontext-utils.js
@@ -818,19 +818,19 @@
       function ProxyTracerProvider2() {
       }
       ProxyTracerProvider2.prototype.getTracer = function(name, version, options) {
-        var _a5;
-        return (_a5 = this.getDelegateTracer(name, version, options)) !== null && _a5 !== void 0 ? _a5 : new ProxyTracer(this, name, version, options);
+        var _a4;
+        return (_a4 = this.getDelegateTracer(name, version, options)) !== null && _a4 !== void 0 ? _a4 : new ProxyTracer(this, name, version, options);
       };
       ProxyTracerProvider2.prototype.getDelegate = function() {
-        var _a5;
-        return (_a5 = this._delegate) !== null && _a5 !== void 0 ? _a5 : NOOP_TRACER_PROVIDER;
+        var _a4;
+        return (_a4 = this._delegate) !== null && _a4 !== void 0 ? _a4 : NOOP_TRACER_PROVIDER;
       };
       ProxyTracerProvider2.prototype.setDelegate = function(delegate) {
         this._delegate = delegate;
       };
       ProxyTracerProvider2.prototype.getDelegateTracer = function(name, version, options) {
-        var _a5;
-        return (_a5 = this._delegate) === null || _a5 === void 0 ? void 0 : _a5.getTracer(name, version, options);
+        var _a4;
+        return (_a4 = this._delegate) === null || _a4 === void 0 ? void 0 : _a4.getTracer(name, version, options);
       };
       return ProxyTracerProvider2;
     })()
@@ -1306,8 +1306,8 @@
     constructor(config = {}) {
       __publicField(this, "_propagators");
       __publicField(this, "_fields");
-      var _a5;
-      this._propagators = (_a5 = config.propagators) != null ? _a5 : [];
+      var _a4;
+      this._propagators = (_a4 = config.propagators) != null ? _a4 : [];
       this._fields = Array.from(new Set(this._propagators.map((p2) => typeof p2.fields === "function" ? p2.fields() : []).reduce((x2, y2) => x2.concat(y2), [])));
     }
     /**
@@ -1721,8 +1721,8 @@
       __publicField(this, "_asyncAttributesPending", false);
       __publicField(this, "_schemaUrl");
       __publicField(this, "_memoizedAttributes");
-      var _a5;
-      const attributes = (_a5 = resource.attributes) != null ? _a5 : {};
+      var _a4;
+      const attributes = (_a4 = resource.attributes) != null ? _a4 : {};
       this._rawAttributes = Object.entries(attributes).map(([k2, v2]) => {
         if (isPromiseLike(v2)) {
           this._asyncAttributesPending = true;
@@ -1752,7 +1752,7 @@
       this._asyncAttributesPending = false;
     }
     get attributes() {
-      var _a5;
+      var _a4;
       if (this.asyncAttributesPending) {
         diag2.error("Accessing resource attributes before async attributes settled");
       }
@@ -1766,7 +1766,7 @@
           continue;
         }
         if (v2 != null) {
-          (_a5 = attrs[k2]) != null ? _a5 : attrs[k2] = v2;
+          (_a4 = attrs[k2]) != null ? _a4 : attrs[k2] = v2;
         }
       }
       if (!this._asyncAttributesPending) {
@@ -1874,7 +1874,7 @@
       __publicField(this, "_performanceStartTime");
       __publicField(this, "_performanceOffset");
       __publicField(this, "_startTimeProvided");
-      var _a5;
+      var _a4;
       const now = Date.now();
       this._spanContext = opts.spanContext;
       this._performanceStartTime = otperformance.now();
@@ -1887,7 +1887,7 @@
       this.parentSpanContext = opts.parentSpanContext;
       this.kind = opts.kind;
       this.links = opts.links || [];
-      this.startTime = this._getTime((_a5 = opts.startTime) != null ? _a5 : now);
+      this.startTime = this._getTime((_a4 = opts.startTime) != null ? _a4 : now);
       this.resource = opts.resource;
       this.instrumentationScope = opts.scope;
       if (opts.attributes != null) {
@@ -2150,14 +2150,14 @@
       __publicField(this, "_remoteParentNotSampled");
       __publicField(this, "_localParentSampled");
       __publicField(this, "_localParentNotSampled");
-      var _a5, _b2, _c, _d;
+      var _a4, _b, _c, _d;
       this._root = config.root;
       if (!this._root) {
         globalErrorHandler(new Error("ParentBasedSampler must have a root sampler configured"));
         this._root = new AlwaysOnSampler();
       }
-      this._remoteParentSampled = (_a5 = config.remoteParentSampled) != null ? _a5 : new AlwaysOnSampler();
-      this._remoteParentNotSampled = (_b2 = config.remoteParentNotSampled) != null ? _b2 : new AlwaysOffSampler();
+      this._remoteParentSampled = (_a4 = config.remoteParentSampled) != null ? _a4 : new AlwaysOnSampler();
+      this._remoteParentNotSampled = (_b = config.remoteParentNotSampled) != null ? _b : new AlwaysOffSampler();
       this._localParentSampled = (_c = config.localParentSampled) != null ? _c : new AlwaysOnSampler();
       this._localParentNotSampled = (_d = config.localParentNotSampled) != null ? _d : new AlwaysOffSampler();
     }
@@ -2226,13 +2226,13 @@
   })(TracesSamplerValues || (TracesSamplerValues = {}));
   var DEFAULT_RATIO = 1;
   function loadDefaultConfig() {
-    var _a5, _b2, _c, _d, _e, _f, _g, _h;
+    var _a4, _b, _c, _d, _e, _f, _g, _h;
     return {
       sampler: buildSamplerFromEnv(),
       forceFlushTimeoutMillis: 3e4,
       generalLimits: {
-        attributeValueLengthLimit: (_a5 = getNumberFromEnv("OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT")) != null ? _a5 : Infinity,
-        attributeCountLimit: (_b2 = getNumberFromEnv("OTEL_ATTRIBUTE_COUNT_LIMIT")) != null ? _b2 : 128
+        attributeValueLengthLimit: (_a4 = getNumberFromEnv("OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT")) != null ? _a4 : Infinity,
+        attributeCountLimit: (_b = getNumberFromEnv("OTEL_ATTRIBUTE_COUNT_LIMIT")) != null ? _b : 128
       },
       spanLimits: {
         attributeValueLengthLimit: (_c = getNumberFromEnv("OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT")) != null ? _c : Infinity,
@@ -2245,8 +2245,8 @@
     };
   }
   function buildSamplerFromEnv() {
-    var _a5;
-    const sampler = (_a5 = getStringFromEnv("OTEL_TRACES_SAMPLER")) != null ? _a5 : TracesSamplerValues.ParentBasedAlwaysOn;
+    var _a4;
+    const sampler = (_a4 = getStringFromEnv("OTEL_TRACES_SAMPLER")) != null ? _a4 : TracesSamplerValues.ParentBasedAlwaysOn;
     switch (sampler) {
       case TracesSamplerValues.AlwaysOn:
         return new AlwaysOnSampler();
@@ -2300,9 +2300,9 @@
     return target;
   }
   function reconfigureLimits(userConfig) {
-    var _a5, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+    var _a4, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
     const spanLimits = Object.assign({}, userConfig.spanLimits);
-    spanLimits.attributeCountLimit = (_f = (_e = (_d = (_c = (_a5 = userConfig.spanLimits) == null ? void 0 : _a5.attributeCountLimit) != null ? _c : (_b2 = userConfig.generalLimits) == null ? void 0 : _b2.attributeCountLimit) != null ? _d : getNumberFromEnv("OTEL_SPAN_ATTRIBUTE_COUNT_LIMIT")) != null ? _e : getNumberFromEnv("OTEL_ATTRIBUTE_COUNT_LIMIT")) != null ? _f : DEFAULT_ATTRIBUTE_COUNT_LIMIT;
+    spanLimits.attributeCountLimit = (_f = (_e = (_d = (_c = (_a4 = userConfig.spanLimits) == null ? void 0 : _a4.attributeCountLimit) != null ? _c : (_b = userConfig.generalLimits) == null ? void 0 : _b.attributeCountLimit) != null ? _d : getNumberFromEnv("OTEL_SPAN_ATTRIBUTE_COUNT_LIMIT")) != null ? _e : getNumberFromEnv("OTEL_ATTRIBUTE_COUNT_LIMIT")) != null ? _f : DEFAULT_ATTRIBUTE_COUNT_LIMIT;
     spanLimits.attributeValueLengthLimit = (_l = (_k = (_j = (_i = (_g = userConfig.spanLimits) == null ? void 0 : _g.attributeValueLengthLimit) != null ? _i : (_h = userConfig.generalLimits) == null ? void 0 : _h.attributeValueLengthLimit) != null ? _j : getNumberFromEnv("OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT")) != null ? _k : getNumberFromEnv("OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT")) != null ? _l : DEFAULT_ATTRIBUTE_VALUE_LENGTH_LIMIT;
     return Object.assign({}, userConfig, { spanLimits });
   }
@@ -2320,10 +2320,10 @@
       __publicField(this, "_timer");
       __publicField(this, "_shutdownOnce");
       __publicField(this, "_droppedSpansCount", 0);
-      var _a5, _b2, _c, _d;
+      var _a4, _b, _c, _d;
       this._exporter = exporter;
-      this._maxExportBatchSize = typeof (config == null ? void 0 : config.maxExportBatchSize) === "number" ? config.maxExportBatchSize : (_a5 = getNumberFromEnv("OTEL_BSP_MAX_EXPORT_BATCH_SIZE")) != null ? _a5 : 512;
-      this._maxQueueSize = typeof (config == null ? void 0 : config.maxQueueSize) === "number" ? config.maxQueueSize : (_b2 = getNumberFromEnv("OTEL_BSP_MAX_QUEUE_SIZE")) != null ? _b2 : 2048;
+      this._maxExportBatchSize = typeof (config == null ? void 0 : config.maxExportBatchSize) === "number" ? config.maxExportBatchSize : (_a4 = getNumberFromEnv("OTEL_BSP_MAX_EXPORT_BATCH_SIZE")) != null ? _a4 : 512;
+      this._maxQueueSize = typeof (config == null ? void 0 : config.maxQueueSize) === "number" ? config.maxQueueSize : (_b = getNumberFromEnv("OTEL_BSP_MAX_QUEUE_SIZE")) != null ? _b : 2048;
       this._scheduledDelayMillis = typeof (config == null ? void 0 : config.scheduledDelayMillis) === "number" ? config.scheduledDelayMillis : (_c = getNumberFromEnv("OTEL_BSP_SCHEDULE_DELAY")) != null ? _c : 5e3;
       this._exportTimeoutMillis = typeof (config == null ? void 0 : config.exportTimeoutMillis) === "number" ? config.exportTimeoutMillis : (_d = getNumberFromEnv("OTEL_BSP_EXPORT_TIMEOUT")) != null ? _d : 3e4;
       this._shutdownOnce = new BindOnceFuture(this._shutdown, this);
@@ -2413,12 +2413,12 @@
             spans = this._finishedSpans.splice(0, this._maxExportBatchSize);
           }
           const doExport = () => this._exporter.export(spans, (result) => {
-            var _a5;
+            var _a4;
             clearTimeout(timer);
             if (result.code === ExportResultCode.SUCCESS) {
               resolve();
             } else {
-              reject((_a5 = result.error) != null ? _a5 : new Error("BatchSpanProcessor: span export failed"));
+              reject((_a4 = result.error) != null ? _a4 : new Error("BatchSpanProcessor: span export failed"));
             }
           });
           let pendingResources = null;
@@ -2569,7 +2569,7 @@
      * decision.
      */
     startSpan(name, options = {}, context2 = context.active()) {
-      var _a5, _b2, _c;
+      var _a4, _b, _c;
       if (options.root) {
         context2 = trace.deleteSpan(context2);
       }
@@ -2591,8 +2591,8 @@
         traceState = parentSpanContext.traceState;
         validParentSpanContext = parentSpanContext;
       }
-      const spanKind = (_a5 = options.kind) != null ? _a5 : SpanKind.INTERNAL;
-      const links = ((_b2 = options.links) != null ? _b2 : []).map((link) => {
+      const spanKind = (_a4 = options.kind) != null ? _a4 : SpanKind.INTERNAL;
+      const links = ((_b = options.links) != null ? _b : []).map((link) => {
         return {
           context: link.context,
           attributes: sanitizeAttributes(link.attributes)
@@ -2720,14 +2720,14 @@
       __publicField(this, "_tracers", /* @__PURE__ */ new Map());
       __publicField(this, "_resource");
       __publicField(this, "_activeSpanProcessor");
-      var _a5, _b2;
+      var _a4, _b;
       const mergedConfig = merge({}, loadDefaultConfig(), reconfigureLimits(config));
-      this._resource = (_a5 = mergedConfig.resource) != null ? _a5 : defaultResource();
+      this._resource = (_a4 = mergedConfig.resource) != null ? _a4 : defaultResource();
       this._config = Object.assign({}, mergedConfig, {
         resource: this._resource
       });
       const spanProcessors = [];
-      if ((_b2 = config.spanProcessors) == null ? void 0 : _b2.length) {
+      if ((_b = config.spanProcessors) == null ? void 0 : _b.length) {
         spanProcessors.push(...config.spanProcessors);
       }
       this._activeSpanProcessor = new MultiSpanProcessor(spanProcessors);
@@ -2966,9 +2966,9 @@
     return async () => headers;
   }
   function mergeOtlpSharedConfigurationWithDefaults(userProvidedConfiguration, fallbackConfiguration, defaultConfiguration) {
-    var _a5, _b2, _c, _d, _e, _f;
+    var _a4, _b, _c, _d, _e, _f;
     return {
-      timeoutMillis: validateTimeoutMillis((_b2 = (_a5 = userProvidedConfiguration.timeoutMillis) != null ? _a5 : fallbackConfiguration.timeoutMillis) != null ? _b2 : defaultConfiguration.timeoutMillis),
+      timeoutMillis: validateTimeoutMillis((_b = (_a4 = userProvidedConfiguration.timeoutMillis) != null ? _a4 : fallbackConfiguration.timeoutMillis) != null ? _b : defaultConfiguration.timeoutMillis),
       concurrencyLimit: (_d = (_c = userProvidedConfiguration.concurrencyLimit) != null ? _c : fallbackConfiguration.concurrencyLimit) != null ? _d : defaultConfiguration.concurrencyLimit,
       compression: (_f = (_e = userProvidedConfiguration.compression) != null ? _e : fallbackConfiguration.compression) != null ? _f : defaultConfiguration.compression
     };
@@ -3064,7 +3064,7 @@
         return;
       }
       this._promiseQueue.pushPromise(this._transport.send(serializedRequest, this._timeout).then((response) => {
-        var _a5;
+        var _a4;
         if (response.status === "success") {
           if (response.data != null) {
             try {
@@ -3086,7 +3086,7 @@
         } else if (response.status === "retryable") {
           resultCallback({
             code: ExportResultCode.FAILED,
-            error: (_a5 = response.error) != null ? _a5 : new OTLPExporterError("Export failed with retryable status")
+            error: (_a4 = response.error) != null ? _a4 : new OTLPExporterError("Export failed with retryable status")
           });
         } else {
           resultCallback({
@@ -3175,12 +3175,12 @@
     encodeOptionalSpanContext: optionalHexToBinary
   };
   function getOtlpEncoder(options) {
-    var _a5, _b2;
+    var _a4, _b;
     if (options === void 0) {
       return DEFAULT_ENCODER;
     }
-    const useLongBits = (_a5 = options.useLongBits) != null ? _a5 : true;
-    const useHex = (_b2 = options.useHex) != null ? _b2 : false;
+    const useLongBits = (_a4 = options.useLongBits) != null ? _a4 : true;
+    const useHex = (_b = options.useHex) != null ? _b : false;
     return {
       encodeHrTime: useLongBits ? encodeAsLongBits : encodeTimestamp,
       encodeSpanContext: useHex ? identity : hexToBinary,
@@ -3249,10 +3249,10 @@
     return flags;
   }
   function sdkSpanToOtlpSpan(span, encoder) {
-    var _a5, _b2, _c, _d;
+    var _a4, _b, _c, _d;
     const ctx = span.spanContext();
     const status = span.status;
-    const parentSpanId = ((_a5 = span.parentSpanContext) == null ? void 0 : _a5.spanId) ? encoder.encodeSpanContext((_b2 = span.parentSpanContext) == null ? void 0 : _b2.spanId) : void 0;
+    const parentSpanId = ((_a4 = span.parentSpanContext) == null ? void 0 : _a4.spanId) ? encoder.encodeSpanContext((_b = span.parentSpanContext) == null ? void 0 : _b.spanId) : void 0;
     return {
       traceId: encoder.encodeSpanContext(ctx.traceId),
       spanId: encoder.encodeSpanContext(ctx.spanId),
@@ -3278,12 +3278,12 @@
     };
   }
   function toOtlpLink(link, encoder) {
-    var _a5;
+    var _a4;
     return {
       attributes: link.attributes ? toAttributes(link.attributes) : [],
       spanId: encoder.encodeSpanContext(link.context.spanId),
       traceId: encoder.encodeSpanContext(link.context.traceId),
-      traceState: (_a5 = link.context.traceState) == null ? void 0 : _a5.serialize(),
+      traceState: (_a4 = link.context.traceState) == null ? void 0 : _a4.serialize(),
       droppedAttributesCount: link.droppedAttributesCount || 0,
       flags: buildSpanFlagsFrom(link.context.traceFlags, link.context.isRemote)
     };
@@ -3395,7 +3395,7 @@
       });
     }
     async send(data, timeoutMillis) {
-      var _a5;
+      var _a4;
       let attempts = MAX_ATTEMPTS;
       let nextBackoff = INITIAL_BACKOFF;
       const deadline = Date.now() + timeoutMillis;
@@ -3404,7 +3404,7 @@
         attempts--;
         const backoff = Math.max(Math.min(nextBackoff * (1 + getJitter()), MAX_BACKOFF), 0);
         nextBackoff = nextBackoff * BACKOFF_MULTIPLIER;
-        const retryInMillis = (_a5 = result.retryInMillis) != null ? _a5 : backoff;
+        const retryInMillis = (_a4 = result.retryInMillis) != null ? _a4 : backoff;
         const remainingTimeoutMillis = deadline - Date.now();
         if (retryInMillis > remainingTimeoutMillis) {
           diag2.info(`Export retry time ${Math.round(retryInMillis)}ms exceeds remaining timeout ${Math.round(remainingTimeoutMillis)}ms, not retrying further.`);
@@ -3485,7 +3485,7 @@
       this._parameters = parameters;
     }
     async send(data, timeoutMillis) {
-      var _a5;
+      var _a4;
       const abortController = new AbortController();
       const timeout = setTimeout(() => abortController.abort(), timeoutMillis);
       try {
@@ -3497,7 +3497,7 @@
           body: data,
           signal: abortController.signal,
           keepalive: isBrowserEnvironment,
-          mode: isBrowserEnvironment ? ((_a5 = globalThis.location) == null ? void 0 : _a5.origin) === url.origin ? "same-origin" : "cors" : "no-cors"
+          mode: isBrowserEnvironment ? ((_a4 = globalThis.location) == null ? void 0 : _a4.origin) === url.origin ? "same-origin" : "cors" : "no-cors"
         });
         if (response.status >= 200 && response.status <= 299) {
           diag2.debug("response success");
@@ -3583,23 +3583,23 @@
     };
   }
   function validateUserProvidedUrl(url) {
-    var _a5;
+    var _a4;
     if (url == null) {
       return void 0;
     }
     try {
-      const base = (_a5 = globalThis.location) == null ? void 0 : _a5.href;
+      const base = (_a4 = globalThis.location) == null ? void 0 : _a4.href;
       return new URL(url, base).href;
     } catch (e2) {
       throw new Error(`Configuration: Could not parse user-provided export URL: '${url}'`);
     }
   }
   function mergeOtlpHttpConfigurationWithDefaults(userProvidedConfiguration, fallbackConfiguration, defaultConfiguration) {
-    var _a5, _b2;
+    var _a4, _b;
     return {
       ...mergeOtlpSharedConfigurationWithDefaults(userProvidedConfiguration, fallbackConfiguration, defaultConfiguration),
       headers: mergeHeaders(userProvidedConfiguration.headers, fallbackConfiguration.headers, defaultConfiguration.headers),
-      url: (_b2 = (_a5 = validateUserProvidedUrl(userProvidedConfiguration.url)) != null ? _a5 : fallbackConfiguration.url) != null ? _b2 : defaultConfiguration.url
+      url: (_b = (_a4 = validateUserProvidedUrl(userProvidedConfiguration.url)) != null ? _a4 : fallbackConfiguration.url) != null ? _b : defaultConfiguration.url
     };
   }
   function getHttpConfigurationDefaults(requiredHeaders, signalResourcePath) {
@@ -3674,9 +3674,9 @@
     if (e2 && e2.responseStart > 0 && e2.responseStart < performance.now()) return e2;
   };
   var o = () => {
-    var _a5;
+    var _a4;
     const e2 = s();
-    return (_a5 = e2 == null ? void 0 : e2.activationStart) != null ? _a5 : 0;
+    return (_a4 = e2 == null ? void 0 : e2.activationStart) != null ? _a4 : 0;
   };
   var r = (t2, n2 = -1) => {
     const i2 = s();
@@ -3695,10 +3695,10 @@
       __publicField(this, "o", []);
     }
     h(e2) {
-      var _a5;
+      var _a4;
       if (e2.hadRecentInput) return;
       const t2 = this.o[0], n2 = this.o.at(-1);
-      this.i && t2 && n2 && e2.startTime - n2.startTime < 1e3 && e2.startTime - t2.startTime < 5e3 ? (this.i += e2.value, this.o.push(e2)) : (this.i = e2.value, this.o = [e2]), (_a5 = this.t) == null ? void 0 : _a5.call(this, e2);
+      this.i && t2 && n2 && e2.startTime - n2.startTime < 1e3 && e2.startTime - t2.startTime < 5e3 ? (this.i += e2.value, this.o.push(e2)) : (this.i = e2.value, this.o = [e2]), (_a4 = this.t) == null ? void 0 : _a4.call(this, e2);
     }
   };
   var h = (e2, t2, n2 = {}) => {
@@ -3730,9 +3730,9 @@
     }
   };
   var v = () => {
-    var _a5;
+    var _a4;
     if (u < 0) {
-      const e2 = o(), n2 = document.prerendering ? void 0 : (_a5 = globalThis.performance.getEntriesByType("visibility-state").filter(((t2) => "hidden" === t2.name && t2.startTime > e2))[0]) == null ? void 0 : _a5.startTime;
+      const e2 = o(), n2 = document.prerendering ? void 0 : (_a4 = globalThis.performance.getEntriesByType("visibility-state").filter(((t2) => "hidden" === t2.name && t2.startTime > e2))[0]) == null ? void 0 : _a4.startTime;
       u = n2 != null ? n2 : m(), addEventListener("visibilitychange", p, true), addEventListener("prerenderingchange", p, true), t((() => {
         setTimeout((() => {
           u = m();
@@ -3787,8 +3787,8 @@
   };
   var w;
   var C = () => {
-    var _a5;
-    return w ? P : (_a5 = performance.interactionCount) != null ? _a5 : 0;
+    var _a4;
+    return w ? P : (_a4 = performance.interactionCount) != null ? _a4 : 0;
   };
   var I = () => {
     "interactionCount" in performance || w || (w = h("event", M, { type: "event", buffered: true, durationThreshold: 0 }));
@@ -3809,8 +3809,8 @@
       return this.u[e2];
     }
     h(e2) {
-      var _a5, _b2;
-      if ((_a5 = this.m) == null ? void 0 : _a5.call(this, e2), !e2.interactionId && "first-input" !== e2.entryType) return;
+      var _a4, _b;
+      if ((_a4 = this.m) == null ? void 0 : _a4.call(this, e2), !e2.interactionId && "first-input" !== e2.entryType) return;
       const t2 = this.u.at(-1);
       let n2 = this.l.get(e2.interactionId);
       if (n2 || this.u.length < 10 || e2.duration > t2.P) {
@@ -3818,7 +3818,7 @@
           const e3 = this.u.splice(10);
           for (const t3 of e3) this.l.delete(t3.id);
         }
-        (_b2 = this.p) == null ? void 0 : _b2.call(this, n2);
+        (_b = this.p) == null ? void 0 : _b.call(this, n2);
       }
     }
   };
@@ -3833,7 +3833,7 @@
     if (!globalThis.PerformanceEventTiming || !("interactionId" in PerformanceEventTiming.prototype)) return;
     const s2 = v();
     g((() => {
-      var _a5;
+      var _a4;
       I();
       let o2, c2 = r("INP");
       const d2 = a(i2, k), f2 = (e3) => {
@@ -3842,7 +3842,7 @@
           const t2 = d2.L();
           t2 && t2.P !== c2.value && (c2.value = t2.P, c2.entries = t2.entries, o2());
         }));
-      }, u2 = h("event", f2, { durationThreshold: (_a5 = i2.durationThreshold) != null ? _a5 : 40 });
+      }, u2 = h("event", f2, { durationThreshold: (_a4 = i2.durationThreshold) != null ? _a4 : 40 });
       o2 = n(e2, c2, B, i2.reportAllChanges), u2 && (u2.observe({ type: "first-input", buffered: true }), s2.onHidden((() => {
         f2(u2.takeRecords()), o2(true);
       })), t((() => {
@@ -3855,8 +3855,8 @@
       __publicField(this, "m");
     }
     h(e2) {
-      var _a5;
-      (_a5 = this.m) == null ? void 0 : _a5.call(this, e2);
+      var _a4;
+      (_a4 = this.m) == null ? void 0 : _a4.call(this, e2);
     }
   };
   var q = [2500, 4e3];
@@ -3903,22 +3903,41 @@
   });
   provider.register();
   var tracer = trace.getTracer(SERVICE_NAME);
-  var _a3, _b;
-  var pageSpan = tracer.startSpan("ui.page", {
-    attributes: {
-      "browser.page.url": window.location.href,
-      "browser.page.path": window.location.pathname,
-      "browser.page.hash": window.location.hash,
-      "browser.page.title": document.title,
-      // Matomo-specific context (best-effort)
-      "matomo.module": (_a3 = window.piwik) == null ? void 0 : _a3.module,
-      "matomo.action": (_b = window.piwik) == null ? void 0 : _b.action
+  var currentPageSpan = null;
+  var currentPageContext = context.active();
+  function startPageSpan() {
+    var _a4, _b;
+    if (currentPageSpan) {
+      currentPageSpan.end();
+    }
+    currentPageSpan = tracer.startSpan("ui.page", {
+      attributes: {
+        "browser.page.url": window.location.href,
+        "browser.page.path": window.location.pathname,
+        "browser.page.hash": window.location.hash,
+        "browser.page.title": document.title,
+        // Matomo-specific context (best-effort)
+        "matomo.module": (_a4 = window.piwik) == null ? void 0 : _a4.module,
+        "matomo.action": (_b = window.piwik) == null ? void 0 : _b.action
+      }
+    });
+    currentPageContext = trace.setSpan(
+      context.active(),
+      currentPageSpan
+    );
+  }
+  startPageSpan();
+  window.addEventListener("hashchange", () => {
+    startPageSpan();
+  });
+  window.addEventListener("beforeunload", () => {
+    if (currentPageSpan) {
+      currentPageSpan.end();
     }
   });
-  var pageContext = trace.setSpan(context.active(), pageSpan);
   function recordErrorSpan(name, error) {
     try {
-      const span = tracer.startSpan(name, {}, pageContext);
+      const span = tracer.startSpan(name, {}, currentPageContext);
       span.recordException(error);
       span.setStatus({ code: SpanStatusCode.ERROR });
       span.end();
@@ -3940,7 +3959,7 @@
     );
   });
   function emitWebVital(metric) {
-    var _a5, _b2;
+    var _a4, _b;
     const span = tracer.startSpan(
       "browser.web_vital",
       {
@@ -3948,11 +3967,11 @@
           // Page / UI context for Grafana & Tempo
           "browser.page.url": window.location.href,
           "browser.page.path": window.location.pathname,
-          "matomo.module": (_a5 = window.piwik) == null ? void 0 : _a5.module,
-          "matomo.action": (_b2 = window.piwik) == null ? void 0 : _b2.action
+          "matomo.module": (_a4 = window.piwik) == null ? void 0 : _a4.module,
+          "matomo.action": (_b = window.piwik) == null ? void 0 : _b.action
         }
       },
-      pageContext
+      currentPageContext
     );
     span.addEvent("browser.web_vital", {
       name: metric.name,
@@ -3965,8 +3984,8 @@
   L(emitWebVital);
   x(emitWebVital);
   S(emitWebVital);
-  var _a4;
-  if ("PerformanceObserver" in window && ((_a4 = PerformanceObserver.supportedEntryTypes) == null ? void 0 : _a4.includes("longtask"))) {
+  var _a3;
+  if ("PerformanceObserver" in window && ((_a3 = PerformanceObserver.supportedEntryTypes) == null ? void 0 : _a3.includes("longtask"))) {
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         const span = tracer.startSpan(
@@ -3976,7 +3995,7 @@
               "browser.page.path": window.location.pathname
             }
           },
-          pageContext
+          currentPageContext
         );
         span.addEvent("ux.long_task", {
           duration: entry.duration,
@@ -3987,8 +4006,5 @@
     });
     observer.observe({ entryTypes: ["longtask"] });
   }
-  window.addEventListener("beforeunload", () => {
-    pageSpan.end();
-  });
 })();
 //# sourceMappingURL=otel.js.map

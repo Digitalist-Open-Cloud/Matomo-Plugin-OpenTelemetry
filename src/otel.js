@@ -35,29 +35,56 @@ provider.register();
 const tracer = trace.getTracer(SERVICE_NAME);
 
 /* ------------------------------------------------------------------
- * UI page parent span (NEW)
+ * UI page span handling (SPA-aware)
  * ------------------------------------------------------------------ */
-const pageSpan = tracer.startSpan('ui.page', {
-  attributes: {
-    'browser.page.url': window.location.href,
-    'browser.page.path': window.location.pathname,
-    'browser.page.hash': window.location.hash,
-    'browser.page.title': document.title,
-    // Matomo-specific context (best-effort)
-    'matomo.module': window.piwik?.module,
-    'matomo.action': window.piwik?.action,
-  },
+let currentPageSpan = null;
+let currentPageContext = context.active();
+
+function startPageSpan() {
+  // End previous page span
+  if (currentPageSpan) {
+    currentPageSpan.end();
+  }
+
+  currentPageSpan = tracer.startSpan('ui.page', {
+    attributes: {
+      'browser.page.url': window.location.href,
+      'browser.page.path': window.location.pathname,
+      'browser.page.hash': window.location.hash,
+      'browser.page.title': document.title,
+      // Matomo-specific context (best-effort)
+      'matomo.module': window.piwik?.module,
+      'matomo.action': window.piwik?.action,
+    },
+  });
+
+  currentPageContext = trace.setSpan(
+    context.active(),
+    currentPageSpan
+  );
+}
+
+// Initial page
+startPageSpan();
+
+// Matomo SPA navigation (hash-based)
+window.addEventListener('hashchange', () => {
+  startPageSpan();
 });
 
-// Make page span the active context
-const pageContext = trace.setSpan(context.active(), pageSpan);
+// Safety: end page span when leaving the document
+window.addEventListener('beforeunload', () => {
+  if (currentPageSpan) {
+    currentPageSpan.end();
+  }
+});
 
 /* ------------------------------------------------------------------
  * Error tracking
  * ------------------------------------------------------------------ */
 function recordErrorSpan(name, error) {
   try {
-    const span = tracer.startSpan(name, {}, pageContext);
+    const span = tracer.startSpan(name, {}, currentPageContext);
     span.recordException(error);
     span.setStatus({ code: SpanStatusCode.ERROR });
     span.end();
@@ -98,7 +125,7 @@ function emitWebVital(metric) {
         'matomo.action': window.piwik?.action,
       },
     },
-    pageContext
+    currentPageContext
   );
 
   // Required Web Vital event fields (per spec)
@@ -132,7 +159,7 @@ if (
             'browser.page.path': window.location.pathname,
           },
         },
-        pageContext
+        currentPageContext
       );
 
       span.addEvent('ux.long_task', {
@@ -146,10 +173,3 @@ if (
 
   observer.observe({ entryTypes: ['longtask'] });
 }
-
-/* ------------------------------------------------------------------
- * End page span when the page is unloaded
- * ------------------------------------------------------------------ */
-window.addEventListener('beforeunload', () => {
-  pageSpan.end();
-});
