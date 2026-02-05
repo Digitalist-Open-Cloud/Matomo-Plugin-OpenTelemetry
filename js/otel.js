@@ -3936,10 +3936,18 @@
     }
   });
   function recordErrorSpan(name, error) {
+    var _a4, _b, _c;
     try {
       const span = tracer.startSpan(name, {}, currentPageContext);
       span.recordException(error);
       span.setStatus({ code: SpanStatusCode.ERROR });
+      span.setAttribute("error.message", error.message);
+      span.setAttribute("error.name", error.name);
+      span.setAttribute("error.stack", (_a4 = error.stack) != null ? _a4 : "");
+      span.setAttribute("browser.page.url", window.location.href);
+      span.setAttribute("browser.page.path", window.location.pathname);
+      span.setAttribute("matomo.module", (_b = window.piwik) == null ? void 0 : _b.module);
+      span.setAttribute("matomo.action", (_c = window.piwik) == null ? void 0 : _c.action);
       span.end();
       provider.forceFlush();
     } catch (e2) {
@@ -3958,6 +3966,49 @@
       event.reason instanceof Error ? event.reason : new Error(String(event.reason))
     );
   });
+  function observeMatomoNotifications() {
+    const observer = new MutationObserver((mutations) => {
+      var _a4, _b, _c, _d, _e;
+      for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+          if (!(node instanceof HTMLElement)) {
+            continue;
+          }
+          if ((_a4 = node.classList) == null ? void 0 : _a4.contains("notification-error")) {
+            const message = (_c = (_b = node.querySelector(".notification-body div")) == null ? void 0 : _b.innerText) == null ? void 0 : _c.trim();
+            if (!message) {
+              continue;
+            }
+            const span = tracer.startSpan(
+              "ui.notification.error",
+              {
+                attributes: {
+                  "ui.notification.type": "error",
+                  "ui.notification.message": message,
+                  "browser.page.url": window.location.href,
+                  "browser.page.path": window.location.pathname,
+                  "matomo.module": (_d = window.piwik) == null ? void 0 : _d.module,
+                  "matomo.action": (_e = window.piwik) == null ? void 0 : _e.action
+                }
+              },
+              currentPageContext
+            );
+            span.setStatus({ code: SpanStatusCode.ERROR });
+            span.end();
+          }
+        }
+      }
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", observeMatomoNotifications);
+  } else {
+    observeMatomoNotifications();
+  }
   function emitWebVital(metric) {
     var _a4, _b;
     const span = tracer.startSpan(

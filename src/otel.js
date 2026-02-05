@@ -85,8 +85,17 @@ window.addEventListener('beforeunload', () => {
 function recordErrorSpan(name, error) {
   try {
     const span = tracer.startSpan(name, {}, currentPageContext);
+
     span.recordException(error);
     span.setStatus({ code: SpanStatusCode.ERROR });
+    span.setAttribute('error.message', error.message);
+    span.setAttribute('error.name', error.name);
+    span.setAttribute('error.stack', error.stack ?? '');
+    span.setAttribute('browser.page.url', window.location.href);
+    span.setAttribute('browser.page.path', window.location.pathname);
+    span.setAttribute('matomo.module', window.piwik?.module);
+    span.setAttribute('matomo.action', window.piwik?.action);
+
     span.end();
     provider.forceFlush();
   } catch (e) {
@@ -109,6 +118,62 @@ window.addEventListener('unhandledrejection', (event) => {
       : new Error(String(event.reason))
   );
 });
+
+
+/* ------------------------------------------------------------------
+ * UI notification monitoring
+ * ------------------------------------------------------------------ */
+function observeMatomoNotifications() {
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (!(node instanceof HTMLElement)) {
+          continue;
+        }
+
+        // Match Matomo error notifications
+        if (node.classList?.contains('notification-error')) {
+          const message =
+            node.querySelector('.notification-body div')?.innerText?.trim();
+
+          if (!message) {
+            continue;
+          }
+
+          const span = tracer.startSpan(
+            'ui.notification.error',
+            {
+              attributes: {
+                'ui.notification.type': 'error',
+                'ui.notification.message': message,
+                'browser.page.url': window.location.href,
+                'browser.page.path': window.location.pathname,
+                'matomo.module': window.piwik?.module,
+                'matomo.action': window.piwik?.action,
+              },
+            },
+            currentPageContext
+          );
+
+          span.setStatus({ code: SpanStatusCode.ERROR });
+          span.end();
+        }
+      }
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+}
+
+// Start observing once DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', observeMatomoNotifications);
+} else {
+  observeMatomoNotifications();
+}
 
 /* ------------------------------------------------------------------
  * Web Vitals (browser.web_vital – spec compliant)
