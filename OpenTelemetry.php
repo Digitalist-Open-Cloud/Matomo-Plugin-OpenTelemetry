@@ -25,7 +25,6 @@ use Piwik\Plugin;
 use OpenTelemetry\API\Globals;
 use OpenTelemetry\API\Trace\SpanKind;
 use OpenTelemetry\API\Trace\StatusCode;
-use OpenTelemetry\Context\Propagation\TraceContextPropagator;
 use OpenTelemetry\Context\Context;
 use Piwik\Plugins\OpenTelemetry\SystemSettings;
 
@@ -42,6 +41,7 @@ class OpenTelemetry extends Plugin
 
     /**
      * The events we want to create traces from.
+     * And needed JS files and variables for client tracing.
      */
     public function registerEvents(): array
     {
@@ -160,16 +160,14 @@ class OpenTelemetry extends Plugin
 
         $enabled           = (bool) $settings->enabled->getValue();
         $enableWebVitals   = (bool) $settings->enableWebVitals->getValue();
-        $enableUxMonitoring= (bool) $settings->enableUxMonitoring->getValue();
+        $enableUxMonitoring = (bool) $settings->enableUxMonitoring->getValue();
 
         $serviceName  = $settings->serviceName->getValue();
         $otelEndpoint = $settings->otelEndpoint->getValue();
-        $otelPort     = (int) $settings->otelPort->getValue();
 
         $out .= "piwik.openTelemetryEnabled = " . json_encode($enabled) . ";\n";
         $out .= "piwik.openTelemetryServiceName = " . json_encode($serviceName) . ";\n";
         $out .= "piwik.openTelemetryEndpoint = " . json_encode($otelEndpoint) . ";\n";
-        $out .= "piwik.openTelemetryPort = " . json_encode($otelPort) . ";\n";
         $out .= "piwik.openTelemetryWebVitals = " . json_encode($enableWebVitals) . ";\n";
         $out .= "piwik.openTelemetryUxMonitoring = " . json_encode($enableUxMonitoring) . ";\n";
     }

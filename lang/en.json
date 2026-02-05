@@ -10,8 +10,6 @@
       "ServiceName": "Service name",
       "ServiceNameDescription": "The name of the service that will be used for the OpenTelemetry",
       "OtelEndpoint": "Endpoint",
-      "OtelEndpointDescription": "URL, without port to where to send OpenTelemetry",
-      "OtelPort": "Port",
-      "OtelPortDescription": "To which port you will send OpenTelemetry"
+      "OtelEndpointDescription": "URL to where to send OpenTelemetry"
   }
 }

@@ -28,15 +28,11 @@ use Piwik\Settings\Plugin\SystemSettings as MatomoSettings;
 
 class SystemSettings extends MatomoSettings
 {
-
     /** @var Setting */
     public $serviceName;
 
     /** @var Setting */
     public $otelEndpoint;
-
-    /** @var Setting */
-    public $otelPort;
 
     /** @var Setting */
     public $enabled;
@@ -52,7 +48,6 @@ class SystemSettings extends MatomoSettings
         $this->enabled = $this->enabledSetting();
         $this->serviceName = $this->serviceNameSetting();
         $this->otelEndpoint = $this->otelEndpointSetting();
-        $this->otelPort = $this->otelPortSetting();
         $this->enableWebVitals = $this->webVitalsSetting();
         $this->enableUxMonitoring = $this->uxMonitoringSetting();
     }
@@ -100,22 +95,6 @@ class SystemSettings extends MatomoSettings
                 $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
                 $field->description = Piwik::translate(
                     'OpenTelemetry_OtelEndpointDescription'
-                );
-            }
-        );
-    }
-
-    private function otelPortSetting()
-    {
-        return $this->makeSetting(
-            'otelPort',
-            4318,
-            FieldConfig::TYPE_INT,
-            function (FieldConfig $field) {
-                $field->title = Piwik::translate('OpenTelemetry_OtelPort');
-                $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
-                $field->description = Piwik::translate(
-                    'OpenTelemetry_OtelPortDescription'
                 );
             }
         );
