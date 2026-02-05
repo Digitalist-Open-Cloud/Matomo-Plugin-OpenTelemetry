@@ -1,0 +1,17 @@
+{
+  "OpenTelemetry": {
+      "OpenTelemetry": "OpenTelemetry",
+      "Enabled": "OpenTelemetry enabled",
+      "EnabledDescription": "To activate OpenTelemetry",
+      "EnableWebVitals": "Enable WebVitals",
+      "EnableWebVitalsDescription": "Description",
+      "EnableUxMonitoring": "Enable UX monitoring",
+      "EnableUxMonitoringDescription": "Description",
+      "ServiceName": "Service name",
+      "ServiceNameDescription": "The name of the service that will be used for the OpenTelemetry",
+      "OtelEndpoint": "Endpoint",
+      "OtelEndpointDescription": "URL, without port to where to send OpenTelemetry",
+      "OtelPort": "Port",
+      "OtelPortDescription": "To which port you will send OpenTelemetry"
+  }
+}

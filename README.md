@@ -44,3 +44,27 @@ OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
 OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 OTEL_RESOURCE_ATTRIBUTES=host.name=myhost.com
 ```
+
+## Development
+
+## For browser
+
+OpenTelemetry for browsers is still in a experiment state, and everything can change.
+
+```shell
+npm install
+npx esbuild src/otel.js \
+  --bundle \
+  --sourcemap \
+  --format=iife \
+  --target=es2018 \
+  --outfile=js/otel.js
+
+npx esbuild src/otel.js \
+  --bundle \
+  --minify \
+  --format=iife \
+  --target=es2018 \
+  --outfile=js/otel.min.js
+
+```
