@@ -133,7 +133,7 @@ import { onCLS, onLCP, onINP } from 'web-vitals';
 
 
   /* ------------------------------------------------------------------
-  * UI error notification monitoring (wip - not working yet)
+  * UI error notification monitoring
   * ------------------------------------------------------------------ */
   function observeAjaxErrors() {
     const container = document.getElementById('ajaxError');
