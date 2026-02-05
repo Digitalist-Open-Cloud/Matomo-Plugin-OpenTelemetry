@@ -56,7 +56,7 @@ class SystemSettings extends MatomoSettings
     {
         return $this->makeSetting(
             'enabled',
-            true,
+            false,
             FieldConfig::TYPE_BOOL,
             function (FieldConfig $field) {
                 $field->title = Piwik::translate('OpenTelemetry_Enabled');
@@ -104,7 +104,7 @@ class SystemSettings extends MatomoSettings
     {
         return $this->makeSetting(
             'enableWebVitals',
-            true,
+            false,
             FieldConfig::TYPE_BOOL,
             function (FieldConfig $field) {
                 $field->title = Piwik::translate('OpenTelemetry_EnableWebVitals');
@@ -121,7 +121,7 @@ class SystemSettings extends MatomoSettings
     {
         return $this->makeSetting(
             'enableUxMonitoring',
-            true,
+            false,
             FieldConfig::TYPE_BOOL,
             function (FieldConfig $field) {
                 $field->title = Piwik::translate('OpenTelemetry_EnableUxMonitoring');

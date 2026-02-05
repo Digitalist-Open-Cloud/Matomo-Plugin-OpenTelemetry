@@ -150,8 +150,8 @@ class OpenTelemetry extends Plugin
 
     public function getJSFiles(&$files)
     {
-        $files[] = 'plugins/OpenTelemetry/js/otel.min.js';
         $files[] = 'plugins/OpenTelemetry/js/start.js';
+        $files[] = 'plugins/OpenTelemetry/js/otel.min.js';
     }
 
     public function addJsVariables(&$out)

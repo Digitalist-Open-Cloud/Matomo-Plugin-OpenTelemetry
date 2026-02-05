@@ -81,11 +81,11 @@
   var GLOBAL_OPENTELEMETRY_API_KEY = /* @__PURE__ */ Symbol.for("opentelemetry.js.api." + major);
   var _global = _globalThis;
   function registerGlobal(type, instance, diag3, allowOverride) {
-    var _a4;
+    var _a;
     if (allowOverride === void 0) {
       allowOverride = false;
     }
-    var api = _global[GLOBAL_OPENTELEMETRY_API_KEY] = (_a4 = _global[GLOBAL_OPENTELEMETRY_API_KEY]) !== null && _a4 !== void 0 ? _a4 : {
+    var api = _global[GLOBAL_OPENTELEMETRY_API_KEY] = (_a = _global[GLOBAL_OPENTELEMETRY_API_KEY]) !== null && _a !== void 0 ? _a : {
       version: VERSION
     };
     if (!allowOverride && api[type]) {
@@ -103,8 +103,8 @@
     return true;
   }
   function getGlobal(type) {
-    var _a4, _b;
-    var globalVersion = (_a4 = _global[GLOBAL_OPENTELEMETRY_API_KEY]) === null || _a4 === void 0 ? void 0 : _a4.version;
+    var _a, _b;
+    var globalVersion = (_a = _global[GLOBAL_OPENTELEMETRY_API_KEY]) === null || _a === void 0 ? void 0 : _a.version;
     if (!globalVersion || !isCompatible(globalVersion)) {
       return;
     }
@@ -281,13 +281,13 @@
         }
         var self2 = this;
         var setLogger = function(logger, optionsOrLogLevel) {
-          var _a4, _b, _c;
+          var _a, _b, _c;
           if (optionsOrLogLevel === void 0) {
             optionsOrLogLevel = { logLevel: DiagLogLevel.INFO };
           }
           if (logger === self2) {
             var err = new Error("Cannot use diag as the logger for itself. Please use a DiagLogger implementation like ConsoleDiagLogger or a custom implementation");
-            self2.error((_a4 = err.stack) !== null && _a4 !== void 0 ? _a4 : err.message);
+            self2.error((_a = err.stack) !== null && _a !== void 0 ? _a : err.message);
             return false;
           }
           if (typeof optionsOrLogLevel === "number") {
@@ -370,8 +370,8 @@
         return Object.assign({}, entry);
       };
       BaggageImpl2.prototype.getAllEntries = function() {
-        return Array.from(this._entries.entries()).map(function(_a4) {
-          var _b = __read3(_a4, 2), k2 = _b[0], v2 = _b[1];
+        return Array.from(this._entries.entries()).map(function(_a) {
+          var _b = __read3(_a, 2), k2 = _b[0], v2 = _b[1];
           return [k2, v2];
         });
       };
@@ -386,7 +386,7 @@
         return newBaggage;
       };
       BaggageImpl2.prototype.removeEntries = function() {
-        var e_1, _a4;
+        var e_1, _a;
         var keys = [];
         for (var _i = 0; _i < arguments.length; _i++) {
           keys[_i] = arguments[_i];
@@ -401,7 +401,7 @@
           e_1 = { error: e_1_1 };
         } finally {
           try {
-            if (keys_1_1 && !keys_1_1.done && (_a4 = keys_1.return)) _a4.call(keys_1);
+            if (keys_1_1 && !keys_1_1.done && (_a = keys_1.return)) _a.call(keys_1);
           } finally {
             if (e_1) throw e_1.error;
           }
@@ -594,12 +594,12 @@
         return this._getContextManager().active();
       };
       ContextAPI2.prototype.with = function(context2, fn, thisArg) {
-        var _a4;
+        var _a;
         var args = [];
         for (var _i = 3; _i < arguments.length; _i++) {
           args[_i - 3] = arguments[_i];
         }
-        return (_a4 = this._getContextManager()).with.apply(_a4, __spreadArray4([context2, fn, thisArg], __read5(args), false));
+        return (_a = this._getContextManager()).with.apply(_a, __spreadArray4([context2, fn, thisArg], __read5(args), false));
       };
       ContextAPI2.prototype.bind = function(context2, target) {
         return this._getContextManager().bind(context2, target);
@@ -694,8 +694,8 @@
     return setSpan(context2, new NonRecordingSpan(spanContext));
   }
   function getSpanContext(context2) {
-    var _a4;
-    return (_a4 = getSpan(context2)) === null || _a4 === void 0 ? void 0 : _a4.spanContext();
+    var _a;
+    return (_a = getSpan(context2)) === null || _a === void 0 ? void 0 : _a.spanContext();
   }
 
   // node_modules/@opentelemetry/api/build/esm/trace/spancontext-utils.js
@@ -779,18 +779,18 @@
         return this._getTracer().startSpan(name, options, context2);
       };
       ProxyTracer2.prototype.startActiveSpan = function(_name, _options, _context, _fn) {
-        var tracer2 = this._getTracer();
-        return Reflect.apply(tracer2.startActiveSpan, tracer2, arguments);
+        var tracer = this._getTracer();
+        return Reflect.apply(tracer.startActiveSpan, tracer, arguments);
       };
       ProxyTracer2.prototype._getTracer = function() {
         if (this._delegate) {
           return this._delegate;
         }
-        var tracer2 = this._provider.getDelegateTracer(this.name, this.version, this.options);
-        if (!tracer2) {
+        var tracer = this._provider.getDelegateTracer(this.name, this.version, this.options);
+        if (!tracer) {
           return NOOP_TRACER;
         }
-        this._delegate = tracer2;
+        this._delegate = tracer;
         return this._delegate;
       };
       return ProxyTracer2;
@@ -818,19 +818,19 @@
       function ProxyTracerProvider2() {
       }
       ProxyTracerProvider2.prototype.getTracer = function(name, version, options) {
-        var _a4;
-        return (_a4 = this.getDelegateTracer(name, version, options)) !== null && _a4 !== void 0 ? _a4 : new ProxyTracer(this, name, version, options);
+        var _a;
+        return (_a = this.getDelegateTracer(name, version, options)) !== null && _a !== void 0 ? _a : new ProxyTracer(this, name, version, options);
       };
       ProxyTracerProvider2.prototype.getDelegate = function() {
-        var _a4;
-        return (_a4 = this._delegate) !== null && _a4 !== void 0 ? _a4 : NOOP_TRACER_PROVIDER;
+        var _a;
+        return (_a = this._delegate) !== null && _a !== void 0 ? _a : NOOP_TRACER_PROVIDER;
       };
       ProxyTracerProvider2.prototype.setDelegate = function(delegate) {
         this._delegate = delegate;
       };
       ProxyTracerProvider2.prototype.getDelegateTracer = function(name, version, options) {
-        var _a4;
-        return (_a4 = this._delegate) === null || _a4 === void 0 ? void 0 : _a4.getTracer(name, version, options);
+        var _a;
+        return (_a = this._delegate) === null || _a === void 0 ? void 0 : _a.getTracer(name, version, options);
       };
       return ProxyTracerProvider2;
     })()
@@ -973,10 +973,10 @@
         }
         return this._instance;
       };
-      TraceAPI2.prototype.setGlobalTracerProvider = function(provider2) {
+      TraceAPI2.prototype.setGlobalTracerProvider = function(provider) {
         var success = registerGlobal(API_NAME4, this._proxyTracerProvider, DiagAPI.instance());
         if (success) {
-          this._proxyTracerProvider.setDelegate(provider2);
+          this._proxyTracerProvider.setDelegate(provider);
         }
         return success;
       };
@@ -1306,8 +1306,8 @@
     constructor(config = {}) {
       __publicField(this, "_propagators");
       __publicField(this, "_fields");
-      var _a4;
-      this._propagators = (_a4 = config.propagators) != null ? _a4 : [];
+      var _a;
+      this._propagators = (_a = config.propagators) != null ? _a : [];
       this._fields = Array.from(new Set(this._propagators.map((p2) => typeof p2.fields === "function" ? p2.fields() : []).reduce((x2, y2) => x2.concat(y2), [])));
     }
     /**
@@ -1721,8 +1721,8 @@
       __publicField(this, "_asyncAttributesPending", false);
       __publicField(this, "_schemaUrl");
       __publicField(this, "_memoizedAttributes");
-      var _a4;
-      const attributes = (_a4 = resource.attributes) != null ? _a4 : {};
+      var _a;
+      const attributes = (_a = resource.attributes) != null ? _a : {};
       this._rawAttributes = Object.entries(attributes).map(([k2, v2]) => {
         if (isPromiseLike(v2)) {
           this._asyncAttributesPending = true;
@@ -1752,7 +1752,7 @@
       this._asyncAttributesPending = false;
     }
     get attributes() {
-      var _a4;
+      var _a;
       if (this.asyncAttributesPending) {
         diag2.error("Accessing resource attributes before async attributes settled");
       }
@@ -1766,7 +1766,7 @@
           continue;
         }
         if (v2 != null) {
-          (_a4 = attrs[k2]) != null ? _a4 : attrs[k2] = v2;
+          (_a = attrs[k2]) != null ? _a : attrs[k2] = v2;
         }
       }
       if (!this._asyncAttributesPending) {
@@ -1874,7 +1874,7 @@
       __publicField(this, "_performanceStartTime");
       __publicField(this, "_performanceOffset");
       __publicField(this, "_startTimeProvided");
-      var _a4;
+      var _a;
       const now = Date.now();
       this._spanContext = opts.spanContext;
       this._performanceStartTime = otperformance.now();
@@ -1887,7 +1887,7 @@
       this.parentSpanContext = opts.parentSpanContext;
       this.kind = opts.kind;
       this.links = opts.links || [];
-      this.startTime = this._getTime((_a4 = opts.startTime) != null ? _a4 : now);
+      this.startTime = this._getTime((_a = opts.startTime) != null ? _a : now);
       this.resource = opts.resource;
       this.instrumentationScope = opts.scope;
       if (opts.attributes != null) {
@@ -2150,13 +2150,13 @@
       __publicField(this, "_remoteParentNotSampled");
       __publicField(this, "_localParentSampled");
       __publicField(this, "_localParentNotSampled");
-      var _a4, _b, _c, _d;
+      var _a, _b, _c, _d;
       this._root = config.root;
       if (!this._root) {
         globalErrorHandler(new Error("ParentBasedSampler must have a root sampler configured"));
         this._root = new AlwaysOnSampler();
       }
-      this._remoteParentSampled = (_a4 = config.remoteParentSampled) != null ? _a4 : new AlwaysOnSampler();
+      this._remoteParentSampled = (_a = config.remoteParentSampled) != null ? _a : new AlwaysOnSampler();
       this._remoteParentNotSampled = (_b = config.remoteParentNotSampled) != null ? _b : new AlwaysOffSampler();
       this._localParentSampled = (_c = config.localParentSampled) != null ? _c : new AlwaysOnSampler();
       this._localParentNotSampled = (_d = config.localParentNotSampled) != null ? _d : new AlwaysOffSampler();
@@ -2226,12 +2226,12 @@
   })(TracesSamplerValues || (TracesSamplerValues = {}));
   var DEFAULT_RATIO = 1;
   function loadDefaultConfig() {
-    var _a4, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     return {
       sampler: buildSamplerFromEnv(),
       forceFlushTimeoutMillis: 3e4,
       generalLimits: {
-        attributeValueLengthLimit: (_a4 = getNumberFromEnv("OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT")) != null ? _a4 : Infinity,
+        attributeValueLengthLimit: (_a = getNumberFromEnv("OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT")) != null ? _a : Infinity,
         attributeCountLimit: (_b = getNumberFromEnv("OTEL_ATTRIBUTE_COUNT_LIMIT")) != null ? _b : 128
       },
       spanLimits: {
@@ -2245,8 +2245,8 @@
     };
   }
   function buildSamplerFromEnv() {
-    var _a4;
-    const sampler = (_a4 = getStringFromEnv("OTEL_TRACES_SAMPLER")) != null ? _a4 : TracesSamplerValues.ParentBasedAlwaysOn;
+    var _a;
+    const sampler = (_a = getStringFromEnv("OTEL_TRACES_SAMPLER")) != null ? _a : TracesSamplerValues.ParentBasedAlwaysOn;
     switch (sampler) {
       case TracesSamplerValues.AlwaysOn:
         return new AlwaysOnSampler();
@@ -2300,9 +2300,9 @@
     return target;
   }
   function reconfigureLimits(userConfig) {
-    var _a4, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
     const spanLimits = Object.assign({}, userConfig.spanLimits);
-    spanLimits.attributeCountLimit = (_f = (_e = (_d = (_c = (_a4 = userConfig.spanLimits) == null ? void 0 : _a4.attributeCountLimit) != null ? _c : (_b = userConfig.generalLimits) == null ? void 0 : _b.attributeCountLimit) != null ? _d : getNumberFromEnv("OTEL_SPAN_ATTRIBUTE_COUNT_LIMIT")) != null ? _e : getNumberFromEnv("OTEL_ATTRIBUTE_COUNT_LIMIT")) != null ? _f : DEFAULT_ATTRIBUTE_COUNT_LIMIT;
+    spanLimits.attributeCountLimit = (_f = (_e = (_d = (_c = (_a = userConfig.spanLimits) == null ? void 0 : _a.attributeCountLimit) != null ? _c : (_b = userConfig.generalLimits) == null ? void 0 : _b.attributeCountLimit) != null ? _d : getNumberFromEnv("OTEL_SPAN_ATTRIBUTE_COUNT_LIMIT")) != null ? _e : getNumberFromEnv("OTEL_ATTRIBUTE_COUNT_LIMIT")) != null ? _f : DEFAULT_ATTRIBUTE_COUNT_LIMIT;
     spanLimits.attributeValueLengthLimit = (_l = (_k = (_j = (_i = (_g = userConfig.spanLimits) == null ? void 0 : _g.attributeValueLengthLimit) != null ? _i : (_h = userConfig.generalLimits) == null ? void 0 : _h.attributeValueLengthLimit) != null ? _j : getNumberFromEnv("OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT")) != null ? _k : getNumberFromEnv("OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT")) != null ? _l : DEFAULT_ATTRIBUTE_VALUE_LENGTH_LIMIT;
     return Object.assign({}, userConfig, { spanLimits });
   }
@@ -2320,9 +2320,9 @@
       __publicField(this, "_timer");
       __publicField(this, "_shutdownOnce");
       __publicField(this, "_droppedSpansCount", 0);
-      var _a4, _b, _c, _d;
+      var _a, _b, _c, _d;
       this._exporter = exporter;
-      this._maxExportBatchSize = typeof (config == null ? void 0 : config.maxExportBatchSize) === "number" ? config.maxExportBatchSize : (_a4 = getNumberFromEnv("OTEL_BSP_MAX_EXPORT_BATCH_SIZE")) != null ? _a4 : 512;
+      this._maxExportBatchSize = typeof (config == null ? void 0 : config.maxExportBatchSize) === "number" ? config.maxExportBatchSize : (_a = getNumberFromEnv("OTEL_BSP_MAX_EXPORT_BATCH_SIZE")) != null ? _a : 512;
       this._maxQueueSize = typeof (config == null ? void 0 : config.maxQueueSize) === "number" ? config.maxQueueSize : (_b = getNumberFromEnv("OTEL_BSP_MAX_QUEUE_SIZE")) != null ? _b : 2048;
       this._scheduledDelayMillis = typeof (config == null ? void 0 : config.scheduledDelayMillis) === "number" ? config.scheduledDelayMillis : (_c = getNumberFromEnv("OTEL_BSP_SCHEDULE_DELAY")) != null ? _c : 5e3;
       this._exportTimeoutMillis = typeof (config == null ? void 0 : config.exportTimeoutMillis) === "number" ? config.exportTimeoutMillis : (_d = getNumberFromEnv("OTEL_BSP_EXPORT_TIMEOUT")) != null ? _d : 3e4;
@@ -2413,12 +2413,12 @@
             spans = this._finishedSpans.splice(0, this._maxExportBatchSize);
           }
           const doExport = () => this._exporter.export(spans, (result) => {
-            var _a4;
+            var _a;
             clearTimeout(timer);
             if (result.code === ExportResultCode.SUCCESS) {
               resolve();
             } else {
-              reject((_a4 = result.error) != null ? _a4 : new Error("BatchSpanProcessor: span export failed"));
+              reject((_a = result.error) != null ? _a : new Error("BatchSpanProcessor: span export failed"));
             }
           });
           let pendingResources = null;
@@ -2569,7 +2569,7 @@
      * decision.
      */
     startSpan(name, options = {}, context2 = context.active()) {
-      var _a4, _b, _c;
+      var _a, _b, _c;
       if (options.root) {
         context2 = trace.deleteSpan(context2);
       }
@@ -2591,7 +2591,7 @@
         traceState = parentSpanContext.traceState;
         validParentSpanContext = parentSpanContext;
       }
-      const spanKind = (_a4 = options.kind) != null ? _a4 : SpanKind.INTERNAL;
+      const spanKind = (_a = options.kind) != null ? _a : SpanKind.INTERNAL;
       const links = ((_b = options.links) != null ? _b : []).map((link) => {
         return {
           context: link.context,
@@ -2720,9 +2720,9 @@
       __publicField(this, "_tracers", /* @__PURE__ */ new Map());
       __publicField(this, "_resource");
       __publicField(this, "_activeSpanProcessor");
-      var _a4, _b;
+      var _a, _b;
       const mergedConfig = merge({}, loadDefaultConfig(), reconfigureLimits(config));
-      this._resource = (_a4 = mergedConfig.resource) != null ? _a4 : defaultResource();
+      this._resource = (_a = mergedConfig.resource) != null ? _a : defaultResource();
       this._config = Object.assign({}, mergedConfig, {
         resource: this._resource
       });
@@ -2966,9 +2966,9 @@
     return async () => headers;
   }
   function mergeOtlpSharedConfigurationWithDefaults(userProvidedConfiguration, fallbackConfiguration, defaultConfiguration) {
-    var _a4, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f;
     return {
-      timeoutMillis: validateTimeoutMillis((_b = (_a4 = userProvidedConfiguration.timeoutMillis) != null ? _a4 : fallbackConfiguration.timeoutMillis) != null ? _b : defaultConfiguration.timeoutMillis),
+      timeoutMillis: validateTimeoutMillis((_b = (_a = userProvidedConfiguration.timeoutMillis) != null ? _a : fallbackConfiguration.timeoutMillis) != null ? _b : defaultConfiguration.timeoutMillis),
       concurrencyLimit: (_d = (_c = userProvidedConfiguration.concurrencyLimit) != null ? _c : fallbackConfiguration.concurrencyLimit) != null ? _d : defaultConfiguration.concurrencyLimit,
       compression: (_f = (_e = userProvidedConfiguration.compression) != null ? _e : fallbackConfiguration.compression) != null ? _f : defaultConfiguration.compression
     };
@@ -3064,7 +3064,7 @@
         return;
       }
       this._promiseQueue.pushPromise(this._transport.send(serializedRequest, this._timeout).then((response) => {
-        var _a4;
+        var _a;
         if (response.status === "success") {
           if (response.data != null) {
             try {
@@ -3086,7 +3086,7 @@
         } else if (response.status === "retryable") {
           resultCallback({
             code: ExportResultCode.FAILED,
-            error: (_a4 = response.error) != null ? _a4 : new OTLPExporterError("Export failed with retryable status")
+            error: (_a = response.error) != null ? _a : new OTLPExporterError("Export failed with retryable status")
           });
         } else {
           resultCallback({
@@ -3175,11 +3175,11 @@
     encodeOptionalSpanContext: optionalHexToBinary
   };
   function getOtlpEncoder(options) {
-    var _a4, _b;
+    var _a, _b;
     if (options === void 0) {
       return DEFAULT_ENCODER;
     }
-    const useLongBits = (_a4 = options.useLongBits) != null ? _a4 : true;
+    const useLongBits = (_a = options.useLongBits) != null ? _a : true;
     const useHex = (_b = options.useHex) != null ? _b : false;
     return {
       encodeHrTime: useLongBits ? encodeAsLongBits : encodeTimestamp,
@@ -3249,10 +3249,10 @@
     return flags;
   }
   function sdkSpanToOtlpSpan(span, encoder) {
-    var _a4, _b, _c, _d;
+    var _a, _b, _c, _d;
     const ctx = span.spanContext();
     const status = span.status;
-    const parentSpanId = ((_a4 = span.parentSpanContext) == null ? void 0 : _a4.spanId) ? encoder.encodeSpanContext((_b = span.parentSpanContext) == null ? void 0 : _b.spanId) : void 0;
+    const parentSpanId = ((_a = span.parentSpanContext) == null ? void 0 : _a.spanId) ? encoder.encodeSpanContext((_b = span.parentSpanContext) == null ? void 0 : _b.spanId) : void 0;
     return {
       traceId: encoder.encodeSpanContext(ctx.traceId),
       spanId: encoder.encodeSpanContext(ctx.spanId),
@@ -3278,12 +3278,12 @@
     };
   }
   function toOtlpLink(link, encoder) {
-    var _a4;
+    var _a;
     return {
       attributes: link.attributes ? toAttributes(link.attributes) : [],
       spanId: encoder.encodeSpanContext(link.context.spanId),
       traceId: encoder.encodeSpanContext(link.context.traceId),
-      traceState: (_a4 = link.context.traceState) == null ? void 0 : _a4.serialize(),
+      traceState: (_a = link.context.traceState) == null ? void 0 : _a.serialize(),
       droppedAttributesCount: link.droppedAttributesCount || 0,
       flags: buildSpanFlagsFrom(link.context.traceFlags, link.context.isRemote)
     };
@@ -3395,7 +3395,7 @@
       });
     }
     async send(data, timeoutMillis) {
-      var _a4;
+      var _a;
       let attempts = MAX_ATTEMPTS;
       let nextBackoff = INITIAL_BACKOFF;
       const deadline = Date.now() + timeoutMillis;
@@ -3404,7 +3404,7 @@
         attempts--;
         const backoff = Math.max(Math.min(nextBackoff * (1 + getJitter()), MAX_BACKOFF), 0);
         nextBackoff = nextBackoff * BACKOFF_MULTIPLIER;
-        const retryInMillis = (_a4 = result.retryInMillis) != null ? _a4 : backoff;
+        const retryInMillis = (_a = result.retryInMillis) != null ? _a : backoff;
         const remainingTimeoutMillis = deadline - Date.now();
         if (retryInMillis > remainingTimeoutMillis) {
           diag2.info(`Export retry time ${Math.round(retryInMillis)}ms exceeds remaining timeout ${Math.round(remainingTimeoutMillis)}ms, not retrying further.`);
@@ -3485,7 +3485,7 @@
       this._parameters = parameters;
     }
     async send(data, timeoutMillis) {
-      var _a4;
+      var _a;
       const abortController = new AbortController();
       const timeout = setTimeout(() => abortController.abort(), timeoutMillis);
       try {
@@ -3497,7 +3497,7 @@
           body: data,
           signal: abortController.signal,
           keepalive: isBrowserEnvironment,
-          mode: isBrowserEnvironment ? ((_a4 = globalThis.location) == null ? void 0 : _a4.origin) === url.origin ? "same-origin" : "cors" : "no-cors"
+          mode: isBrowserEnvironment ? ((_a = globalThis.location) == null ? void 0 : _a.origin) === url.origin ? "same-origin" : "cors" : "no-cors"
         });
         if (response.status >= 200 && response.status <= 299) {
           diag2.debug("response success");
@@ -3583,23 +3583,23 @@
     };
   }
   function validateUserProvidedUrl(url) {
-    var _a4;
+    var _a;
     if (url == null) {
       return void 0;
     }
     try {
-      const base = (_a4 = globalThis.location) == null ? void 0 : _a4.href;
+      const base = (_a = globalThis.location) == null ? void 0 : _a.href;
       return new URL(url, base).href;
     } catch (e2) {
       throw new Error(`Configuration: Could not parse user-provided export URL: '${url}'`);
     }
   }
   function mergeOtlpHttpConfigurationWithDefaults(userProvidedConfiguration, fallbackConfiguration, defaultConfiguration) {
-    var _a4, _b;
+    var _a, _b;
     return {
       ...mergeOtlpSharedConfigurationWithDefaults(userProvidedConfiguration, fallbackConfiguration, defaultConfiguration),
       headers: mergeHeaders(userProvidedConfiguration.headers, fallbackConfiguration.headers, defaultConfiguration.headers),
-      url: (_b = (_a4 = validateUserProvidedUrl(userProvidedConfiguration.url)) != null ? _a4 : fallbackConfiguration.url) != null ? _b : defaultConfiguration.url
+      url: (_b = (_a = validateUserProvidedUrl(userProvidedConfiguration.url)) != null ? _a : fallbackConfiguration.url) != null ? _b : defaultConfiguration.url
     };
   }
   function getHttpConfigurationDefaults(requiredHeaders, signalResourcePath) {
@@ -3674,9 +3674,9 @@
     if (e2 && e2.responseStart > 0 && e2.responseStart < performance.now()) return e2;
   };
   var o = () => {
-    var _a4;
+    var _a;
     const e2 = s();
-    return (_a4 = e2 == null ? void 0 : e2.activationStart) != null ? _a4 : 0;
+    return (_a = e2 == null ? void 0 : e2.activationStart) != null ? _a : 0;
   };
   var r = (t2, n2 = -1) => {
     const i2 = s();
@@ -3695,10 +3695,10 @@
       __publicField(this, "o", []);
     }
     h(e2) {
-      var _a4;
+      var _a;
       if (e2.hadRecentInput) return;
       const t2 = this.o[0], n2 = this.o.at(-1);
-      this.i && t2 && n2 && e2.startTime - n2.startTime < 1e3 && e2.startTime - t2.startTime < 5e3 ? (this.i += e2.value, this.o.push(e2)) : (this.i = e2.value, this.o = [e2]), (_a4 = this.t) == null ? void 0 : _a4.call(this, e2);
+      this.i && t2 && n2 && e2.startTime - n2.startTime < 1e3 && e2.startTime - t2.startTime < 5e3 ? (this.i += e2.value, this.o.push(e2)) : (this.i = e2.value, this.o = [e2]), (_a = this.t) == null ? void 0 : _a.call(this, e2);
     }
   };
   var h = (e2, t2, n2 = {}) => {
@@ -3730,9 +3730,9 @@
     }
   };
   var v = () => {
-    var _a4;
+    var _a;
     if (u < 0) {
-      const e2 = o(), n2 = document.prerendering ? void 0 : (_a4 = globalThis.performance.getEntriesByType("visibility-state").filter(((t2) => "hidden" === t2.name && t2.startTime > e2))[0]) == null ? void 0 : _a4.startTime;
+      const e2 = o(), n2 = document.prerendering ? void 0 : (_a = globalThis.performance.getEntriesByType("visibility-state").filter(((t2) => "hidden" === t2.name && t2.startTime > e2))[0]) == null ? void 0 : _a.startTime;
       u = n2 != null ? n2 : m(), addEventListener("visibilitychange", p, true), addEventListener("prerenderingchange", p, true), t((() => {
         setTimeout((() => {
           u = m();
@@ -3787,8 +3787,8 @@
   };
   var w;
   var C = () => {
-    var _a4;
-    return w ? P : (_a4 = performance.interactionCount) != null ? _a4 : 0;
+    var _a;
+    return w ? P : (_a = performance.interactionCount) != null ? _a : 0;
   };
   var I = () => {
     "interactionCount" in performance || w || (w = h("event", M, { type: "event", buffered: true, durationThreshold: 0 }));
@@ -3809,8 +3809,8 @@
       return this.u[e2];
     }
     h(e2) {
-      var _a4, _b;
-      if ((_a4 = this.m) == null ? void 0 : _a4.call(this, e2), !e2.interactionId && "first-input" !== e2.entryType) return;
+      var _a, _b;
+      if ((_a = this.m) == null ? void 0 : _a.call(this, e2), !e2.interactionId && "first-input" !== e2.entryType) return;
       const t2 = this.u.at(-1);
       let n2 = this.l.get(e2.interactionId);
       if (n2 || this.u.length < 10 || e2.duration > t2.P) {
@@ -3833,7 +3833,7 @@
     if (!globalThis.PerformanceEventTiming || !("interactionId" in PerformanceEventTiming.prototype)) return;
     const s2 = v();
     g((() => {
-      var _a4;
+      var _a;
       I();
       let o2, c2 = r("INP");
       const d2 = a(i2, k), f2 = (e3) => {
@@ -3842,7 +3842,7 @@
           const t2 = d2.L();
           t2 && t2.P !== c2.value && (c2.value = t2.P, c2.entries = t2.entries, o2());
         }));
-      }, u2 = h("event", f2, { durationThreshold: (_a4 = i2.durationThreshold) != null ? _a4 : 40 });
+      }, u2 = h("event", f2, { durationThreshold: (_a = i2.durationThreshold) != null ? _a : 40 });
       o2 = n(e2, c2, B, i2.reportAllChanges), u2 && (u2.observe({ type: "first-input", buffered: true }), s2.onHidden((() => {
         f2(u2.takeRecords()), o2(true);
       })), t((() => {
@@ -3855,8 +3855,8 @@
       __publicField(this, "m");
     }
     h(e2) {
-      var _a4;
-      (_a4 = this.m) == null ? void 0 : _a4.call(this, e2);
+      var _a;
+      (_a = this.m) == null ? void 0 : _a.call(this, e2);
     }
   };
   var q = [2500, 4e3];
@@ -3886,96 +3886,100 @@
   };
 
   // src/otel.js
-  var CONFIG = window.MatomoOpenTelemetry || {};
-  var _a;
-  var OTEL_TRACE_URL = (_a = CONFIG.traceUrl) != null ? _a : "http://127.0.0.1:4318/v1/traces";
-  var _a2;
-  var SERVICE_NAME = (_a2 = CONFIG.serviceName) != null ? _a2 : "matomo-frontend";
-  var provider = new WebTracerProvider({
-    resource: resourceFromAttributes({
-      "service.name": SERVICE_NAME
-    }),
-    spanProcessors: [
-      new BatchSpanProcessor(
-        new OTLPTraceExporter({ url: OTEL_TRACE_URL })
-      )
-    ]
-  });
-  provider.register();
-  var tracer = trace.getTracer(SERVICE_NAME);
-  var currentPageSpan = null;
-  var currentPageContext = context.active();
-  function startPageSpan() {
-    var _a4, _b;
-    if (currentPageSpan) {
-      currentPageSpan.end();
+  (function initOpenTelemetry() {
+    var _a, _b, _c;
+    const CONFIG = window.MatomoOpenTelemetry || {};
+    if (!CONFIG.enabled) {
+      return;
     }
-    currentPageSpan = tracer.startSpan("ui.page", {
-      attributes: {
-        "browser.page.url": window.location.href,
-        "browser.page.path": window.location.pathname,
-        "browser.page.hash": window.location.hash,
-        "browser.page.title": document.title,
-        // Matomo-specific context (best-effort)
-        "matomo.module": (_a4 = window.piwik) == null ? void 0 : _a4.module,
-        "matomo.action": (_b = window.piwik) == null ? void 0 : _b.action
+    const OTEL_TRACE_URL = (_a = CONFIG.traceUrl) != null ? _a : "http://127.0.0.1:4318/v1/traces";
+    const SERVICE_NAME = (_b = CONFIG.serviceName) != null ? _b : "matomo-frontend";
+    const provider = new WebTracerProvider({
+      resource: resourceFromAttributes({
+        "service.name": SERVICE_NAME
+      }),
+      spanProcessors: [
+        new BatchSpanProcessor(
+          new OTLPTraceExporter({ url: OTEL_TRACE_URL })
+        )
+      ]
+    });
+    provider.register();
+    const tracer = trace.getTracer(SERVICE_NAME);
+    let currentPageSpan = null;
+    let currentPageContext = context.active();
+    function startPageSpan() {
+      if (currentPageSpan) {
+        currentPageSpan.end();
+      }
+      currentPageSpan = tracer.startSpan("ui.page", {
+        attributes: {
+          "browser.page.url": window.location.href,
+          "browser.page.path": window.location.pathname,
+          "browser.page.hash": window.location.hash,
+          "browser.page.title": document.title
+        }
+      });
+      currentPageContext = trace.setSpan(
+        context.active(),
+        currentPageSpan
+      );
+    }
+    startPageSpan();
+    window.addEventListener("hashchange", () => {
+      startPageSpan();
+    });
+    window.addEventListener("beforeunload", () => {
+      if (currentPageSpan) {
+        currentPageSpan.end();
       }
     });
-    currentPageContext = trace.setSpan(
-      context.active(),
-      currentPageSpan
-    );
-  }
-  startPageSpan();
-  window.addEventListener("hashchange", () => {
-    startPageSpan();
-  });
-  window.addEventListener("beforeunload", () => {
-    if (currentPageSpan) {
-      currentPageSpan.end();
+    function recordErrorSpan(name, error) {
+      var _a2;
+      try {
+        const span = tracer.startSpan(name, {}, currentPageContext);
+        span.recordException(error);
+        span.setStatus({ code: SpanStatusCode.ERROR });
+        span.setAttribute("error.message", error.message);
+        span.setAttribute("error.name", error.name);
+        span.setAttribute("error.stack", (_a2 = error.stack) != null ? _a2 : "");
+        span.setAttribute("browser.page.url", window.location.href);
+        span.setAttribute("browser.page.path", window.location.pathname);
+        span.end();
+        provider.forceFlush();
+      } catch (e2) {
+        console.warn("[OTel] failed to record error span", e2);
+      }
     }
-  });
-  function recordErrorSpan(name, error) {
-    var _a4, _b, _c;
-    try {
-      const span = tracer.startSpan(name, {}, currentPageContext);
-      span.recordException(error);
-      span.setStatus({ code: SpanStatusCode.ERROR });
-      span.setAttribute("error.message", error.message);
-      span.setAttribute("error.name", error.name);
-      span.setAttribute("error.stack", (_a4 = error.stack) != null ? _a4 : "");
-      span.setAttribute("browser.page.url", window.location.href);
-      span.setAttribute("browser.page.path", window.location.pathname);
-      span.setAttribute("matomo.module", (_b = window.piwik) == null ? void 0 : _b.module);
-      span.setAttribute("matomo.action", (_c = window.piwik) == null ? void 0 : _c.action);
-      span.end();
-      provider.forceFlush();
-    } catch (e2) {
-      console.warn("[OTel] failed to record error span", e2);
-    }
-  }
-  window.addEventListener("error", (event) => {
-    recordErrorSpan(
-      "js.error",
-      event.error || new Error(event.message)
-    );
-  });
-  window.addEventListener("unhandledrejection", (event) => {
-    recordErrorSpan(
-      "js.unhandled_promise",
-      event.reason instanceof Error ? event.reason : new Error(String(event.reason))
-    );
-  });
-  function observeMatomoNotifications() {
-    const observer = new MutationObserver((mutations) => {
-      var _a4, _b, _c, _d, _e;
-      for (const mutation of mutations) {
-        for (const node of mutation.addedNodes) {
-          if (!(node instanceof HTMLElement)) {
-            continue;
-          }
-          if ((_a4 = node.classList) == null ? void 0 : _a4.contains("notification-error")) {
-            const message = (_c = (_b = node.querySelector(".notification-body div")) == null ? void 0 : _b.innerText) == null ? void 0 : _c.trim();
+    window.addEventListener("error", (event) => {
+      recordErrorSpan(
+        "js.error",
+        event.error || new Error(event.message)
+      );
+    });
+    window.addEventListener("unhandledrejection", (event) => {
+      recordErrorSpan(
+        "js.unhandled_promise",
+        event.reason instanceof Error ? event.reason : new Error(String(event.reason))
+      );
+    });
+    function observeAjaxErrors() {
+      const container = document.getElementById("ajaxError");
+      if (!container) {
+        return;
+      }
+      const observer = new MutationObserver((mutations) => {
+        var _a2, _b2, _c2, _d;
+        for (const mutation of mutations) {
+          for (const node of mutation.addedNodes) {
+            if (!(node instanceof HTMLElement)) {
+              continue;
+            }
+            const errorNode = ((_a2 = node.matches) == null ? void 0 : _a2.call(node, ".notification-error")) ? node : (_b2 = node.querySelector) == null ? void 0 : _b2.call(node, ".notification-error");
+            if (!errorNode) {
+              continue;
+            }
+            const message = (_d = (_c2 = errorNode.querySelector(".notification-body div")) == null ? void 0 : _c2.innerText) == null ? void 0 : _d.trim();
             if (!message) {
               continue;
             }
@@ -3986,9 +3990,7 @@
                   "ui.notification.type": "error",
                   "ui.notification.message": message,
                   "browser.page.url": window.location.href,
-                  "browser.page.path": window.location.pathname,
-                  "matomo.module": (_d = window.piwik) == null ? void 0 : _d.module,
-                  "matomo.action": (_e = window.piwik) == null ? void 0 : _e.action
+                  "browser.page.path": window.location.pathname
                 }
               },
               currentPageContext
@@ -3997,65 +3999,60 @@
             span.end();
           }
         }
-      }
-    });
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-  }
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", observeMatomoNotifications);
-  } else {
-    observeMatomoNotifications();
-  }
-  function emitWebVital(metric) {
-    var _a4, _b;
-    const span = tracer.startSpan(
-      "browser.web_vital",
-      {
-        attributes: {
-          // Page / UI context for Grafana & Tempo
-          "browser.page.url": window.location.href,
-          "browser.page.path": window.location.pathname,
-          "matomo.module": (_a4 = window.piwik) == null ? void 0 : _a4.module,
-          "matomo.action": (_b = window.piwik) == null ? void 0 : _b.action
+      });
+      observer.observe(container, {
+        childList: true,
+        subtree: true
+      });
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", observeAjaxErrors);
+    } else {
+      observeAjaxErrors();
+    }
+    function emitWebVital(metric) {
+      const span = tracer.startSpan(
+        "browser.web_vital",
+        {
+          attributes: {
+            "browser.page.url": window.location.href,
+            "browser.page.path": window.location.pathname
+          }
+        },
+        currentPageContext
+      );
+      span.addEvent("browser.web_vital", {
+        name: metric.name,
+        value: metric.value,
+        delta: metric.delta,
+        id: metric.id
+      });
+      span.end();
+    }
+    L(emitWebVital);
+    x(emitWebVital);
+    S(emitWebVital);
+    if ("PerformanceObserver" in window && ((_c = PerformanceObserver.supportedEntryTypes) == null ? void 0 : _c.includes("longtask"))) {
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          const span = tracer.startSpan(
+            "ux.long_task",
+            {
+              attributes: {
+                "browser.page.path": window.location.pathname
+              }
+            },
+            currentPageContext
+          );
+          span.addEvent("ux.long_task", {
+            duration: entry.duration,
+            startTime: entry.startTime
+          });
+          span.end();
         }
-      },
-      currentPageContext
-    );
-    span.addEvent("browser.web_vital", {
-      name: metric.name,
-      value: metric.value,
-      delta: metric.delta,
-      id: metric.id
-    });
-    span.end();
-  }
-  L(emitWebVital);
-  x(emitWebVital);
-  S(emitWebVital);
-  var _a3;
-  if ("PerformanceObserver" in window && ((_a3 = PerformanceObserver.supportedEntryTypes) == null ? void 0 : _a3.includes("longtask"))) {
-    const observer = new PerformanceObserver((list) => {
-      for (const entry of list.getEntries()) {
-        const span = tracer.startSpan(
-          "ux.long_task",
-          {
-            attributes: {
-              "browser.page.path": window.location.pathname
-            }
-          },
-          currentPageContext
-        );
-        span.addEvent("ux.long_task", {
-          duration: entry.duration,
-          startTime: entry.startTime
-        });
-        span.end();
-      }
-    });
-    observer.observe({ entryTypes: ["longtask"] });
-  }
+      });
+      observer.observe({ entryTypes: ["longtask"] });
+    }
+  })();
 })();
 //# sourceMappingURL=otel.js.map
