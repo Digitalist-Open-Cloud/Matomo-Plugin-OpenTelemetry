@@ -10,9 +10,7 @@ import { resourceFromAttributes } from "@opentelemetry/resources";
 import { onCLS, onLCP, onINP } from "web-vitals";
 
 (function initOpenTelemetry() {
-  /* ------------------------------------------------------------------
-   * Configuration from start.js (Matomo variables)
-   * ------------------------------------------------------------------ */
+  // Configuration from start.js (Matomo variables)
   const CONFIG = window.MatomoOpenTelemetry || {};
 
   if (!CONFIG.enabled) {
@@ -23,9 +21,7 @@ import { onCLS, onLCP, onINP } from "web-vitals";
 
   const SERVICE_NAME = CONFIG.serviceName ?? "matomo-frontend";
 
-  /* ------------------------------------------------------------------
-   * OpenTelemetry setup
-   * ------------------------------------------------------------------ */
+  // OpenTelemetry setup
   const provider = new WebTracerProvider({
     resource: resourceFromAttributes({
       "service.name": SERVICE_NAME,
@@ -49,9 +45,6 @@ import { onCLS, onLCP, onINP } from "web-vitals";
   let currentPageSpan = null;
   let currentPageContext = context.active();
 
-  /* ------------------------------------------------------------------
-   * UI page span handling
-   * ------------------------------------------------------------------ */
   if (CONFIG.enableUxMonitoring) {
     function startPageSpan() {
       // End previous page span
@@ -71,7 +64,6 @@ import { onCLS, onLCP, onINP } from "web-vitals";
       currentPageContext = trace.setSpan(context.active(), currentPageSpan);
     }
 
-    // Initial page
     startPageSpan();
 
     // Listen on page changes
@@ -87,9 +79,7 @@ import { onCLS, onLCP, onINP } from "web-vitals";
     });
   }
 
-  /* ------------------------------------------------------------------
-   * Error tracking
-   * ------------------------------------------------------------------ */
+  // Error tracking
   function recordErrorSpan(name, error) {
     try {
       const span = tracer.startSpan(name, {}, currentPageContext);
@@ -105,7 +95,7 @@ import { onCLS, onLCP, onINP } from "web-vitals";
       span.end();
       provider.forceFlush();
     } catch (e) {
-      console.warn("[OTel] failed to record error span", e);
+      console.warn("OpenTelemetry: failed to record error span", e);
     }
   }
 
@@ -122,9 +112,8 @@ import { onCLS, onLCP, onINP } from "web-vitals";
     );
   });
 
-  /* ------------------------------------------------------------------
-   * UI error notification monitoring
-   * ------------------------------------------------------------------ */
+  // UI error notification monitoring.
+  // Catches errors displayed for users in Matomo.
   function observeAjaxErrors() {
     const container = document.getElementById("ajaxError");
     if (!container) {
@@ -185,9 +174,6 @@ import { onCLS, onLCP, onINP } from "web-vitals";
     observeAjaxErrors();
   }
 
-  /* ------------------------------------------------------------------
-   * Web vitals
-   * ------------------------------------------------------------------ */
   if (CONFIG.enableWebVitals) {
     function emitWebVital(metric) {
       const span = tracer.startSpan(
@@ -216,9 +202,7 @@ import { onCLS, onLCP, onINP } from "web-vitals";
     onINP(emitWebVital);
   }
 
-  /* ------------------------------------------------------------------
-   * Web vitals: long tasks (>50ms)
-   * ------------------------------------------------------------------ */
+  // Web vitals long task monitoring, check if it is supported by the browser.
   if (
     CONFIG.enableUxMonitoring &&
     "PerformanceObserver" in window &&

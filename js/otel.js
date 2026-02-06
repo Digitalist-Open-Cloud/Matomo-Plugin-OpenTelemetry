@@ -6185,7 +6185,7 @@
         span.end();
         provider.forceFlush();
       } catch (e2) {
-        console.warn("[OTel] failed to record error span", e2);
+        console.warn("OpenTelemetry: failed to record error span", e2);
       }
     }
     window.addEventListener("error", (event) => {
