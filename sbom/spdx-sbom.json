@@ -1,0 +1,1834 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": ".",
+  "documentNamespace": "http://trivy.dev/filesystem/.-68ff4965-a027-4bfc-b0cf-f0af597dc54c",
+  "creationInfo": {
+    "creators": [
+      "Organization: aquasecurity",
+      "Tool: trivy-0.62.1"
+    ],
+    "created": "2026-02-06T09:33:56Z"
+  },
+  "packages": [
+    {
+      "name": "package-lock.json",
+      "SPDXID": "SPDXRef-Application-23fade0ea7b1493e",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "primaryPackagePurpose": "APPLICATION",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "Class: lang-pkgs"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "Type: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/api",
+      "SPDXID": "SPDXRef-Package-131d7fed4e0b6b59",
+      "versionInfo": "1.9.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/api@1.9.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/api@1.9.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/api-logs",
+      "SPDXID": "SPDXRef-Package-35130cbcce438c63",
+      "versionInfo": "0.211.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/api-logs@0.211.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/api-logs@0.211.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/core",
+      "SPDXID": "SPDXRef-Package-bdfdaab9af385655",
+      "versionInfo": "2.5.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/core@2.5.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/core@2.5.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/exporter-trace-otlp-http",
+      "SPDXID": "SPDXRef-Package-e1efd859da14eb7c",
+      "versionInfo": "0.211.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/exporter-trace-otlp-http@0.211.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/exporter-trace-otlp-http@0.211.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/instrumentation",
+      "SPDXID": "SPDXRef-Package-d7b5335c0f8ab6d4",
+      "versionInfo": "0.211.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/instrumentation@0.211.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/instrumentation@0.211.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/instrumentation-document-load",
+      "SPDXID": "SPDXRef-Package-43f144c4495e4109",
+      "versionInfo": "0.56.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/instrumentation-document-load@0.56.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/instrumentation-document-load@0.56.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/instrumentation-user-interaction",
+      "SPDXID": "SPDXRef-Package-88e2c47789a66270",
+      "versionInfo": "0.55.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/instrumentation-user-interaction@0.55.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/instrumentation-user-interaction@0.55.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/instrumentation-xml-http-request",
+      "SPDXID": "SPDXRef-Package-1a15219290d76160",
+      "versionInfo": "0.211.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/instrumentation-xml-http-request@0.211.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/instrumentation-xml-http-request@0.211.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/otlp-exporter-base",
+      "SPDXID": "SPDXRef-Package-86616214709beb89",
+      "versionInfo": "0.211.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/otlp-exporter-base@0.211.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/otlp-exporter-base@0.211.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/otlp-transformer",
+      "SPDXID": "SPDXRef-Package-b01f81f3bab767ee",
+      "versionInfo": "0.211.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/otlp-transformer@0.211.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/otlp-transformer@0.211.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/resources",
+      "SPDXID": "SPDXRef-Package-7cd737c63ba11c80",
+      "versionInfo": "2.5.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/resources@2.5.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/resources@2.5.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/sdk-logs",
+      "SPDXID": "SPDXRef-Package-b21581176a9bba8c",
+      "versionInfo": "0.211.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/sdk-logs@0.211.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/sdk-logs@0.211.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/sdk-metrics",
+      "SPDXID": "SPDXRef-Package-bda9bd07a1bdfeca",
+      "versionInfo": "2.5.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/sdk-metrics@2.5.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/sdk-metrics@2.5.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/sdk-trace-base",
+      "SPDXID": "SPDXRef-Package-6275221b2071187b",
+      "versionInfo": "2.5.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/sdk-trace-base@2.5.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/sdk-trace-base@2.5.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/sdk-trace-web",
+      "SPDXID": "SPDXRef-Package-e37570a46e9fe0b3",
+      "versionInfo": "2.5.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/sdk-trace-web@2.5.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@opentelemetry/semantic-conventions",
+      "SPDXID": "SPDXRef-Package-ce5a6704c0b9175d",
+      "versionInfo": "1.39.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40opentelemetry/semantic-conventions@1.39.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @opentelemetry/semantic-conventions@1.39.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@protobufjs/aspromise",
+      "SPDXID": "SPDXRef-Package-6002a340914f1ae3",
+      "versionInfo": "1.1.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40protobufjs/aspromise@1.1.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @protobufjs/aspromise@1.1.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@protobufjs/base64",
+      "SPDXID": "SPDXRef-Package-79fb6786edc17a29",
+      "versionInfo": "1.1.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40protobufjs/base64@1.1.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @protobufjs/base64@1.1.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@protobufjs/codegen",
+      "SPDXID": "SPDXRef-Package-5a9c8e74306d0b70",
+      "versionInfo": "2.0.4",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40protobufjs/codegen@2.0.4"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @protobufjs/codegen@2.0.4"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@protobufjs/eventemitter",
+      "SPDXID": "SPDXRef-Package-7205098ad478704d",
+      "versionInfo": "1.1.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40protobufjs/eventemitter@1.1.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @protobufjs/eventemitter@1.1.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@protobufjs/fetch",
+      "SPDXID": "SPDXRef-Package-7a01343276f94a33",
+      "versionInfo": "1.1.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40protobufjs/fetch@1.1.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @protobufjs/fetch@1.1.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@protobufjs/float",
+      "SPDXID": "SPDXRef-Package-6ed7b2afcf4eac20",
+      "versionInfo": "1.0.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40protobufjs/float@1.0.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @protobufjs/float@1.0.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@protobufjs/inquire",
+      "SPDXID": "SPDXRef-Package-8a6edad31aee8af2",
+      "versionInfo": "1.1.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40protobufjs/inquire@1.1.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @protobufjs/inquire@1.1.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@protobufjs/path",
+      "SPDXID": "SPDXRef-Package-59c410ff95e322e7",
+      "versionInfo": "1.1.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40protobufjs/path@1.1.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @protobufjs/path@1.1.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@protobufjs/pool",
+      "SPDXID": "SPDXRef-Package-a690b8fd78f4503",
+      "versionInfo": "1.1.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40protobufjs/pool@1.1.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @protobufjs/pool@1.1.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@protobufjs/utf8",
+      "SPDXID": "SPDXRef-Package-32cb96caef954d1b",
+      "versionInfo": "1.1.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40protobufjs/utf8@1.1.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @protobufjs/utf8@1.1.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "@types/node",
+      "SPDXID": "SPDXRef-Package-28d0803ad9e3c08c",
+      "versionInfo": "25.2.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40types/node@25.2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: @types/node@25.2.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "acorn",
+      "SPDXID": "SPDXRef-Package-ddb41452560de361",
+      "versionInfo": "8.15.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/acorn@8.15.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: acorn@8.15.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "acorn-import-attributes",
+      "SPDXID": "SPDXRef-Package-56c3acc05f2277fe",
+      "versionInfo": "1.9.5",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/acorn-import-attributes@1.9.5"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: acorn-import-attributes@1.9.5"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "cjs-module-lexer",
+      "SPDXID": "SPDXRef-Package-673b9101f460b950",
+      "versionInfo": "2.2.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/cjs-module-lexer@2.2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: cjs-module-lexer@2.2.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "SPDXID": "SPDXRef-Package-6ed4fd0036ac1a68",
+      "versionInfo": "4.4.3",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/debug@4.4.3"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: debug@4.4.3"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "import-in-the-middle",
+      "SPDXID": "SPDXRef-Package-b51bc525509095a3",
+      "versionInfo": "2.0.6",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/import-in-the-middle@2.0.6"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: import-in-the-middle@2.0.6"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "long",
+      "SPDXID": "SPDXRef-Package-809d993a7ce8c8cc",
+      "versionInfo": "5.3.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/long@5.3.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: long@5.3.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "module-details-from-path",
+      "SPDXID": "SPDXRef-Package-3460dcd88e8555e",
+      "versionInfo": "1.0.4",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/module-details-from-path@1.0.4"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: module-details-from-path@1.0.4"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "ms",
+      "SPDXID": "SPDXRef-Package-11b3b64a46d5a2d4",
+      "versionInfo": "2.1.3",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/ms@2.1.3"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: ms@2.1.3"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "protobufjs",
+      "SPDXID": "SPDXRef-Package-9fd3a614c62bc939",
+      "versionInfo": "8.0.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/protobufjs@8.0.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: protobufjs@8.0.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "require-in-the-middle",
+      "SPDXID": "SPDXRef-Package-9f72d986523c7bdd",
+      "versionInfo": "8.0.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/require-in-the-middle@8.0.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: require-in-the-middle@8.0.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "undici-types",
+      "SPDXID": "SPDXRef-Package-d58e7e6230c2fa1e",
+      "versionInfo": "7.16.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/undici-types@7.16.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: undici-types@7.16.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "web-vitals",
+      "SPDXID": "SPDXRef-Package-13cee4972e37beb8",
+      "versionInfo": "5.1.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/web-vitals@5.1.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: web-vitals@5.1.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": "zone.js",
+      "SPDXID": "SPDXRef-Package-c323b9fba3263109",
+      "versionInfo": "0.16.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: package-lock.json",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/zone.js@0.16.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: zone.js@0.16.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: npm"
+        }
+      ]
+    },
+    {
+      "name": ".",
+      "SPDXID": "SPDXRef-Filesystem-1465386cfbe4e9c7",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "primaryPackagePurpose": "SOURCE",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.62.1",
+          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationType": "OTHER",
+          "comment": "SchemaVersion: 2"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-13cee4972e37beb8",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-1a15219290d76160",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-43f144c4495e4109",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-6275221b2071187b",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-7cd737c63ba11c80",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-88e2c47789a66270",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-ce5a6704c0b9175d",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-d7b5335c0f8ab6d4",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-e1efd859da14eb7c",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Application-23fade0ea7b1493e",
+      "relatedSpdxElement": "SPDXRef-Package-e37570a46e9fe0b3",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relatedSpdxElement": "SPDXRef-Filesystem-1465386cfbe4e9c7",
+      "relationshipType": "DESCRIBES"
+    },
+    {
+      "spdxElementId": "SPDXRef-Filesystem-1465386cfbe4e9c7",
+      "relatedSpdxElement": "SPDXRef-Application-23fade0ea7b1493e",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-1a15219290d76160",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-1a15219290d76160",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-1a15219290d76160",
+      "relatedSpdxElement": "SPDXRef-Package-ce5a6704c0b9175d",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-1a15219290d76160",
+      "relatedSpdxElement": "SPDXRef-Package-d7b5335c0f8ab6d4",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-1a15219290d76160",
+      "relatedSpdxElement": "SPDXRef-Package-e37570a46e9fe0b3",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-28d0803ad9e3c08c",
+      "relatedSpdxElement": "SPDXRef-Package-d58e7e6230c2fa1e",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-35130cbcce438c63",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-43f144c4495e4109",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-43f144c4495e4109",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-43f144c4495e4109",
+      "relatedSpdxElement": "SPDXRef-Package-ce5a6704c0b9175d",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-43f144c4495e4109",
+      "relatedSpdxElement": "SPDXRef-Package-d7b5335c0f8ab6d4",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-43f144c4495e4109",
+      "relatedSpdxElement": "SPDXRef-Package-e37570a46e9fe0b3",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-56c3acc05f2277fe",
+      "relatedSpdxElement": "SPDXRef-Package-ddb41452560de361",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-6275221b2071187b",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-6275221b2071187b",
+      "relatedSpdxElement": "SPDXRef-Package-7cd737c63ba11c80",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-6275221b2071187b",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-6275221b2071187b",
+      "relatedSpdxElement": "SPDXRef-Package-ce5a6704c0b9175d",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-6ed4fd0036ac1a68",
+      "relatedSpdxElement": "SPDXRef-Package-11b3b64a46d5a2d4",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-7a01343276f94a33",
+      "relatedSpdxElement": "SPDXRef-Package-6002a340914f1ae3",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-7a01343276f94a33",
+      "relatedSpdxElement": "SPDXRef-Package-8a6edad31aee8af2",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-7cd737c63ba11c80",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-7cd737c63ba11c80",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-7cd737c63ba11c80",
+      "relatedSpdxElement": "SPDXRef-Package-ce5a6704c0b9175d",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-86616214709beb89",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-86616214709beb89",
+      "relatedSpdxElement": "SPDXRef-Package-b01f81f3bab767ee",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-86616214709beb89",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-88e2c47789a66270",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-88e2c47789a66270",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-88e2c47789a66270",
+      "relatedSpdxElement": "SPDXRef-Package-c323b9fba3263109",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-88e2c47789a66270",
+      "relatedSpdxElement": "SPDXRef-Package-d7b5335c0f8ab6d4",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-88e2c47789a66270",
+      "relatedSpdxElement": "SPDXRef-Package-e37570a46e9fe0b3",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9f72d986523c7bdd",
+      "relatedSpdxElement": "SPDXRef-Package-3460dcd88e8555e",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9f72d986523c7bdd",
+      "relatedSpdxElement": "SPDXRef-Package-6ed4fd0036ac1a68",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-28d0803ad9e3c08c",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-32cb96caef954d1b",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-59c410ff95e322e7",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-5a9c8e74306d0b70",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-6002a340914f1ae3",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-6ed7b2afcf4eac20",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-7205098ad478704d",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-79fb6786edc17a29",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-7a01343276f94a33",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-809d993a7ce8c8cc",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-8a6edad31aee8af2",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-9fd3a614c62bc939",
+      "relatedSpdxElement": "SPDXRef-Package-a690b8fd78f4503",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b01f81f3bab767ee",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b01f81f3bab767ee",
+      "relatedSpdxElement": "SPDXRef-Package-35130cbcce438c63",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b01f81f3bab767ee",
+      "relatedSpdxElement": "SPDXRef-Package-6275221b2071187b",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b01f81f3bab767ee",
+      "relatedSpdxElement": "SPDXRef-Package-7cd737c63ba11c80",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b01f81f3bab767ee",
+      "relatedSpdxElement": "SPDXRef-Package-9fd3a614c62bc939",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b01f81f3bab767ee",
+      "relatedSpdxElement": "SPDXRef-Package-b21581176a9bba8c",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b01f81f3bab767ee",
+      "relatedSpdxElement": "SPDXRef-Package-bda9bd07a1bdfeca",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b01f81f3bab767ee",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b21581176a9bba8c",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b21581176a9bba8c",
+      "relatedSpdxElement": "SPDXRef-Package-35130cbcce438c63",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b21581176a9bba8c",
+      "relatedSpdxElement": "SPDXRef-Package-7cd737c63ba11c80",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b21581176a9bba8c",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b51bc525509095a3",
+      "relatedSpdxElement": "SPDXRef-Package-3460dcd88e8555e",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b51bc525509095a3",
+      "relatedSpdxElement": "SPDXRef-Package-56c3acc05f2277fe",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b51bc525509095a3",
+      "relatedSpdxElement": "SPDXRef-Package-673b9101f460b950",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-b51bc525509095a3",
+      "relatedSpdxElement": "SPDXRef-Package-ddb41452560de361",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-bda9bd07a1bdfeca",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-bda9bd07a1bdfeca",
+      "relatedSpdxElement": "SPDXRef-Package-7cd737c63ba11c80",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-bda9bd07a1bdfeca",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-bdfdaab9af385655",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-bdfdaab9af385655",
+      "relatedSpdxElement": "SPDXRef-Package-ce5a6704c0b9175d",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-d7b5335c0f8ab6d4",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-d7b5335c0f8ab6d4",
+      "relatedSpdxElement": "SPDXRef-Package-35130cbcce438c63",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-d7b5335c0f8ab6d4",
+      "relatedSpdxElement": "SPDXRef-Package-9f72d986523c7bdd",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-d7b5335c0f8ab6d4",
+      "relatedSpdxElement": "SPDXRef-Package-b51bc525509095a3",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-e1efd859da14eb7c",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-e1efd859da14eb7c",
+      "relatedSpdxElement": "SPDXRef-Package-6275221b2071187b",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-e1efd859da14eb7c",
+      "relatedSpdxElement": "SPDXRef-Package-7cd737c63ba11c80",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-e1efd859da14eb7c",
+      "relatedSpdxElement": "SPDXRef-Package-86616214709beb89",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-e1efd859da14eb7c",
+      "relatedSpdxElement": "SPDXRef-Package-b01f81f3bab767ee",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-e1efd859da14eb7c",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-e37570a46e9fe0b3",
+      "relatedSpdxElement": "SPDXRef-Package-131d7fed4e0b6b59",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-e37570a46e9fe0b3",
+      "relatedSpdxElement": "SPDXRef-Package-6275221b2071187b",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-e37570a46e9fe0b3",
+      "relatedSpdxElement": "SPDXRef-Package-bdfdaab9af385655",
+      "relationshipType": "DEPENDS_ON"
+    }
+  ]
+}

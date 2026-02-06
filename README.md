@@ -2,11 +2,14 @@
 
 OpenTelemetry plugin for Matomo.
 
-Traces API and Requests from Matomo, and client (browser) telemetry like `Js`-errors
-and Web vitals.
+Traces API, requests (PHP) and browser (JS).
 
 Please note that this plugin require additional composer packages, which are not included,
 and needs to be installed together with the plugin. Also it needs the PHP extension OpenTelemetry.
+
+## Configuration
+
+For PHP, use environment variables, for browser, use Matomo System settings.
 
 ## Requirements
 
@@ -83,6 +86,12 @@ npx esbuild src/otel.js \
   --outfile=js/otel.min.js
 
 ```
+
+## Software Bill of Materials (SBOM)
+
+SBOMs for the javascript dependencies are in directory `sbom`. For PHP packages, this is not included,
+as this is not part of the distribution of this plugin. Also, versions and dependencies depends on your setup.
+Trivy has been used to generate the SBOMs.
 
 ## Licenses
 
