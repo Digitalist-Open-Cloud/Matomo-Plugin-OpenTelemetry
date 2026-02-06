@@ -3,13 +3,13 @@
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
   "name": ".",
-  "documentNamespace": "http://trivy.dev/filesystem/.-68ff4965-a027-4bfc-b0cf-f0af597dc54c",
+  "documentNamespace": "http://trivy.dev/filesystem/.-f2038b18-d927-4890-9ae9-b5a65690aefc",
   "creationInfo": {
     "creators": [
       "Organization: aquasecurity",
       "Tool: trivy-0.62.1"
     ],
-    "created": "2026-02-06T09:33:56Z"
+    "created": "2026-02-06T15:32:11Z"
   },
   "packages": [
     {
@@ -21,13 +21,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "Class: lang-pkgs"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "Type: npm"
         }
@@ -54,13 +54,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/api@1.9.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -87,13 +87,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/api-logs@0.211.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -120,13 +120,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/core@2.5.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -153,13 +153,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/exporter-trace-otlp-http@0.211.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -186,13 +186,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/instrumentation@0.211.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -219,13 +219,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/instrumentation-document-load@0.56.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -252,13 +252,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/instrumentation-user-interaction@0.55.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -285,13 +285,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/instrumentation-xml-http-request@0.211.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -318,13 +318,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/otlp-exporter-base@0.211.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -351,13 +351,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/otlp-transformer@0.211.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -384,13 +384,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/resources@2.5.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -417,13 +417,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/sdk-logs@0.211.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -450,13 +450,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/sdk-metrics@2.5.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -483,13 +483,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/sdk-trace-base@2.5.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -516,13 +516,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/sdk-trace-web@2.5.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -549,13 +549,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @opentelemetry/semantic-conventions@1.39.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -582,13 +582,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @protobufjs/aspromise@1.1.2"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -615,13 +615,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @protobufjs/base64@1.1.2"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -648,13 +648,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @protobufjs/codegen@2.0.4"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -681,13 +681,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @protobufjs/eventemitter@1.1.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -714,13 +714,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @protobufjs/fetch@1.1.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -747,13 +747,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @protobufjs/float@1.0.2"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -780,13 +780,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @protobufjs/inquire@1.1.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -813,13 +813,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @protobufjs/path@1.1.2"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -846,13 +846,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @protobufjs/pool@1.1.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -879,13 +879,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @protobufjs/utf8@1.1.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -912,13 +912,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: @types/node@25.2.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -945,13 +945,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: acorn@8.15.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -978,13 +978,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: acorn-import-attributes@1.9.5"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1011,13 +1011,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: cjs-module-lexer@2.2.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1044,13 +1044,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: debug@4.4.3"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1077,13 +1077,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: import-in-the-middle@2.0.6"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1110,13 +1110,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: long@5.3.2"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1143,13 +1143,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: module-details-from-path@1.0.4"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1176,13 +1176,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: ms@2.1.3"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1209,13 +1209,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: protobufjs@8.0.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1242,13 +1242,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: require-in-the-middle@8.0.1"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1275,13 +1275,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: undici-types@7.16.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1308,13 +1308,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: web-vitals@5.1.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1341,13 +1341,13 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgID: zone.js@0.16.0"
         },
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "PkgType: npm"
         }
@@ -1362,7 +1362,7 @@
       "annotations": [
         {
           "annotator": "Tool: trivy-0.62.1",
-          "annotationDate": "2026-02-06T09:33:56Z",
+          "annotationDate": "2026-02-06T15:32:11Z",
           "annotationType": "OTHER",
           "comment": "SchemaVersion: 2"
         }

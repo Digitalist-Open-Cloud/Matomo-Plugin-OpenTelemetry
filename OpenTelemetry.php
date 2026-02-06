@@ -169,14 +169,14 @@ class OpenTelemetry extends Plugin
     {
         $settings = new SystemSettings();
 
-        $enabled           = (bool) $settings->enabled->getValue();
+        $enabled = (bool) $settings->enabled->getValue();
         $enableDocumentLoadMonitoring = (bool) $settings->enableDocumentLoadMonitoring->getValue();
         $enableUserInteractionMonitoring = (bool) $settings->enableUserInteractionMonitoring->getValue();
         $enableXMLHttpRequestMonitoring = (bool) $settings->enableXMLHttpRequestMonitoring->getValue();
-        $enableWebVitals   = (bool) $settings->enableWebVitals->getValue();
+        $enableWebVitals  = (bool) $settings->enableWebVitals->getValue();
         $enableUxMonitoring = (bool) $settings->enableUxMonitoring->getValue();
 
-        $serviceName  = $settings->serviceName->getValue();
+        $serviceName = $settings->serviceName->getValue();
         $otelEndpoint = $settings->otelEndpoint->getValue();
 
         $out .= "piwik.openTelemetryEnabled = " . json_encode($enabled) . ";\n";

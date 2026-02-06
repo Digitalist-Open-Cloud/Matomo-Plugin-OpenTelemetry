@@ -13,13 +13,15 @@ For PHP, use environment variables, for browser, use Matomo System settings.
 
 ## Requirements
 
-- At least PHP 8.0.x
+- At least PHP 8.0.x to install plugin.
+
+### For OpenTelemetry for PHP
+
+- At least PHP 8.1.x.
 - OpenTelemetry PHP extension.
 - gRPC PHP extension if you want to export in gRPC - otherwise it will use HTTP (works, but slower)
-- OTEL contrib collector or similar
-- Something to store and display your traces - we use Grafana with Tempo data source.
 
-### Composer packages
+#### Composer packages
 
 - open-telemetry/api
 - open-telemetry/sdk
@@ -34,7 +36,7 @@ Files, input output
 
 - open-telemetry/opentelemetry-auto-io (Redis)
 
-## Environment variables
+#### Environment variables
 
 Example:
 
@@ -49,23 +51,38 @@ OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 OTEL_RESOURCE_ATTRIBUTES=host.name=myhost.com
 ```
 
+### Collector
+
+- OTEL contrib collector or similar
+- Something to store and display your traces - we use Grafana with Tempo data source.
+
 ## Browser
 
-Some basic OpenTelemetry for browsers is supported, like `js` errors and Web Vitals.
-Configure which, if any, browser telemetry you want to catch in Admin -> System -> General
+OpenTelemetry for browsers is supported, including catching errors, both from
+console and from UI error notifications.
+Configure which, browser telemetry you want to monitor in Admin -> System -> General
 settings -> Open Telemetry.
 
-Client instrumentation for the browser is experimental and mostly unspecified from Open
-Telemetry project, so this part is very experimental.
+Client instrumentation from OpenTelemetry for the browser is experimental and mostly
+unspecified from the project, so this part is very experimental.
+
+### Web Vitals
 
 Chrome is the browser that support Web vitals the best, some of the metrics is though also
-available in other browsers, like Firefox.
+available in other browsers, like Firefox. Limited Web Vitals are so far collected by this
+plugin.
 
 ## Development
+
+### For PHP
+
+Install needed composer packages (see above).
 
 ### For browser
 
 OpenTelemetry for browsers is still in a experiment state, and everything can change.
+
+At least Node JS 20 is required.
 
 To build release js-files:
 
