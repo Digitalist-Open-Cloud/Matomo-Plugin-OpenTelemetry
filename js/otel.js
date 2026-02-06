@@ -6132,9 +6132,7 @@
         "service.name": SERVICE_NAME
       }),
       spanProcessors: [
-        new BatchSpanProcessor(
-          new OTLPTraceExporter({ url: OTEL_TRACE_URL })
-        )
+        new BatchSpanProcessor(new OTLPTraceExporter({ url: OTEL_TRACE_URL }))
       ]
     });
     provider.register();
@@ -6161,10 +6159,7 @@
             "browser.page.title": document.title
           }
         });
-        currentPageContext = trace.setSpan(
-          context.active(),
-          currentPageSpan
-        );
+        currentPageContext = trace.setSpan(context.active(), currentPageSpan);
       };
       startPageSpan();
       window.addEventListener("hashchange", () => {
@@ -6194,10 +6189,7 @@
       }
     }
     window.addEventListener("error", (event) => {
-      recordErrorSpan(
-        "js.error",
-        event.error || new Error(event.message)
-      );
+      recordErrorSpan("js.error", event.error || new Error(event.message));
     });
     window.addEventListener("unhandledrejection", (event) => {
       recordErrorSpan(
