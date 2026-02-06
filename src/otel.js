@@ -52,6 +52,7 @@ import { onCLS, onLCP, onINP } from 'web-vitals';
   const tracer = trace.getTracer(SERVICE_NAME);
   let currentPageSpan = null;
   let currentPageContext = context.active();
+
   /* ------------------------------------------------------------------
   * UI page span handling
   * ------------------------------------------------------------------ */
