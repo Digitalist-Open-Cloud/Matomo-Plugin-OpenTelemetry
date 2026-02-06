@@ -6118,14 +6118,14 @@
     }));
   };
 
-  // src/otel.js
+  // js-src/otel.js
   (function initOpenTelemetry() {
     var _a, _b, _c;
     const CONFIG = window.MatomoOpenTelemetry || {};
     if (!CONFIG.enabled) {
       return;
     }
-    const OTEL_TRACE_URL = (_a = CONFIG.traceUrl) != null ? _a : "http://127.0.0.1:4318/v1/traces";
+    const OTEL_TRACE_URL = (_a = CONFIG.traceUrl) != null ? _a : "";
     const SERVICE_NAME = (_b = CONFIG.serviceName) != null ? _b : "matomo-frontend";
     const provider = new WebTracerProvider({
       resource: resourceFromAttributes({
@@ -6136,13 +6136,29 @@
       ]
     });
     provider.register();
-    registerInstrumentations({
-      instrumentations: [
-        new DocumentLoadInstrumentation(),
-        new UserInteractionInstrumentation(),
-        new XMLHttpRequestInstrumentation()
-      ]
-    });
+    const instrumentations = [];
+    if (CONFIG.enableDocumentLoadMonitoring) {
+      instrumentations.push(
+        new DocumentLoadInstrumentation()
+      );
+    }
+    if (CONFIG.enableUserInteractionMonitoring) {
+      instrumentations.push(
+        new UserInteractionInstrumentation()
+      );
+    }
+    if (CONFIG.enableXMLHttpRequestMonitoring) {
+      instrumentations.push(
+        new XMLHttpRequestInstrumentation({
+          propagateTraceHeaderCorsUrls: [/.*/]
+        })
+      );
+    }
+    if (instrumentations.length > 0) {
+      registerInstrumentations({
+        instrumentations
+      });
+    }
     const tracer = trace.getTracer(SERVICE_NAME);
     let currentPageSpan = null;
     let currentPageContext = context.active();
@@ -6153,10 +6169,9 @@
         }
         currentPageSpan = tracer.startSpan("ui.page", {
           attributes: {
-            "browser.page.url": window.location.href,
-            "browser.page.path": window.location.pathname,
-            "browser.page.hash": window.location.hash,
-            "browser.page.title": document.title
+            "http.url": window.location.href,
+            "http.path": window.location.pathname,
+            "http.title": document.title
           }
         });
         currentPageContext = trace.setSpan(context.active(), currentPageSpan);
@@ -6180,8 +6195,9 @@
         span.setAttribute("error.message", error.message);
         span.setAttribute("error.name", error.name);
         span.setAttribute("error.stack", (_a2 = error.stack) != null ? _a2 : "");
-        span.setAttribute("browser.page.url", window.location.href);
-        span.setAttribute("browser.page.path", window.location.pathname);
+        span.setAttribute("http.url", window.location.href);
+        span.setAttribute("http.path", window.location.pathname);
+        span.setAttribute("http.title", document.title);
         span.end();
         provider.forceFlush();
       } catch (e2) {
@@ -6223,8 +6239,8 @@
                 attributes: {
                   "ui.notification.type": "error",
                   "ui.notification.message": message,
-                  "browser.page.url": window.location.href,
-                  "browser.page.path": window.location.pathname
+                  "http.url": window.location.href,
+                  "http.path": window.location.pathname
                 }
               },
               currentPageContext
@@ -6250,8 +6266,8 @@
           "browser.web_vital",
           {
             attributes: {
-              "browser.page.url": window.location.href,
-              "browser.page.path": window.location.pathname
+              "http.url": window.location.href,
+              "http.path": window.location.pathname
             }
           },
           currentPageContext
@@ -6275,7 +6291,8 @@
             "ux.long_task",
             {
               attributes: {
-                "browser.page.path": window.location.pathname
+                "http.url": window.location.href,
+                "http.path": window.location.pathname
               }
             },
             currentPageContext

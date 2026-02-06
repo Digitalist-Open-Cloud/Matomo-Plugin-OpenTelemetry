@@ -35,8 +35,8 @@ class OpenTelemetry extends Plugin
 {
     private static $activeSpan = null;
     private static $httpSpan = null;
-    private static $httpScope = null;
     private static $httpTracer = null;
+    private static $httpScope = null;
     private static $apiTracer = null;
 
     /**
@@ -55,6 +55,9 @@ class OpenTelemetry extends Plugin
         ];
     }
 
+    /**
+     * Normal HTTP requests in Matomo UI.
+     */
     private static function httpTracer()
     {
         if (!self::$httpTracer) {
@@ -63,6 +66,9 @@ class OpenTelemetry extends Plugin
         return self::$httpTracer;
     }
 
+    /**
+     * API requests, these happens often in Matomo UI.
+     */
     private static function apiTracer()
     {
         if (!self::$apiTracer) {
@@ -70,7 +76,6 @@ class OpenTelemetry extends Plugin
         }
         return self::$apiTracer;
     }
-
 
     /**
      * The events we want to create traces from.
@@ -99,7 +104,7 @@ class OpenTelemetry extends Plugin
     }
 
     /**
-     * Request end event.
+     * HTTP request end.
      */
     public function onRequestEnd(): void
     {
@@ -148,17 +153,26 @@ class OpenTelemetry extends Plugin
         }
     }
 
+    /**
+     * Attach needed javascript files.
+     */
     public function getJSFiles(&$files)
     {
         $files[] = 'plugins/OpenTelemetry/js/start.js';
         $files[] = 'plugins/OpenTelemetry/js/otel.min.js';
     }
 
+    /**
+     * Get needed javascript variables from Matomo.
+     */
     public function addJsVariables(&$out)
     {
         $settings = new SystemSettings();
 
         $enabled           = (bool) $settings->enabled->getValue();
+        $enableDocumentLoadMonitoring = (bool) $settings->enableDocumentLoadMonitoring->getValue();
+        $enableUserInteractionMonitoring = (bool) $settings->enableUserInteractionMonitoring->getValue();
+        $enableXMLHttpRequestMonitoring = (bool) $settings->enableXMLHttpRequestMonitoring->getValue();
         $enableWebVitals   = (bool) $settings->enableWebVitals->getValue();
         $enableUxMonitoring = (bool) $settings->enableUxMonitoring->getValue();
 
@@ -168,6 +182,9 @@ class OpenTelemetry extends Plugin
         $out .= "piwik.openTelemetryEnabled = " . json_encode($enabled) . ";\n";
         $out .= "piwik.openTelemetryServiceName = " . json_encode($serviceName) . ";\n";
         $out .= "piwik.openTelemetryEndpoint = " . json_encode($otelEndpoint) . ";\n";
+        $out .= "piwik.openTelemetryDocumentLoadMonitoring = " . json_encode($enableDocumentLoadMonitoring) . ";\n";
+        $out .= "piwik.openTelemetryUserInteractionMonitoring = " . json_encode($enableUserInteractionMonitoring) . ";\n";
+        $out .= "piwik.openTelemetryXMLHttpRequestMonitoring= " . json_encode($enableXMLHttpRequestMonitoring) . ";\n";
         $out .= "piwik.openTelemetryWebVitals = " . json_encode($enableWebVitals) . ";\n";
         $out .= "piwik.openTelemetryUxMonitoring = " . json_encode($enableUxMonitoring) . ";\n";
     }

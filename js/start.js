@@ -11,6 +11,9 @@
     enabled: true,
     traceUrl: piwik.openTelemetryEndpoint,
     serviceName: piwik.openTelemetryServiceName,
+    enableDocumentLoadMonitoring: Boolean(piwik.openTelemetryDocumentLoadMonitoring),
+    enableUserInteractionMonitoring: Boolean(piwik.openTelemetryUserInteractionMonitoring),
+    enableXMLHttpRequestMonitoring: Boolean(piwik.openTelemetryXMLHttpRequestMonitoring),
     enableWebVitals: Boolean(piwik.openTelemetryWebVitals),
     enableUxMonitoring: Boolean(piwik.openTelemetryUxMonitoring),
   };

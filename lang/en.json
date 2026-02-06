@@ -1,15 +1,21 @@
 {
   "OpenTelemetry": {
-      "OpenTelemetry": "OpenTelemetry",
       "Enabled": "OpenTelemetry enabled",
       "EnabledDescription": "To activate OpenTelemetry",
-      "EnableWebVitals": "Enable WebVitals",
-      "EnableWebVitalsDescription": "Description",
+      "EnableDocumentLoadMonitoring": "Enable Document load monitoring",
+      "EnableDocumentLoadMonitoringDescription": "Enable Document load monitoring",
+      "EnableUserInteractionMonitoring": "Enable User interaction monitoring",
+      "EnableUserInteractionMonitoringDescription": "Enable User interaction monitoring description",
       "EnableUxMonitoring": "Enable UX monitoring",
-      "EnableUxMonitoringDescription": "Description",
-      "ServiceName": "Service name",
-      "ServiceNameDescription": "The name of the service that will be used for the OpenTelemetry",
+      "EnableUxMonitoringDescription": "Enable UX monitoring description",
+      "EnableWebVitals": "Enable WebVitals",
+      "EnableWebVitalsDescription": "Enable WebVital description",
+      "EnableXMLHttpRequestMonitoring": "Enable XMLHttpRequest monitoring",
+      "EnableXMLHttpRequestMonitoringDescription": "Enable XMLHttpRequest monitoring description",
+      "OpenTelemetry": "OpenTelemetry",
       "OtelEndpoint": "Endpoint",
-      "OtelEndpointDescription": "URL to where to send OpenTelemetry"
+      "OtelEndpointDescription": "URL to where to send OpenTelemetry",
+      "ServiceName": "Service name",
+      "ServiceNameDescription": "The name of the service that will be used for the OpenTelemetry"
   }
 }

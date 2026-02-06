@@ -1,3 +1,4 @@
 node_modules
 compile.sh
+trivy.sh
 /vendor/

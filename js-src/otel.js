@@ -17,7 +17,7 @@ import { onCLS, onLCP, onINP } from "web-vitals";
     return;
   }
 
-  const OTEL_TRACE_URL = CONFIG.traceUrl ?? "http://127.0.0.1:4318/v1/traces";
+  const OTEL_TRACE_URL = CONFIG.traceUrl ?? "";
 
   const SERVICE_NAME = CONFIG.serviceName ?? "matomo-frontend";
 
@@ -33,13 +33,33 @@ import { onCLS, onLCP, onINP } from "web-vitals";
 
   provider.register();
 
-  registerInstrumentations({
-    instrumentations: [
-      new DocumentLoadInstrumentation(),
-      new UserInteractionInstrumentation(),
-      new XMLHttpRequestInstrumentation(),
-    ],
-  });
+  const instrumentations = [];
+
+  if (CONFIG.enableDocumentLoadMonitoring) {
+    instrumentations.push(
+      new DocumentLoadInstrumentation()
+    );
+  }
+
+  if (CONFIG.enableUserInteractionMonitoring) {
+    instrumentations.push(
+      new UserInteractionInstrumentation()
+    );
+  }
+
+  if (CONFIG.enableXMLHttpRequestMonitoring) {
+    instrumentations.push(
+      new XMLHttpRequestInstrumentation({
+        propagateTraceHeaderCorsUrls: [/.*/],
+      })
+    );
+  }
+
+  if (instrumentations.length > 0) {
+    registerInstrumentations({
+      instrumentations,
+    });
+  }
 
   const tracer = trace.getTracer(SERVICE_NAME);
   let currentPageSpan = null;
@@ -54,10 +74,9 @@ import { onCLS, onLCP, onINP } from "web-vitals";
 
       currentPageSpan = tracer.startSpan("ui.page", {
         attributes: {
-          "browser.page.url": window.location.href,
-          "browser.page.path": window.location.pathname,
-          "browser.page.hash": window.location.hash,
-          "browser.page.title": document.title,
+          "http.url": window.location.href,
+          "http.path": window.location.pathname,
+          "http.title": document.title,
         },
       });
 
@@ -89,8 +108,9 @@ import { onCLS, onLCP, onINP } from "web-vitals";
       span.setAttribute("error.message", error.message);
       span.setAttribute("error.name", error.name);
       span.setAttribute("error.stack", error.stack ?? "");
-      span.setAttribute("browser.page.url", window.location.href);
-      span.setAttribute("browser.page.path", window.location.pathname);
+      span.setAttribute("http.url", window.location.href);
+      span.setAttribute("http.path", window.location.pathname);
+      span.setAttribute("http.title", document.title);
 
       span.end();
       provider.forceFlush();
@@ -149,8 +169,8 @@ import { onCLS, onLCP, onINP } from "web-vitals";
               attributes: {
                 "ui.notification.type": "error",
                 "ui.notification.message": message,
-                "browser.page.url": window.location.href,
-                "browser.page.path": window.location.pathname,
+                "http.url": window.location.href,
+                "http.path": window.location.pathname,
               },
             },
             currentPageContext
@@ -180,8 +200,8 @@ import { onCLS, onLCP, onINP } from "web-vitals";
         "browser.web_vital",
         {
           attributes: {
-            "browser.page.url": window.location.href,
-            "browser.page.path": window.location.pathname,
+            "http.url": window.location.href,
+            "http.path": window.location.pathname,
           },
         },
         currentPageContext
@@ -214,7 +234,8 @@ import { onCLS, onLCP, onINP } from "web-vitals";
           "ux.long_task",
           {
             attributes: {
-              "browser.page.path": window.location.pathname,
+              "http.url": window.location.href,
+              "http.path": window.location.pathname,
             },
           },
           currentPageContext

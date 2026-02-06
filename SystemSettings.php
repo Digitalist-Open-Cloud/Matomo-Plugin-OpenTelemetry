@@ -43,6 +43,15 @@ class SystemSettings extends MatomoSettings
     /** @var Setting */
     public $enableUxMonitoring;
 
+    /** @var Setting */
+    public $enableDocumentLoadMonitoring;
+
+    /** @var Setting */
+    public $enableUserInteractionMonitoring;
+
+    /** @var Setting */
+    public $enableXMLHttpRequestMonitoring;
+
     protected function init()
     {
         $this->enabled = $this->enabledSetting();
@@ -50,6 +59,9 @@ class SystemSettings extends MatomoSettings
         $this->otelEndpoint = $this->otelEndpointSetting();
         $this->enableWebVitals = $this->webVitalsSetting();
         $this->enableUxMonitoring = $this->uxMonitoringSetting();
+        $this->enableDocumentLoadMonitoring = $this->documentLoadSetting();
+        $this->enableUserInteractionMonitoring = $this->userInteractionSetting();
+        $this->enableXMLHttpRequestMonitoring = $this->xmlHttpRequestSetting();
     }
 
     private function enabledSetting()
@@ -88,7 +100,7 @@ class SystemSettings extends MatomoSettings
     {
         return $this->makeSetting(
             'otelEndpoint',
-            'https://otel.example.com',
+            '',
             FieldConfig::TYPE_STRING,
             function (FieldConfig $field) {
                 $field->title = Piwik::translate('OpenTelemetry_OtelEndpoint');
@@ -96,6 +108,58 @@ class SystemSettings extends MatomoSettings
                 $field->description = Piwik::translate(
                     'OpenTelemetry_OtelEndpointDescription'
                 );
+            }
+        );
+    }
+
+    private function documentLoadSetting()
+    {
+        return $this->makeSetting(
+            'enableDocumentLoadMonitoring',
+            false,
+            FieldConfig::TYPE_BOOL,
+            function (FieldConfig $field) {
+                $field->title = Piwik::translate('OpenTelemetry_EnableDocumentLoadMonitoring');
+                $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+                $field->description = Piwik::translate(
+                    'OpenTelemetry_EnableDocumentLoadMonitoringDescription'
+                );
+                $field->condition = 'enabled';
+            }
+        );
+    }
+
+    private function userInteractionSetting()
+    {
+        return $this->makeSetting(
+            'enableUserInteractionMonitoring',
+            false,
+            FieldConfig::TYPE_BOOL,
+            function (FieldConfig $field) {
+                $field->title = Piwik::translate('OpenTelemetry_EnableUserInteractionMonitoring');
+                $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+                $field->description = Piwik::translate(
+                    'OpenTelemetry_EnableUserInteractionMonitoringDescription'
+                );
+                $field->condition = 'enabled';
+            }
+        );
+    }
+
+
+    private function xmlHttpRequestSetting()
+    {
+        return $this->makeSetting(
+            'enableXMLHttpRequestMonitoring',
+            false,
+            FieldConfig::TYPE_BOOL,
+            function (FieldConfig $field) {
+                $field->title = Piwik::translate('OpenTelemetry_EnableXMLHttpRequestMonitoring');
+                $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+                $field->description = Piwik::translate(
+                    'OpenTelemetry_EnableXMLHttpRequestMonitoringDescription'
+                );
+                $field->condition = 'enabled';
             }
         );
     }
