@@ -1,0 +1,20 @@
+{
+  "OpenTelemetry": {
+    "Enabled": "Aktivera OpenTelemetry",
+    "EnabledDescription": "Aktiverar OpenTelemetry.",
+    "EnableDocumentLoadMonitoring": "Aktivera övervakning av dokumentinläsning",
+    "EnableDocumentLoadMonitoringDescription": "Täcker en stor del av instansens användning, inklusive sidladdningstider.",
+    "EnableUserInteractionMonitoring": "Aktivera övervakning av användarinteraktioner",
+    "EnableUserInteractionMonitoringDescription": "Spårar användarbeteenden, till exempel klick på länkar.",
+    "EnableUxMonitoring": "Aktivera UX-övervakning",
+    "EnableUxMonitoringDescription": "Grundläggande övervakning av användarupplevelsen. Om övervakning av dokumentinläsning redan används kan detta vara onödigt.",
+    "EnableWebVitals": "Aktivera Web Vitals",
+    "EnableWebVitalsDescription": "Samlar in Web Vitals-måtten LCP, INP och CLS samt, när webbläsaren stöder det, uppgifter som är längre än 50 ms (långa uppgifter).",
+    "EnableXMLHttpRequestMonitoring": "Aktivera övervakning av XMLHttpRequests",
+    "EnableXMLHttpRequestMonitoringDescription": "Samlar in XMLHttpRequests från frontend.",
+    "OtelEndpoint": "Endpoint URL",
+    "OtelEndpointDescription": "Den fullständiga URL som OpenTelemetry-data skickas till, till exempel `https://myhost.org:4318/v1/traces` eller `https://myhost.org`. Normalt krävs en HTTP endpoint.",
+    "ServiceName": "Servicens namn",
+    "ServiceNameDescription": "Namnet på den service som används för att identifiera webbläsare interaktioner i OpenTelemetry. Använd inte samma identifierare som för backend (PHP), eftersom detta kan orsaka problem."
+  }
+}

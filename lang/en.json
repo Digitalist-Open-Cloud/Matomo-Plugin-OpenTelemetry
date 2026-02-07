@@ -1,21 +1,20 @@
 {
   "OpenTelemetry": {
-      "Enabled": "OpenTelemetry enabled",
-      "EnabledDescription": "To activate OpenTelemetry",
-      "EnableDocumentLoadMonitoring": "Enable Document load monitoring",
-      "EnableDocumentLoadMonitoringDescription": "Enable Document load monitoring",
-      "EnableUserInteractionMonitoring": "Enable User interaction monitoring",
-      "EnableUserInteractionMonitoringDescription": "Enable User interaction monitoring description",
-      "EnableUxMonitoring": "Enable UX monitoring",
-      "EnableUxMonitoringDescription": "Enable UX monitoring description",
-      "EnableWebVitals": "Enable WebVitals",
-      "EnableWebVitalsDescription": "Enable WebVital description",
-      "EnableXMLHttpRequestMonitoring": "Enable XMLHttpRequest monitoring",
-      "EnableXMLHttpRequestMonitoringDescription": "Enable XMLHttpRequest monitoring description",
-      "OpenTelemetry": "OpenTelemetry",
-      "OtelEndpoint": "Endpoint",
-      "OtelEndpointDescription": "URL to where to send OpenTelemetry",
-      "ServiceName": "Service name",
-      "ServiceNameDescription": "The name of the service that will be used for the OpenTelemetry"
+    "Enabled": "OpenTelemetry enabled",
+    "EnabledDescription": "Enable OpenTelemetry.",
+    "EnableDocumentLoadMonitoring": "Enable document load monitoring",
+    "EnableDocumentLoadMonitoringDescription": "Covers much of the instance usage, including page load times.",
+    "EnableUserInteractionMonitoring": "Enable user interaction monitoring",
+    "EnableUserInteractionMonitoringDescription": "Tracks user behaviours, such as clicking links.",
+    "EnableUxMonitoring": "Enable UX monitoring",
+    "EnableUxMonitoringDescription": "Basic UX monitoring. If you are already using document load monitoring, this may not be necessary.",
+    "EnableWebVitals": "Enable Web Vitals",
+    "EnableWebVitalsDescription": "Collects LCP, INP and CLS Web Vitals, and, when supported by the browser, tasks longer than 50 ms (long tasks).",
+    "EnableXMLHttpRequestMonitoring": "Enable XMLHttpRequest monitoring",
+    "EnableXMLHttpRequestMonitoringDescription": "Collects XMLHttpRequests from the frontend.",
+    "OtelEndpoint": "Endpoint URL",
+    "OtelEndpointDescription": "The full URL to which OpenTelemetry data is sent, for example `https://myhost.org:4318/v1/traces` or `https://myhost.org`. Normally, an HTTP endpoint is required.",
+    "ServiceName": "Service name",
+    "ServiceNameDescription": "The name of the service used to identify the browser (client) in OpenTelemetry. Do not use the same name as the backend (PHP), as this may cause issues."
   }
 }

@@ -34,7 +34,7 @@ If you want auto instrumentation database queries:
 
 Files, input output
 
-- open-telemetry/opentelemetry-auto-io (Redis)
+- open-telemetry/opentelemetry-auto-io
 
 #### Environment variables
 
