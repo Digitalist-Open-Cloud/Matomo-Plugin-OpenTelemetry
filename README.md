@@ -1,5 +1,7 @@
 # OpenTelemetry for Matomo
 
+![OpenTelemetry logo](docs/assets/ot.png)
+
 The purpose of this plugin is to measure Matomo itself, how it performs and if there are issues,
 like database queries, requests that take a long time, UI response and track errors
 in Matomo. It is not involved in tracking by design.
@@ -10,7 +12,7 @@ that could be hard to catch in any other way.
 If you use the plugin both in frontend and in the backend you can collect data about
 your Matomo installation that could be hard in other ways.
 
-Open Telemetry is open standard that is supported by many vendors, and it is open source.
+OpenTelemetry is an open standard that is supported by many vendors, and it is open source.
 
 Please note that this plugin require additional composer packages if you want to collect
 telemetry from PHP, which are not included, and needs to be installed together with the
@@ -80,12 +82,11 @@ No other installation than the plugin it self is needed.
 OpenTelemetry for browsers is supported, including catching errors, both from
 console and from UI error notifications.
 Configure which browser telemetry you want to monitor in Admin -> System -> General
-settings -> Open Telemetry.
+settings -> OpenTelemetry.
 
-Client instrumentation from OpenTelemetry for the browser is experimental and mostly
-unspecified from the OTEL project, so this part is very experimental.
-
-### Standard
+Client instrumentation in OpenTelemetry for the browser is experimental and mostly
+unspecified from the OTEL project, so this part is very experimental, both in this plugin
+and the OTEL libraries used.
 
 ### Web Vitals
 
@@ -138,7 +139,7 @@ professional services for Matomo, you can contact us at <cloud@digitalist.com>.
 
 ## Licenses
 
-- This plugin is license under GPL v3+ and copyrighted by [Digitalist Open Cloud](https://digitalist.cloud/).
-- The Open Telemetry PHP and JS packages have Apache License v2.0 license.
+- This plugin is licensed under GPL v3+ and copyrighted by [Digitalist Open Cloud](https://digitalist.cloud/).
+- The OpenTelemetry PHP and JS packages have a Apache License v2.0 license.
 - guzzle7-adapter is MIT licensed.
-- Web vitals have Apache License v2.0 license.
+- Web Vitals have Apache License v2.0 license.
