@@ -1,9 +1,14 @@
 # OTEL collectors
 
-You should use OTEL collector to collect the traces, and the you could send these traces to Tempo, Jaeger or some other services.
-These are example configurations if you use docker compose for the services.
+You need a OTEL comptaible collector to collect the traces, and the you
+could send these traces to Tempo, Jaeger or some other services.
 
-## Example configuration for OTEL collector
+These are example configurations.
+
+## Example configuration for OTEL contrib collector
+
+This configuration is an example base for OTEL contrib collector that sends
+the collected traces to Tempo.
 
 ```yaml
 receivers:
