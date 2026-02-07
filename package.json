@@ -1,0 +1,31 @@
+{
+  "name": "matomo-telemetry",
+  "version": "0.0.1",
+  "description": "OpenTelemetry plugin for Matomo.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL v3+",
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.211.0",
+    "@opentelemetry/instrumentation": "^0.211.0",
+    "@opentelemetry/instrumentation-document-load": "^0.56.0",
+    "@opentelemetry/instrumentation-user-interaction": "^0.55.0",
+    "@opentelemetry/instrumentation-xml-http-request": "^0.211.0",
+    "@opentelemetry/resources": "^2.5.0",
+    "@opentelemetry/sdk-trace-base": "^2.5.0",
+    "@opentelemetry/sdk-trace-web": "^2.5.0",
+    "@opentelemetry/semantic-conventions": "^1.39.0",
+    "web-vitals": "^5.1.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.2"
+  }
+}

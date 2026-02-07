@@ -1,0 +1,20 @@
+{
+  "OpenTelemetry": {
+    "Enabled": "OpenTelemetry activé",
+    "EnabledDescription": "Active OpenTelemetry.",
+    "EnableDocumentLoadMonitoring": "Activer la surveillance du chargement des documents",
+    "EnableDocumentLoadMonitoringDescription": "Couvre une grande partie de l’utilisation de l’instance, y compris les temps de chargement des pages.",
+    "EnableUserInteractionMonitoring": "Activer la surveillance des interactions utilisateur",
+    "EnableUserInteractionMonitoringDescription": "Suit les comportements des utilisateurs, tels que les clics sur les liens.",
+    "EnableUxMonitoring": "Activer la surveillance de l’expérience utilisateur",
+    "EnableUxMonitoringDescription": "Surveillance de base de l’expérience utilisateur. Si la surveillance du chargement des documents est déjà activée, cela peut ne pas être nécessaire.",
+    "EnableWebVitals": "Activer les Web Vitals",
+    "EnableWebVitalsDescription": "Collecte les métriques Web Vitals LCP, INP et CLS et, lorsque le navigateur le prend en charge, les tâches de plus de 50 ms (long tasks).",
+    "EnableXMLHttpRequestMonitoring": "Activer la surveillance des XMLHttpRequests",
+    "EnableXMLHttpRequestMonitoringDescription": "Collecte les XMLHttpRequests provenant du frontend.",
+    "OtelEndpoint": "URL du point de terminaison",
+    "OtelEndpointDescription": "URL complète vers laquelle les données OpenTelemetry sont envoyées, par exemple `https://myhost.org:4318/v1/traces` ou `https://myhost.org`. En général, un point de terminaison HTTP est requis.",
+    "ServiceName": "Nom du service",
+    "ServiceNameDescription": "Nom du service utilisé pour identifier le navigateur (client) dans OpenTelemetry. N’utilisez pas le même nom que pour le backend (PHP), car cela peut provoquer des problèmes."
+  }
+}

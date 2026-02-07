@@ -25,6 +25,8 @@ use Piwik\Plugin;
 use OpenTelemetry\API\Globals;
 use OpenTelemetry\API\Trace\SpanKind;
 use OpenTelemetry\API\Trace\StatusCode;
+use OpenTelemetry\Context\Context;
+use Piwik\Plugins\OpenTelemetry\SystemSettings;
 
 /***
  * Main class to create traces.
@@ -33,10 +35,13 @@ class OpenTelemetry extends Plugin
 {
     private static $activeSpan = null;
     private static $httpSpan = null;
+    private static $httpTracer = null;
     private static $httpScope = null;
+    private static $apiTracer = null;
 
     /**
      * The events we want to create traces from.
+     * And needed JS files and variables for client tracing.
      */
     public function registerEvents(): array
     {
@@ -45,30 +50,61 @@ class OpenTelemetry extends Plugin
             'Http.sendHttpRequest.end' => 'onRequestEnd',
             'API.Request.dispatch'     => 'onApiStart',
             'API.Request.dispatch.end' => 'onApiEnd',
+            'AssetManager.getJavaScriptFiles' => 'getJSFiles',
+            'Template.jsGlobalVariables'      => 'addJsVariables',
         ];
     }
 
     /**
-     * Request start event.
+     * Normal HTTP requests in Matomo UI.
+     */
+    private static function httpTracer()
+    {
+        if (!self::$httpTracer) {
+            self::$httpTracer = Globals::tracerProvider()->getTracer('matomo.http');
+        }
+        return self::$httpTracer;
+    }
+
+    /**
+     * API requests, these happens often in Matomo UI.
+     */
+    private static function apiTracer()
+    {
+        if (!self::$apiTracer) {
+            self::$apiTracer = Globals::tracerProvider()->getTracer('matomo.api');
+        }
+        return self::$apiTracer;
+    }
+
+    /**
+     * The events we want to create traces from.
      */
     public function onRequestStart(): void
     {
-        $tracer = Globals::tracerProvider()->getTracer('matomo.http');
+        $propagator = Globals::propagator();
+        $parentContext = $propagator->extract($_SERVER);
+
+        Context::storage()->attach($parentContext);
+
+        $tracer = self::httpTracer();
 
         self::$httpSpan = $tracer
-            ->spanBuilder(($_SERVER['REQUEST_METHOD'] ?? 'unknown') . ' ' . ($_SERVER['REQUEST_URI'] ?? '/'))
-            ->setSpanKind(SpanKind::KIND_CLIENT)
+            ->spanBuilder(
+                ($_SERVER['REQUEST_METHOD'] ?? 'unknown') . ' ' . ($_SERVER['REQUEST_URI'] ?? '/')
+            )
+            ->setSpanKind(SpanKind::KIND_SERVER)
+            ->setParent($parentContext)
             ->setAttribute('http.url', $_SERVER['REQUEST_URI'] ?? 'unknown')
             ->setAttribute('http.method', $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN')
             ->setStartTimestamp((int) (microtime(true) * 1e9))
             ->startSpan();
 
-        // Activate context so child spans attach automatically
         self::$httpScope = self::$httpSpan->activate();
     }
 
     /**
-     * Request end event.
+     * HTTP request end.
      */
     public function onRequestEnd(): void
     {
@@ -86,8 +122,7 @@ class OpenTelemetry extends Plugin
      */
     public function onApiStart(): void
     {
-        $tracer = Globals::tracerProvider()
-            ->getTracer('matomo.api');
+        $tracer = self::apiTracer();
 
         self::$activeSpan = $tracer
             ->spanBuilder('API ' . ($_GET['method'] ?? 'unknown'))
@@ -97,7 +132,6 @@ class OpenTelemetry extends Plugin
             ->setStartTimestamp((int) (microtime(true) * 1e9))
             ->startSpan();
 
-        // Activate context so child spans attach automatically
         self::$activeSpan->activate();
     }
 
@@ -117,5 +151,41 @@ class OpenTelemetry extends Plugin
             self::$activeSpan->end((int) (microtime(true) * 1e9));
             self::$activeSpan = null;
         }
+    }
+
+    /**
+     * Attach needed javascript files.
+     */
+    public function getJSFiles(&$files)
+    {
+        $files[] = 'plugins/OpenTelemetry/js/start.js';
+        $files[] = 'plugins/OpenTelemetry/js/otel.min.js';
+    }
+
+    /**
+     * Get needed javascript variables from Matomo.
+     */
+    public function addJsVariables(&$out)
+    {
+        $settings = new SystemSettings();
+
+        $enabled = (bool) $settings->enabled->getValue();
+        $enableDocumentLoadMonitoring = (bool) $settings->enableDocumentLoadMonitoring->getValue();
+        $enableUserInteractionMonitoring = (bool) $settings->enableUserInteractionMonitoring->getValue();
+        $enableXMLHttpRequestMonitoring = (bool) $settings->enableXMLHttpRequestMonitoring->getValue();
+        $enableWebVitals  = (bool) $settings->enableWebVitals->getValue();
+        $enableUxMonitoring = (bool) $settings->enableUxMonitoring->getValue();
+
+        $serviceName = $settings->serviceName->getValue();
+        $otelEndpoint = $settings->otelEndpoint->getValue();
+
+        $out .= "piwik.openTelemetryEnabled = " . json_encode($enabled) . ";\n";
+        $out .= "piwik.openTelemetryServiceName = " . json_encode($serviceName) . ";\n";
+        $out .= "piwik.openTelemetryEndpoint = " . json_encode($otelEndpoint) . ";\n";
+        $out .= "piwik.openTelemetryDocumentLoadMonitoring = " . json_encode($enableDocumentLoadMonitoring) . ";\n";
+        $out .= "piwik.openTelemetryUserInteractionMonitoring = " . json_encode($enableUserInteractionMonitoring) . ";\n";
+        $out .= "piwik.openTelemetryXMLHttpRequestMonitoring= " . json_encode($enableXMLHttpRequestMonitoring) . ";\n";
+        $out .= "piwik.openTelemetryWebVitals = " . json_encode($enableWebVitals) . ";\n";
+        $out .= "piwik.openTelemetryUxMonitoring = " . json_encode($enableUxMonitoring) . ";\n";
     }
 }

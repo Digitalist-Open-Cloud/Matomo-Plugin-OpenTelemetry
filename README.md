@@ -1,36 +1,58 @@
 # OpenTelemetry for Matomo
 
-OpenTelemetry plugin for Matomo.
+The purpose of this plugin is to measure Matomo itself, how it performs and if there are issues,
+like database queries, requests that take a long time, UI response and track errors
+in Matomo. It is not involved in tracking by design.
 
-Traces API and Requests from Matomo. More could be added later on.
+While using OpenTelemetry from Matomo, you can collect issues in your installation of Matomo
+that could be hard to catch in any other way.
 
-Please note that this plugin require additional composer packages, which are not included,
-and needs to be installed together with the plugin. Also it needs the PHP extension OpenTelemetry.
+If you use the plugin both in frontend and in the backend you can collect data about
+your Matomo installation that could be hard in other ways.
+
+Open Telemetry is open standard that is supported by many vendors, and it is open source.
+
+Please note that this plugin require additional composer packages if you want to collect
+telemetry from PHP, which are not included, and needs to be installed together with the
+plugin (see further down), also you need the PHP extension OpenTelemetry installed.
+
+For only tracking the frontend (browser usage), all what you need is included, but you still
+need a backend to collect the data.
+
+## Configuration
+
+For PHP, use environment variables, for browser, use Matomo System settings.
 
 ## Requirements
 
-- At least PHP 8.0.x
+- At least PHP 8.0.x to install plugin.
+
+### For OpenTelemetry for PHP
+
+- At least PHP 8.1.x.
 - OpenTelemetry PHP extension.
-- gRPC PHP extension if you want to export in gRPC - otherwise it will use HTTP (works, but slower)
-- OTEL collector or similar
-- Something to display your traces - we use Grafana with Tempo data source
+- [gRPC](https://en.wikipedia.org/wiki/GRPC) [PHP extension](https://grpc.io/docs/languages/php/quickstart/) if you want to export to a gRPC endpoint - otherwise it will use HTTP (works, but slower). Signoz have a [great article](https://signoz.io/comparisons/opentelemetry-grpc-vs-http/) comparing HTTP and gRPC.
 
-### Composer packages
+#### Composer packages
 
-- open-telemetry/api
-- open-telemetry/sdk
-- open-telemetry/exporter-otlp
-- php-http/guzzle7-adapter
+- `open-telemetry/api`
+- `open-telemetry/sdk`
+- `open-telemetry/exporter-otlp`
+- `php-http/guzzle7-adapter`
+
+There is also auto-instrumentation libraries, that give you more detailed information.
 
 If you want auto instrumentation database queries:
 
-- open-telemetry/opentelemetry-auto-pdo (MariaDB and Mysql)
+- `open-telemetry/opentelemetry-auto-pdo` (MariaDB and Mysql)
 
 Files, input output
 
-- open-telemetry/opentelemetry-auto-io (Redis)
+- `open-telemetry/opentelemetry-auto-io`
 
-## Environment variables
+Other auto-instrumentation libraries could be found at [Packagist](https://packagist.org/).
+
+#### Environment variables
 
 Example:
 
@@ -44,3 +66,79 @@ OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
 OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 OTEL_RESOURCE_ATTRIBUTES=host.name=myhost.com
 ```
+
+### Collector
+
+- [OTEL contrib collector](https://github.com/open-telemetry/opentelemetry-collector-contrib) or similar, you can also use self-hosted or cloud services like [Signoz](https://signoz.io/), [NewRelic](https://newrelic.com/) etc.
+or any other provide that supports OpenTelemetry.
+- If using OTEL contrib collector, something to store and display your traces - we use Grafana with Tempo data source.
+
+## Browser
+
+No other installation than the plugin it self is needed.
+
+OpenTelemetry for browsers is supported, including catching errors, both from
+console and from UI error notifications.
+Configure which browser telemetry you want to monitor in Admin -> System -> General
+settings -> Open Telemetry.
+
+Client instrumentation from OpenTelemetry for the browser is experimental and mostly
+unspecified from the OTEL project, so this part is very experimental.
+
+### Standard
+
+### Web Vitals
+
+Chrome is the browser that support [Web Vitals}(https://web.dev/articles/vitals) the best
+(as it is developed by Google), some of the metrics is available in other browsers, like
+Firefox. LCP, INP and CLS metrics from Web Vitals is collected by this plugin.
+
+## Development
+
+### For PHP
+
+Install needed composer packages (see above).
+
+### For browser
+
+OpenTelemetry for browsers is still in a experiment state, and everything can change.
+
+At least Node JS 20 is required.
+
+To build release js-files:
+
+```shell
+npm install
+npx esbuild src/otel.js \
+  --bundle \
+  --sourcemap \
+  --format=iife \
+  --target=es2018 \
+  --outfile=js/otel.js
+
+npx esbuild src/otel.js \
+  --bundle \
+  --minify \
+  --format=iife \
+  --target=es2018 \
+  --outfile=js/otel.min.js
+
+```
+
+## Software Bill of Materials (SBOM)
+
+SBOMs for the javascript dependencies are in directory `sbom`. For PHP packages, this is not included,
+as this is not part of the distribution of this plugin. Also, versions and dependencies depends on your setup.
+Trivy has been used to generate the SBOMs.
+
+## Professional services
+
+If you need help to install the plugin or any other help with Matomo, Digitalist Open Cloud provide
+professional services for Matomo, you can contact us at <cloud@digitalist.com>.
+
+## Licenses
+
+- This plugin is license under GPL v3+ and copyrighted by [Digitalist Open Cloud](https://digitalist.cloud/).
+- The Open Telemetry PHP and JS packages have Apache License v2.0 license.
+- guzzle7-adapter is MIT licensed.
+- Web vitals have Apache License v2.0 license.
