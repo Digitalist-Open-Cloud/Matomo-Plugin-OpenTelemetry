@@ -22,6 +22,7 @@
 namespace Piwik\Plugins\OpenTelemetry;
 
 use Piwik\Plugin;
+use Piwik\Container\StaticContainer;
 use OpenTelemetry\API\Globals;
 use OpenTelemetry\API\Trace\SpanKind;
 use OpenTelemetry\API\Trace\StatusCode;
@@ -29,6 +30,8 @@ use OpenTelemetry\Context\Context;
 use OpenTelemetry\API\Baggage\Baggage;
 use OpenTelemetry\API\Metrics\MeterInterface;
 use Piwik\Plugins\OpenTelemetry\SystemSettings;
+use Monolog\Logger;
+use Piwik\Plugins\OpenTelemetry\Handler\OpenTelemetryHandler;
 
 /***
  * Main class to create traces.
@@ -65,9 +68,20 @@ class OpenTelemetry extends Plugin
             'API.Request.dispatch.end' => 'onApiEnd',
             'AssetManager.getJavaScriptFiles' => 'getJSFiles',
             'Template.jsGlobalVariables'      => 'addJsVariables',
+            'Platform.initialized' => 'attachOtelHandler',
         ];
     }
 
+    public function attachOtelHandler(): void
+    {
+        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+
+        if ($logger instanceof Logger) {
+            $logger->pushHandler(
+                new OpenTelemetryHandler(Logger::INFO)
+            );
+        }
+    }
     /**
      * Normal HTTP requests in Matomo UI.
      */
@@ -170,7 +184,6 @@ class OpenTelemetry extends Plugin
     public function onApiEnd(): void
     {
         if (self::$activeSpan) {
-
             $durationMs = null;
 
             if (self::$apiStartTime !== null) {
