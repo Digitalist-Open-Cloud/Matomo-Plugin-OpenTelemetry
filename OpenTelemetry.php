@@ -27,6 +27,7 @@ use OpenTelemetry\API\Trace\SpanKind;
 use OpenTelemetry\API\Trace\StatusCode;
 use OpenTelemetry\Context\Context;
 use OpenTelemetry\API\Baggage\Baggage;
+use OpenTelemetry\API\Metrics\MeterInterface;
 use Piwik\Plugins\OpenTelemetry\SystemSettings;
 
 /***
@@ -39,7 +40,18 @@ class OpenTelemetry extends Plugin
     private static $httpTracer = null;
     private static $httpScope = null;
     private static $apiTracer = null;
+    private static $meter = null;
+    private static $apiDurationHistogram = null;
+    private static $apiStartTime = null;
 
+
+    private static function meter(): MeterInterface
+    {
+        if (!self::$meter) {
+            self::$meter = Globals::meterProvider()->getMeter('matomo.api');
+        }
+        return self::$meter;
+    }
     /**
      * The events we want to create traces from.
      * And needed JS files and variables for client tracing.
@@ -131,6 +143,16 @@ class OpenTelemetry extends Plugin
     {
         $tracer = self::apiTracer();
 
+        self::$apiStartTime = microtime(true);
+        if (!self::$apiDurationHistogram) {
+            self::$apiDurationHistogram = self::meter()
+                ->createHistogram(
+                    'matomo.api.request.duration',
+                    'ms',
+                    'Duration of Matomo API requests'
+                );
+        }
+
         self::$activeSpan = $tracer
             ->spanBuilder('API ' . ($_GET['method'] ?? 'unknown'))
             ->setSpanKind(SpanKind::KIND_SERVER)
@@ -148,15 +170,30 @@ class OpenTelemetry extends Plugin
     public function onApiEnd(): void
     {
         if (self::$activeSpan) {
-            self::$activeSpan->setAttribute(
-                'http.status_code',
-                http_response_code() ?: 200
-            );
-            self::$activeSpan->setStatus(
-                StatusCode::STATUS_OK
-            );
-            self::$activeSpan->end((int) (microtime(true) * 1e9));
+
+            $durationMs = null;
+
+            if (self::$apiStartTime !== null) {
+                $durationMs = (microtime(true) - self::$apiStartTime) * 1000;
+            }
+
+            $attributes = [
+                'matomo.api.method' => $_GET['method'] ?? 'unknown',
+                'http.method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown',
+                'http.status_code' => http_response_code() ?: 200,
+            ];
+            if ($durationMs !== null && self::$apiDurationHistogram) {
+                self::$apiDurationHistogram->record(
+                    $durationMs,
+                    $attributes
+                );
+            }
+            self::$activeSpan->setAttribute('http.status_code', $attributes['http.status_code']);
+            self::$activeSpan->setStatus(StatusCode::STATUS_OK);
+            self::$activeSpan->end();
+
             self::$activeSpan = null;
+            self::$apiStartTime = null;
         }
     }
 
