@@ -26,6 +26,7 @@ use OpenTelemetry\API\Globals;
 use OpenTelemetry\API\Trace\SpanKind;
 use OpenTelemetry\API\Trace\StatusCode;
 use OpenTelemetry\Context\Context;
+use OpenTelemetry\API\Baggage\Baggage;
 use Piwik\Plugins\OpenTelemetry\SystemSettings;
 
 /***
@@ -99,6 +100,12 @@ class OpenTelemetry extends Plugin
             ->setAttribute('http.method', $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN')
             ->setStartTimestamp((int) (microtime(true) * 1e9))
             ->startSpan();
+            // @todo: Not working yet, set site id from baggage (js in this case), if we have it.
+            $baggage = Baggage::getCurrent();
+            $siteId = $baggage->getValue('matomo.site_id');
+        if ($siteId !== null) {
+            self::$httpSpan->setAttribute('matomo.site_id', $siteId);
+        }
 
         self::$httpScope = self::$httpSpan->activate();
     }

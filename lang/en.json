@@ -1,5 +1,7 @@
 {
   "OpenTelemetry": {
+    "CspConnectSrc": "Set CSP",
+    "CspConnectSrcDescription": "Set Content Security Policy to allow Matomo connect to a OTEL collector",
     "Enabled": "OpenTelemetry enabled",
     "EnabledDescription": "Enable OpenTelemetry.",
     "EnableDocumentLoadMonitoring": "Enable document load monitoring",

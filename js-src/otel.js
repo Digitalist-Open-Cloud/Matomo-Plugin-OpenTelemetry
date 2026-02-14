@@ -1,12 +1,20 @@
-import { trace, SpanStatusCode, context } from "@opentelemetry/api";
+import { trace, SpanStatusCode, context, propagation } from "@opentelemetry/api";
 import { WebTracerProvider } from "@opentelemetry/sdk-trace-web";
+import { ZoneContextManager } from '@opentelemetry/context-zone';
+import {
+  CompositePropagator,
+  W3CBaggagePropagator,
+  W3CTraceContextPropagator,
+} from '@opentelemetry/core';
+import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { DocumentLoadInstrumentation } from "@opentelemetry/instrumentation-document-load";
 import { UserInteractionInstrumentation } from "@opentelemetry/instrumentation-user-interaction";
 import { XMLHttpRequestInstrumentation } from "@opentelemetry/instrumentation-xml-http-request";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
-import { resourceFromAttributes } from "@opentelemetry/resources";
+import { resourceFromAttributes, detectResources } from "@opentelemetry/resources";
+import { browserDetector } from '@opentelemetry/opentelemetry-browser-detector';
 import { onCLS, onLCP, onINP } from "web-vitals";
 
 (function initOpenTelemetry() {
@@ -20,18 +28,48 @@ import { onCLS, onLCP, onINP } from "web-vitals";
   const OTEL_TRACE_URL = CONFIG.traceUrl ?? "";
 
   const SERVICE_NAME = CONFIG.serviceName ?? "matomo-frontend";
+  const detectedResources = detectResources({
+    detectors: [browserDetector],
+  });
+
+  let resource = resourceFromAttributes({
+    [ATTR_SERVICE_NAME]: SERVICE_NAME,
+  });
+  resource = resource.merge(detectedResources);
 
   // OpenTelemetry setup
   const provider = new WebTracerProvider({
-    resource: resourceFromAttributes({
-      "service.name": SERVICE_NAME,
-    }),
+    resource,
     spanProcessors: [
-      new BatchSpanProcessor(new OTLPTraceExporter({ url: OTEL_TRACE_URL })),
+      new BatchSpanProcessor(
+        new OTLPTraceExporter({ url: OTEL_TRACE_URL })
+      ),
     ],
   });
 
-  provider.register();
+  provider.register({
+    contextManager: new ZoneContextManager(),
+    propagator: new CompositePropagator({
+      propagators: [
+        new W3CTraceContextPropagator(),
+        new W3CBaggagePropagator(),
+      ],
+    }),
+  });
+  const siteId = window.piwik?.idSite;
+  if (siteId !== undefined && siteId !== null) {
+    const baggage = propagation.createBaggage({
+      'matomo.site_id': { value: String(siteId) },
+    });
+
+    const baggageContext = propagation.setBaggage(
+      context.active(),
+      baggage
+    );
+    context.with(baggageContext, () => {
+
+    });
+  }
 
   const instrumentations = [];
 

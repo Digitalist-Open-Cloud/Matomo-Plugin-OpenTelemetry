@@ -29,6 +29,9 @@ use Piwik\Settings\Plugin\SystemSettings as MatomoSettings;
 class SystemSettings extends MatomoSettings
 {
     /** @var Setting */
+    public $cspConnectSrc;
+
+    /** @var Setting */
     public $serviceName;
 
     /** @var Setting */
@@ -55,6 +58,7 @@ class SystemSettings extends MatomoSettings
     protected function init()
     {
         $this->enabled = $this->enabledSetting();
+        $this->cspConnectSrc = $this->cspConnectSrcSetting();
         $this->serviceName = $this->serviceNameSetting();
         $this->otelEndpoint = $this->otelEndpointSetting();
         $this->enableWebVitals = $this->webVitalsSetting();
@@ -75,6 +79,23 @@ class SystemSettings extends MatomoSettings
                 $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
                 $field->description = Piwik::translate(
                     'OpenTelemetry_EnabledDescription'
+                );
+            }
+        );
+    }
+
+
+    private function cspConnectSrcSetting()
+    {
+        return $this->makeSetting(
+            'cspConnectSrc',
+            '',
+            FieldConfig::TYPE_STRING,
+            function (FieldConfig $field) {
+                $field->title = Piwik::translate('OpenTelemetry_CspConnectSrc');
+                $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
+                $field->description = Piwik::translate(
+                    'OpenTelemetry_CspConnectSrcDescription'
                 );
             }
         );

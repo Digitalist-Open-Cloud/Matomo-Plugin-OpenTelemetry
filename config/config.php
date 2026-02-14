@@ -4,27 +4,19 @@ return [
     'Piwik\View\SecurityPolicy' => Piwik\DI::decorate(function ($policy) {
         /** @var \Piwik\View\SecurityPolicy $policy */
 
-      $policy->addPolicy(
-          'default-src',
-          "'self'"
-      );
+        if (!\Piwik\SettingsPiwik::isMatomoInstalled()) {
+            return $policy;
+        }
 
-      $policy->addPolicy(
-          'script-src',
-          "'self' 'unsafe-eval'"
-      );
+        $settings = new Piwik\Plugins\OpenTelemetry\SystemSettings();
+        $cspDomains = $settings->getSetting('cspConnectSrc')->getValue();
 
-      $policy->addPolicy(
-          'connect-src',
-          "'self' http://127.0.0.1:4318 http://localhost:4318 http://127.0.0.1:4317 http://127.0.0.1:4317"
-      );
-
-      $policy->addPolicy(
-          'img-src',
-          "'self' data:"
-      );
-
-      $policy->disable();
+        if (isset($cspDomains)) {
+            $policy->addPolicy(
+                'connect-src',
+                "'self' $cspDomains"
+            );
+        }
 
         return $policy;
     })

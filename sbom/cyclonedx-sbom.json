@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:786f2418-caa0-4978-b2b2-defc841b48e5",
+  "serialNumber": "urn:uuid:d02fe73f-b6d5-493d-be2a-878d8a1672ec",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-02-06T15:32:11+00:00",
+    "timestamp": "2026-02-07T02:19:32+00:00",
     "tools": {
       "components": [
         {
@@ -17,7 +17,7 @@
       ]
     },
     "component": {
-      "bom-ref": "65d8df61-5731-467d-a26f-b1ed36bf6049",
+      "bom-ref": "64d79be5-f093-4940-91a1-f316d6dfb05c",
       "type": "application",
       "name": ".",
       "properties": [
@@ -30,7 +30,7 @@
   },
   "components": [
     {
-      "bom-ref": "3e1fb99d-ee44-4019-8634-3182a1a5770c",
+      "bom-ref": "dcc712ae-43e1-4158-9da6-6ad8d0de7663",
       "type": "application",
       "name": "package-lock.json",
       "properties": [
@@ -87,6 +87,56 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "@opentelemetry/api@1.9.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.0",
+      "type": "library",
+      "group": "@opentelemetry",
+      "name": "context-zone-peer-dep",
+      "version": "2.5.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@opentelemetry/context-zone-peer-dep@2.5.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40opentelemetry/context-zone@2.5.0",
+      "type": "library",
+      "group": "@opentelemetry",
+      "name": "context-zone",
+      "version": "2.5.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40opentelemetry/context-zone@2.5.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@opentelemetry/context-zone@2.5.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -237,6 +287,31 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "@opentelemetry/instrumentation@0.211.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40opentelemetry/opentelemetry-browser-detector@0.211.0",
+      "type": "library",
+      "group": "@opentelemetry",
+      "name": "opentelemetry-browser-detector",
+      "version": "0.211.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40opentelemetry/opentelemetry-browser-detector@0.211.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@opentelemetry/opentelemetry-browser-detector@0.211.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1034,25 +1109,28 @@
   ],
   "dependencies": [
     {
-      "ref": "3e1fb99d-ee44-4019-8634-3182a1a5770c",
+      "ref": "64d79be5-f093-4940-91a1-f316d6dfb05c",
+      "dependsOn": [
+        "dcc712ae-43e1-4158-9da6-6ad8d0de7663"
+      ]
+    },
+    {
+      "ref": "dcc712ae-43e1-4158-9da6-6ad8d0de7663",
       "dependsOn": [
         "pkg:npm/%40opentelemetry/api@1.9.0",
+        "pkg:npm/%40opentelemetry/context-zone@2.5.0",
+        "pkg:npm/%40opentelemetry/core@2.5.0",
         "pkg:npm/%40opentelemetry/exporter-trace-otlp-http@0.211.0",
         "pkg:npm/%40opentelemetry/instrumentation-document-load@0.56.0",
         "pkg:npm/%40opentelemetry/instrumentation-user-interaction@0.55.0",
         "pkg:npm/%40opentelemetry/instrumentation-xml-http-request@0.211.0",
         "pkg:npm/%40opentelemetry/instrumentation@0.211.0",
+        "pkg:npm/%40opentelemetry/opentelemetry-browser-detector@0.211.0",
         "pkg:npm/%40opentelemetry/resources@2.5.0",
         "pkg:npm/%40opentelemetry/sdk-trace-base@2.5.0",
         "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.0",
         "pkg:npm/%40opentelemetry/semantic-conventions@1.39.0",
         "pkg:npm/web-vitals@5.1.0"
-      ]
-    },
-    {
-      "ref": "65d8df61-5731-467d-a26f-b1ed36bf6049",
-      "dependsOn": [
-        "3e1fb99d-ee44-4019-8634-3182a1a5770c"
       ]
     },
     {
@@ -1064,6 +1142,20 @@
     {
       "ref": "pkg:npm/%40opentelemetry/api@1.9.0",
       "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.0",
+      "dependsOn": [
+        "pkg:npm/%40opentelemetry/api@1.9.0",
+        "pkg:npm/zone.js@0.16.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40opentelemetry/context-zone@2.5.0",
+      "dependsOn": [
+        "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.0",
+        "pkg:npm/zone.js@0.16.0"
+      ]
     },
     {
       "ref": "pkg:npm/%40opentelemetry/core@2.5.0",
@@ -1120,6 +1212,13 @@
         "pkg:npm/%40opentelemetry/api@1.9.0",
         "pkg:npm/import-in-the-middle@2.0.6",
         "pkg:npm/require-in-the-middle@8.0.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40opentelemetry/opentelemetry-browser-detector@0.211.0",
+      "dependsOn": [
+        "pkg:npm/%40opentelemetry/api@1.9.0",
+        "pkg:npm/%40opentelemetry/resources@2.5.0"
       ]
     },
     {

@@ -25,15 +25,19 @@ need a backend to collect the data.
 
 For PHP, use environment variables, for browser, use Matomo System settings.
 
+If you are collecting telemetry from the UI, you must set Context Security Policy (CSP) to allow Matomo
+to post data to your collector. To allow it to connect to a collector with URL `https://mytracer.com:4318/v1/traces`
+you need to set CSP in plugin settings to: `https://mytracer.com:4318`.
+
 ## Requirements
 
 - At least PHP 8.0.x to install plugin.
 
-### For OpenTelemetry for PHP
+### OpenTelemetry for PHP
 
 - At least PHP 8.1.x.
-- OpenTelemetry PHP extension.
-- [gRPC](https://en.wikipedia.org/wiki/GRPC) [PHP extension](https://grpc.io/docs/languages/php/quickstart/) if you want to export to a gRPC endpoint - otherwise it will use HTTP (works, but slower). Signoz have a [great article](https://signoz.io/comparisons/opentelemetry-grpc-vs-http/) comparing HTTP and gRPC.
+- [OpenTelemetry PHP extension](https://github.com/open-telemetry/opentelemetry-php-instrumentation).
+- [gRPC](https://en.wikipedia.org/wiki/GRPC) [PHP extension](https://grpc.io/docs/languages/php/quickstart/) if you want to export to a gRPC endpoint - otherwise it will use HTTP (works, but suboptimal if you are collecting a lot of traces). Signoz have an [article](https://signoz.io/comparisons/opentelemetry-grpc-vs-http/) there they compare HTTP and gRPC.
 
 #### Composer packages
 
@@ -64,16 +68,16 @@ OTEL_PHP_AUTOLOAD_ENABLED=true
 OTEL_TRACES_EXPORTER=otlp
 OTEL_METRICS_EXPORTER=none
 OTEL_LOGS_EXPORTER=otlp
-OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+OTEL_EXPORTER_OTLP_ENDPOINT=https://mytracer.com:4318
 OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 OTEL_RESOURCE_ATTRIBUTES=host.name=myhost.com
 ```
 
 ### Collector
 
-- [OTEL contrib collector](https://github.com/open-telemetry/opentelemetry-collector-contrib) or similar, you can also use self-hosted or cloud services like [Signoz](https://signoz.io/), [NewRelic](https://newrelic.com/) etc.
+- [OTEL contrib collector](https://github.com/open-telemetry/opentelemetry-collector-contrib) or similar, you can also use self-hosted or SaaS services like [Signoz](https://signoz.io/), [NewRelic](https://newrelic.com/) etc.
 or any other provide that supports OpenTelemetry.
-- If using OTEL contrib collector, something to store and display your traces - we use Grafana with Tempo data source.
+- If using OTEL contrib collector, something to store and display your traces - like Grafana with Tempo data source.
 
 ## Browser
 
@@ -90,7 +94,7 @@ and the OTEL libraries used.
 
 ### Web Vitals
 
-Chrome is the browser that support [Web Vitals}(https://web.dev/articles/vitals) the best
+Chrome is the browser that support [Web Vitals](https://web.dev/articles/vitals) the best
 (as it is developed by Google), some of the metrics is available in other browsers, like
 Firefox. LCP, INP and CLS metrics from Web Vitals is collected by this plugin.
 
@@ -143,3 +147,7 @@ professional services for Matomo, you can contact us at <cloud@digitalist.com>.
 - The OpenTelemetry PHP and JS packages have a Apache License v2.0 license.
 - guzzle7-adapter is MIT licensed.
 - Web Vitals have Apache License v2.0 license.
+
+## OpenTelemetry
+
+OpenTelemetry is a [CNCF](https://www.cncf.io/) open source project. Support it.
