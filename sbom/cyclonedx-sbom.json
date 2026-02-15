@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:2e709dfb-a24f-4136-b589-ca9865d164a4",
+  "serialNumber": "urn:uuid:a3a44f0f-9f3c-4e68-ae4f-06d0e67f37c8",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-02-15T21:09:12+00:00",
+    "timestamp": "2026-02-15T23:01:39+00:00",
     "tools": {
       "components": [
         {
@@ -17,7 +17,7 @@
       ]
     },
     "component": {
-      "bom-ref": "4b35efb3-627a-498d-8c3b-0e05fb1bf982",
+      "bom-ref": "371bbc4d-3573-4221-a3b2-7df8e67ca9d1",
       "type": "application",
       "name": ".",
       "properties": [
@@ -30,7 +30,7 @@
   },
   "components": [
     {
-      "bom-ref": "90abf78b-8abe-4c08-b835-5847add1967f",
+      "bom-ref": "9f33954c-dedb-42df-9584-dfff9158d183",
       "type": "application",
       "name": "package-lock.json",
       "properties": [
@@ -70,6 +70,31 @@
       ]
     },
     {
+      "bom-ref": "pkg:npm/%40opentelemetry/api-logs@0.212.0",
+      "type": "library",
+      "group": "@opentelemetry",
+      "name": "api-logs",
+      "version": "0.212.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40opentelemetry/api-logs@0.212.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@opentelemetry/api-logs@0.212.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
       "bom-ref": "pkg:npm/%40opentelemetry/api@1.9.0",
       "type": "library",
       "group": "@opentelemetry",
@@ -95,11 +120,11 @@
       ]
     },
     {
-      "bom-ref": "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.0",
+      "bom-ref": "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.1",
       "type": "library",
       "group": "@opentelemetry",
       "name": "context-zone-peer-dep",
-      "version": "2.5.0",
+      "version": "2.5.1",
       "licenses": [
         {
           "license": {
@@ -107,11 +132,11 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.0",
+      "purl": "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "@opentelemetry/context-zone-peer-dep@2.5.0"
+          "value": "@opentelemetry/context-zone-peer-dep@2.5.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -120,11 +145,11 @@
       ]
     },
     {
-      "bom-ref": "pkg:npm/%40opentelemetry/context-zone@2.5.0",
+      "bom-ref": "pkg:npm/%40opentelemetry/context-zone@2.5.1",
       "type": "library",
       "group": "@opentelemetry",
       "name": "context-zone",
-      "version": "2.5.0",
+      "version": "2.5.1",
       "licenses": [
         {
           "license": {
@@ -132,11 +157,11 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40opentelemetry/context-zone@2.5.0",
+      "purl": "pkg:npm/%40opentelemetry/context-zone@2.5.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "@opentelemetry/context-zone@2.5.0"
+          "value": "@opentelemetry/context-zone@2.5.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -162,6 +187,31 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "@opentelemetry/core@2.5.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40opentelemetry/core@2.5.1",
+      "type": "library",
+      "group": "@opentelemetry",
+      "name": "core",
+      "version": "2.5.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40opentelemetry/core@2.5.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@opentelemetry/core@2.5.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -212,6 +262,31 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "@opentelemetry/instrumentation-document-load@0.56.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40opentelemetry/instrumentation-fetch@0.212.0",
+      "type": "library",
+      "group": "@opentelemetry",
+      "name": "instrumentation-fetch",
+      "version": "0.212.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40opentelemetry/instrumentation-fetch@0.212.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@opentelemetry/instrumentation-fetch@0.212.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -287,6 +362,31 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "@opentelemetry/instrumentation@0.211.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40opentelemetry/instrumentation@0.212.0",
+      "type": "library",
+      "group": "@opentelemetry",
+      "name": "instrumentation",
+      "version": "0.212.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40opentelemetry/instrumentation@0.212.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@opentelemetry/instrumentation@0.212.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -395,6 +495,31 @@
       ]
     },
     {
+      "bom-ref": "pkg:npm/%40opentelemetry/resources@2.5.1",
+      "type": "library",
+      "group": "@opentelemetry",
+      "name": "resources",
+      "version": "2.5.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40opentelemetry/resources@2.5.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@opentelemetry/resources@2.5.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
       "bom-ref": "pkg:npm/%40opentelemetry/sdk-logs@0.211.0",
       "type": "library",
       "group": "@opentelemetry",
@@ -470,6 +595,31 @@
       ]
     },
     {
+      "bom-ref": "pkg:npm/%40opentelemetry/sdk-trace-base@2.5.1",
+      "type": "library",
+      "group": "@opentelemetry",
+      "name": "sdk-trace-base",
+      "version": "2.5.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40opentelemetry/sdk-trace-base@2.5.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@opentelemetry/sdk-trace-base@2.5.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
       "bom-ref": "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.0",
       "type": "library",
       "group": "@opentelemetry",
@@ -487,6 +637,31 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "@opentelemetry/sdk-trace-web@2.5.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.1",
+      "type": "library",
+      "group": "@opentelemetry",
+      "name": "sdk-trace-web",
+      "version": "2.5.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@opentelemetry/sdk-trace-web@2.5.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -770,11 +945,11 @@
       ]
     },
     {
-      "bom-ref": "pkg:npm/%40types/node@25.2.0",
+      "bom-ref": "pkg:npm/%40types/node@25.2.3",
       "type": "library",
       "group": "@types",
       "name": "node",
-      "version": "25.2.0",
+      "version": "25.2.3",
       "licenses": [
         {
           "license": {
@@ -782,11 +957,11 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40types/node@25.2.0",
+      "purl": "pkg:npm/%40types/node@25.2.3",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "@types/node@25.2.0"
+          "value": "@types/node@25.2.3"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1109,26 +1284,27 @@
   ],
   "dependencies": [
     {
-      "ref": "4b35efb3-627a-498d-8c3b-0e05fb1bf982",
+      "ref": "371bbc4d-3573-4221-a3b2-7df8e67ca9d1",
       "dependsOn": [
-        "90abf78b-8abe-4c08-b835-5847add1967f"
+        "9f33954c-dedb-42df-9584-dfff9158d183"
       ]
     },
     {
-      "ref": "90abf78b-8abe-4c08-b835-5847add1967f",
+      "ref": "9f33954c-dedb-42df-9584-dfff9158d183",
       "dependsOn": [
         "pkg:npm/%40opentelemetry/api@1.9.0",
-        "pkg:npm/%40opentelemetry/context-zone@2.5.0",
-        "pkg:npm/%40opentelemetry/core@2.5.0",
+        "pkg:npm/%40opentelemetry/context-zone@2.5.1",
+        "pkg:npm/%40opentelemetry/core@2.5.1",
         "pkg:npm/%40opentelemetry/exporter-trace-otlp-http@0.211.0",
         "pkg:npm/%40opentelemetry/instrumentation-document-load@0.56.0",
+        "pkg:npm/%40opentelemetry/instrumentation-fetch@0.212.0",
         "pkg:npm/%40opentelemetry/instrumentation-user-interaction@0.55.0",
         "pkg:npm/%40opentelemetry/instrumentation-xml-http-request@0.211.0",
         "pkg:npm/%40opentelemetry/instrumentation@0.211.0",
         "pkg:npm/%40opentelemetry/opentelemetry-browser-detector@0.211.0",
-        "pkg:npm/%40opentelemetry/resources@2.5.0",
-        "pkg:npm/%40opentelemetry/sdk-trace-base@2.5.0",
-        "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.0",
+        "pkg:npm/%40opentelemetry/resources@2.5.1",
+        "pkg:npm/%40opentelemetry/sdk-trace-base@2.5.1",
+        "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.1",
         "pkg:npm/%40opentelemetry/semantic-conventions@1.39.0",
         "pkg:npm/web-vitals@5.1.0"
       ]
@@ -1140,25 +1316,38 @@
       ]
     },
     {
+      "ref": "pkg:npm/%40opentelemetry/api-logs@0.212.0",
+      "dependsOn": [
+        "pkg:npm/%40opentelemetry/api@1.9.0"
+      ]
+    },
+    {
       "ref": "pkg:npm/%40opentelemetry/api@1.9.0",
       "dependsOn": []
     },
     {
-      "ref": "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.0",
+      "ref": "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.1",
       "dependsOn": [
         "pkg:npm/%40opentelemetry/api@1.9.0",
         "pkg:npm/zone.js@0.16.0"
       ]
     },
     {
-      "ref": "pkg:npm/%40opentelemetry/context-zone@2.5.0",
+      "ref": "pkg:npm/%40opentelemetry/context-zone@2.5.1",
       "dependsOn": [
-        "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.0",
+        "pkg:npm/%40opentelemetry/context-zone-peer-dep@2.5.1",
         "pkg:npm/zone.js@0.16.0"
       ]
     },
     {
       "ref": "pkg:npm/%40opentelemetry/core@2.5.0",
+      "dependsOn": [
+        "pkg:npm/%40opentelemetry/api@1.9.0",
+        "pkg:npm/%40opentelemetry/semantic-conventions@1.39.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40opentelemetry/core@2.5.1",
       "dependsOn": [
         "pkg:npm/%40opentelemetry/api@1.9.0",
         "pkg:npm/%40opentelemetry/semantic-conventions@1.39.0"
@@ -1179,9 +1368,19 @@
       "ref": "pkg:npm/%40opentelemetry/instrumentation-document-load@0.56.0",
       "dependsOn": [
         "pkg:npm/%40opentelemetry/api@1.9.0",
-        "pkg:npm/%40opentelemetry/core@2.5.0",
+        "pkg:npm/%40opentelemetry/core@2.5.1",
         "pkg:npm/%40opentelemetry/instrumentation@0.211.0",
-        "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.0",
+        "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.1",
+        "pkg:npm/%40opentelemetry/semantic-conventions@1.39.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40opentelemetry/instrumentation-fetch@0.212.0",
+      "dependsOn": [
+        "pkg:npm/%40opentelemetry/api@1.9.0",
+        "pkg:npm/%40opentelemetry/core@2.5.1",
+        "pkg:npm/%40opentelemetry/instrumentation@0.212.0",
+        "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.1",
         "pkg:npm/%40opentelemetry/semantic-conventions@1.39.0"
       ]
     },
@@ -1189,9 +1388,9 @@
       "ref": "pkg:npm/%40opentelemetry/instrumentation-user-interaction@0.55.0",
       "dependsOn": [
         "pkg:npm/%40opentelemetry/api@1.9.0",
-        "pkg:npm/%40opentelemetry/core@2.5.0",
+        "pkg:npm/%40opentelemetry/core@2.5.1",
         "pkg:npm/%40opentelemetry/instrumentation@0.211.0",
-        "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.0",
+        "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.1",
         "pkg:npm/zone.js@0.16.0"
       ]
     },
@@ -1209,6 +1408,15 @@
       "ref": "pkg:npm/%40opentelemetry/instrumentation@0.211.0",
       "dependsOn": [
         "pkg:npm/%40opentelemetry/api-logs@0.211.0",
+        "pkg:npm/%40opentelemetry/api@1.9.0",
+        "pkg:npm/import-in-the-middle@2.0.6",
+        "pkg:npm/require-in-the-middle@8.0.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40opentelemetry/instrumentation@0.212.0",
+      "dependsOn": [
+        "pkg:npm/%40opentelemetry/api-logs@0.212.0",
         "pkg:npm/%40opentelemetry/api@1.9.0",
         "pkg:npm/import-in-the-middle@2.0.6",
         "pkg:npm/require-in-the-middle@8.0.1"
@@ -1251,6 +1459,14 @@
       ]
     },
     {
+      "ref": "pkg:npm/%40opentelemetry/resources@2.5.1",
+      "dependsOn": [
+        "pkg:npm/%40opentelemetry/api@1.9.0",
+        "pkg:npm/%40opentelemetry/core@2.5.1",
+        "pkg:npm/%40opentelemetry/semantic-conventions@1.39.0"
+      ]
+    },
+    {
       "ref": "pkg:npm/%40opentelemetry/sdk-logs@0.211.0",
       "dependsOn": [
         "pkg:npm/%40opentelemetry/api-logs@0.211.0",
@@ -1277,11 +1493,28 @@
       ]
     },
     {
+      "ref": "pkg:npm/%40opentelemetry/sdk-trace-base@2.5.1",
+      "dependsOn": [
+        "pkg:npm/%40opentelemetry/api@1.9.0",
+        "pkg:npm/%40opentelemetry/core@2.5.1",
+        "pkg:npm/%40opentelemetry/resources@2.5.1",
+        "pkg:npm/%40opentelemetry/semantic-conventions@1.39.0"
+      ]
+    },
+    {
       "ref": "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.0",
       "dependsOn": [
         "pkg:npm/%40opentelemetry/api@1.9.0",
         "pkg:npm/%40opentelemetry/core@2.5.0",
         "pkg:npm/%40opentelemetry/sdk-trace-base@2.5.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40opentelemetry/sdk-trace-web@2.5.1",
+      "dependsOn": [
+        "pkg:npm/%40opentelemetry/api@1.9.0",
+        "pkg:npm/%40opentelemetry/core@2.5.1",
+        "pkg:npm/%40opentelemetry/sdk-trace-base@2.5.1"
       ]
     },
     {
@@ -1332,7 +1565,7 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:npm/%40types/node@25.2.0",
+      "ref": "pkg:npm/%40types/node@25.2.3",
       "dependsOn": [
         "pkg:npm/undici-types@7.16.0"
       ]
@@ -1391,7 +1624,7 @@
         "pkg:npm/%40protobufjs/path@1.1.2",
         "pkg:npm/%40protobufjs/pool@1.1.0",
         "pkg:npm/%40protobufjs/utf8@1.1.0",
-        "pkg:npm/%40types/node@25.2.0",
+        "pkg:npm/%40types/node@25.2.3",
         "pkg:npm/long@5.3.2"
       ]
     },

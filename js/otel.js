@@ -1429,7 +1429,7 @@
   }
 
   // node_modules/@opentelemetry/core/build/esm/version.js
-  var VERSION2 = "2.5.0";
+  var VERSION2 = "2.5.1";
 
   // node_modules/@opentelemetry/semantic-conventions/build/esm/stable_attributes.js
   var ATTR_ERROR_TYPE = "error.type";
@@ -1523,9 +1523,9 @@
 
   // node_modules/@opentelemetry/core/build/esm/ExportResult.js
   var ExportResultCode;
-  (function(ExportResultCode2) {
-    ExportResultCode2[ExportResultCode2["SUCCESS"] = 0] = "SUCCESS";
-    ExportResultCode2[ExportResultCode2["FAILED"] = 1] = "FAILED";
+  (function(ExportResultCode3) {
+    ExportResultCode3[ExportResultCode3["SUCCESS"] = 0] = "SUCCESS";
+    ExportResultCode3[ExportResultCode3["FAILED"] = 1] = "FAILED";
   })(ExportResultCode || (ExportResultCode = {}));
 
   // node_modules/@opentelemetry/core/build/esm/propagation/composite.js
@@ -2134,6 +2134,7 @@
       __publicField(this, "_droppedAttributesCount", 0);
       __publicField(this, "_droppedEventsCount", 0);
       __publicField(this, "_droppedLinksCount", 0);
+      __publicField(this, "_attributesCount", 0);
       __publicField(this, "name");
       __publicField(this, "status", {
         code: SpanStatusCode.UNSET
@@ -2183,11 +2184,15 @@
         return this;
       }
       const { attributeCountLimit } = this._spanLimits;
-      if (attributeCountLimit !== void 0 && Object.keys(this.attributes).length >= attributeCountLimit && !Object.prototype.hasOwnProperty.call(this.attributes, key)) {
+      const isNewKey = !Object.prototype.hasOwnProperty.call(this.attributes, key);
+      if (attributeCountLimit !== void 0 && this._attributesCount >= attributeCountLimit && isNewKey) {
         this._droppedAttributesCount++;
         return this;
       }
       this.attributes[key] = this._truncateToSize(value);
+      if (isNewKey) {
+        this._attributesCount++;
+      }
       return this;
     }
     setAttributes(attributes) {
@@ -2786,34 +2791,46 @@
   };
 
   // node_modules/@opentelemetry/sdk-trace-base/build/esm/platform/browser/RandomIdGenerator.js
-  var SPAN_ID_BYTES = 8;
   var TRACE_ID_BYTES = 16;
+  var SPAN_ID_BYTES = 8;
+  var TRACE_BUFFER = new Uint8Array(TRACE_ID_BYTES);
+  var SPAN_BUFFER = new Uint8Array(SPAN_ID_BYTES);
+  var HEX = Array.from({ length: 256 }, (_2, i2) => i2.toString(16).padStart(2, "0"));
+  function randomFill(buf) {
+    for (let i2 = 0; i2 < buf.length; i2++) {
+      buf[i2] = Math.random() * 256 >>> 0;
+    }
+    for (let i2 = 0; i2 < buf.length; i2++) {
+      if (buf[i2] > 0)
+        return;
+    }
+    buf[buf.length - 1] = 1;
+  }
+  function toHex(buf) {
+    let hex = "";
+    for (let i2 = 0; i2 < buf.length; i2++) {
+      hex += HEX[buf[i2]];
+    }
+    return hex;
+  }
   var RandomIdGenerator = class {
-    constructor() {
-      /**
-       * Returns a random 16-byte trace ID formatted/encoded as a 32 lowercase hex
-       * characters corresponding to 128 bits.
-       */
-      __publicField(this, "generateTraceId", getIdGenerator(TRACE_ID_BYTES));
-      /**
-       * Returns a random 8-byte span ID formatted/encoded as a 16 lowercase hex
-       * characters corresponding to 64 bits.
-       */
-      __publicField(this, "generateSpanId", getIdGenerator(SPAN_ID_BYTES));
+    /**
+     * Returns a random 16-byte trace ID formatted/encoded as a 32 lowercase hex
+     * characters corresponding to 128 bits.
+     */
+    generateTraceId() {
+      randomFill(TRACE_BUFFER);
+      return toHex(TRACE_BUFFER);
+    }
+    /**
+     * Returns a random 8-byte span ID formatted/encoded as a 16 lowercase hex
+     * characters corresponding to 64 bits.
+     */
+    generateSpanId() {
+      randomFill(SPAN_BUFFER);
+      return toHex(SPAN_BUFFER);
     }
   };
-  var SHARED_CHAR_CODES_ARRAY = Array(32);
-  function getIdGenerator(bytes) {
-    return function generateId() {
-      for (let i2 = 0; i2 < bytes * 2; i2++) {
-        SHARED_CHAR_CODES_ARRAY[i2] = Math.floor(Math.random() * 16) + 48;
-        if (SHARED_CHAR_CODES_ARRAY[i2] >= 58) {
-          SHARED_CHAR_CODES_ARRAY[i2] += 39;
-        }
-      }
-      return String.fromCharCode.apply(null, SHARED_CHAR_CODES_ARRAY.slice(0, bytes * 2));
-    };
-  }
 
   // node_modules/@opentelemetry/sdk-trace-base/build/esm/Tracer.js
   var Tracer = class {
@@ -7241,6 +7258,258 @@
     }
   };
 
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/node_modules/@opentelemetry/core/build/esm/platform/browser/environment.js
+  function getStringListFromEnv2(_2) {
+    return void 0;
+  }
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/node_modules/@opentelemetry/core/build/esm/platform/browser/index.js
+  var otperformance2 = performance;
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/node_modules/@opentelemetry/core/build/esm/common/time.js
+  var NANOSECOND_DIGITS2 = 9;
+  var NANOSECOND_DIGITS_IN_MILLIS2 = 6;
+  var MILLISECONDS_TO_NANOSECONDS2 = Math.pow(10, NANOSECOND_DIGITS_IN_MILLIS2);
+  var SECOND_TO_NANOSECONDS2 = Math.pow(10, NANOSECOND_DIGITS2);
+  function millisToHrTime2(epochMillis) {
+    const epochSeconds = epochMillis / 1e3;
+    const seconds = Math.trunc(epochSeconds);
+    const nanos = Math.round(epochMillis % 1e3 * MILLISECONDS_TO_NANOSECONDS2);
+    return [seconds, nanos];
+  }
+  function hrTime2(performanceNow) {
+    const timeOrigin = millisToHrTime2(otperformance2.timeOrigin);
+    const now = millisToHrTime2(typeof performanceNow === "number" ? performanceNow : otperformance2.now());
+    return addHrTimes2(timeOrigin, now);
+  }
+  function timeInputToHrTime2(time) {
+    if (isTimeInputHrTime2(time)) {
+      return time;
+    } else if (typeof time === "number") {
+      if (time < otperformance2.timeOrigin) {
+        return hrTime2(time);
+      } else {
+        return millisToHrTime2(time);
+      }
+    } else if (time instanceof Date) {
+      return millisToHrTime2(time.getTime());
+    } else {
+      throw TypeError("Invalid input type");
+    }
+  }
+  function hrTimeToNanoseconds2(time) {
+    return time[0] * SECOND_TO_NANOSECONDS2 + time[1];
+  }
+  function isTimeInputHrTime2(value) {
+    return Array.isArray(value) && value.length === 2 && typeof value[0] === "number" && typeof value[1] === "number";
+  }
+  function addHrTimes2(time1, time2) {
+    const out = [time1[0] + time2[0], time1[1] + time2[1]];
+    if (out[1] >= SECOND_TO_NANOSECONDS2) {
+      out[1] -= SECOND_TO_NANOSECONDS2;
+      out[0] += 1;
+    }
+    return out;
+  }
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/node_modules/@opentelemetry/core/build/esm/utils/url.js
+  function urlMatches2(url, urlToMatch) {
+    if (typeof urlToMatch === "string") {
+      return url === urlToMatch;
+    } else {
+      return !!url.match(urlToMatch);
+    }
+  }
+  function isUrlIgnored2(url, ignoredUrls) {
+    if (!ignoredUrls) {
+      return false;
+    }
+    for (const ignoreUrl of ignoredUrls) {
+      if (urlMatches2(url, ignoreUrl)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/node_modules/@opentelemetry/sdk-trace-web/build/esm/enums/PerformanceTimingNames.js
+  var PerformanceTimingNames2;
+  (function(PerformanceTimingNames3) {
+    PerformanceTimingNames3["CONNECT_END"] = "connectEnd";
+    PerformanceTimingNames3["CONNECT_START"] = "connectStart";
+    PerformanceTimingNames3["DECODED_BODY_SIZE"] = "decodedBodySize";
+    PerformanceTimingNames3["DOM_COMPLETE"] = "domComplete";
+    PerformanceTimingNames3["DOM_CONTENT_LOADED_EVENT_END"] = "domContentLoadedEventEnd";
+    PerformanceTimingNames3["DOM_CONTENT_LOADED_EVENT_START"] = "domContentLoadedEventStart";
+    PerformanceTimingNames3["DOM_INTERACTIVE"] = "domInteractive";
+    PerformanceTimingNames3["DOMAIN_LOOKUP_END"] = "domainLookupEnd";
+    PerformanceTimingNames3["DOMAIN_LOOKUP_START"] = "domainLookupStart";
+    PerformanceTimingNames3["ENCODED_BODY_SIZE"] = "encodedBodySize";
+    PerformanceTimingNames3["FETCH_START"] = "fetchStart";
+    PerformanceTimingNames3["LOAD_EVENT_END"] = "loadEventEnd";
+    PerformanceTimingNames3["LOAD_EVENT_START"] = "loadEventStart";
+    PerformanceTimingNames3["NAVIGATION_START"] = "navigationStart";
+    PerformanceTimingNames3["REDIRECT_END"] = "redirectEnd";
+    PerformanceTimingNames3["REDIRECT_START"] = "redirectStart";
+    PerformanceTimingNames3["REQUEST_START"] = "requestStart";
+    PerformanceTimingNames3["RESPONSE_END"] = "responseEnd";
+    PerformanceTimingNames3["RESPONSE_START"] = "responseStart";
+    PerformanceTimingNames3["SECURE_CONNECTION_START"] = "secureConnectionStart";
+    PerformanceTimingNames3["START_TIME"] = "startTime";
+    PerformanceTimingNames3["UNLOAD_EVENT_END"] = "unloadEventEnd";
+    PerformanceTimingNames3["UNLOAD_EVENT_START"] = "unloadEventStart";
+  })(PerformanceTimingNames2 || (PerformanceTimingNames2 = {}));
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/node_modules/@opentelemetry/sdk-trace-web/build/esm/semconv.js
+  var ATTR_HTTP_RESPONSE_CONTENT_LENGTH2 = "http.response_content_length";
+  var ATTR_HTTP_RESPONSE_CONTENT_LENGTH_UNCOMPRESSED2 = "http.response_content_length_uncompressed";
+
+  // node_modules/@opentelemetry/instrumentation-xml-http-request/node_modules/@opentelemetry/sdk-trace-web/build/esm/utils.js
+  var urlNormalizingAnchor2;
+  function getUrlNormalizingAnchor2() {
+    if (!urlNormalizingAnchor2) {
+      urlNormalizingAnchor2 = document.createElement("a");
+    }
+    return urlNormalizingAnchor2;
+  }
+  function hasKey2(obj, key) {
+    return key in obj;
+  }
+  function addSpanNetworkEvent2(span, performanceName, entries, ignoreZeros = true) {
+    if (hasKey2(entries, performanceName) && typeof entries[performanceName] === "number" && !(ignoreZeros && entries[performanceName] === 0)) {
+      return span.addEvent(performanceName, entries[performanceName]);
+    }
+    return void 0;
+  }
+  function addSpanNetworkEvents2(span, resource, ignoreNetworkEvents = false, ignoreZeros, skipOldSemconvContentLengthAttrs) {
+    if (ignoreZeros === void 0) {
+      ignoreZeros = resource[PerformanceTimingNames2.START_TIME] !== 0;
+    }
+    if (!ignoreNetworkEvents) {
+      addSpanNetworkEvent2(span, PerformanceTimingNames2.FETCH_START, resource, ignoreZeros);
+      addSpanNetworkEvent2(span, PerformanceTimingNames2.DOMAIN_LOOKUP_START, resource, ignoreZeros);
+      addSpanNetworkEvent2(span, PerformanceTimingNames2.DOMAIN_LOOKUP_END, resource, ignoreZeros);
+      addSpanNetworkEvent2(span, PerformanceTimingNames2.CONNECT_START, resource, ignoreZeros);
+      addSpanNetworkEvent2(span, PerformanceTimingNames2.SECURE_CONNECTION_START, resource, ignoreZeros);
+      addSpanNetworkEvent2(span, PerformanceTimingNames2.CONNECT_END, resource, ignoreZeros);
+      addSpanNetworkEvent2(span, PerformanceTimingNames2.REQUEST_START, resource, ignoreZeros);
+      addSpanNetworkEvent2(span, PerformanceTimingNames2.RESPONSE_START, resource, ignoreZeros);
+      addSpanNetworkEvent2(span, PerformanceTimingNames2.RESPONSE_END, resource, ignoreZeros);
+    }
+    if (!skipOldSemconvContentLengthAttrs) {
+      const encodedLength = resource[PerformanceTimingNames2.ENCODED_BODY_SIZE];
+      if (encodedLength !== void 0) {
+        span.setAttribute(ATTR_HTTP_RESPONSE_CONTENT_LENGTH2, encodedLength);
+      }
+      const decodedLength = resource[PerformanceTimingNames2.DECODED_BODY_SIZE];
+      if (decodedLength !== void 0 && encodedLength !== decodedLength) {
+        span.setAttribute(ATTR_HTTP_RESPONSE_CONTENT_LENGTH_UNCOMPRESSED2, decodedLength);
+      }
+    }
+  }
+  function sortResources2(filteredResources) {
+    return filteredResources.slice().sort((a2, b2) => {
+      const valueA = a2[PerformanceTimingNames2.FETCH_START];
+      const valueB = b2[PerformanceTimingNames2.FETCH_START];
+      if (valueA > valueB) {
+        return 1;
+      } else if (valueA < valueB) {
+        return -1;
+      }
+      return 0;
+    });
+  }
+  function getOrigin2() {
+    return typeof location !== "undefined" ? location.origin : void 0;
+  }
+  function getResource2(spanUrl, startTimeHR, endTimeHR, resources, ignoredResources = /* @__PURE__ */ new WeakSet(), initiatorType) {
+    const parsedSpanUrl = parseUrl2(spanUrl);
+    spanUrl = parsedSpanUrl.toString();
+    const filteredResources = filterResourcesForSpan2(spanUrl, startTimeHR, endTimeHR, resources, ignoredResources, initiatorType);
+    if (filteredResources.length === 0) {
+      return {
+        mainRequest: void 0
+      };
+    }
+    if (filteredResources.length === 1) {
+      return {
+        mainRequest: filteredResources[0]
+      };
+    }
+    const sorted = sortResources2(filteredResources);
+    if (parsedSpanUrl.origin !== getOrigin2() && sorted.length > 1) {
+      let corsPreFlightRequest = sorted[0];
+      let mainRequest = findMainRequest2(sorted, corsPreFlightRequest[PerformanceTimingNames2.RESPONSE_END], endTimeHR);
+      const responseEnd = corsPreFlightRequest[PerformanceTimingNames2.RESPONSE_END];
+      const fetchStart = mainRequest[PerformanceTimingNames2.FETCH_START];
+      if (fetchStart < responseEnd) {
+        mainRequest = corsPreFlightRequest;
+        corsPreFlightRequest = void 0;
+      }
+      return {
+        corsPreFlightRequest,
+        mainRequest
+      };
+    } else {
+      return {
+        mainRequest: filteredResources[0]
+      };
+    }
+  }
+  function findMainRequest2(resources, corsPreFlightRequestEndTime, spanEndTimeHR) {
+    const spanEndTime = hrTimeToNanoseconds2(spanEndTimeHR);
+    const minTime = hrTimeToNanoseconds2(timeInputToHrTime2(corsPreFlightRequestEndTime));
+    let mainRequest = resources[1];
+    let bestGap;
+    const length = resources.length;
+    for (let i2 = 1; i2 < length; i2++) {
+      const resource = resources[i2];
+      const resourceStartTime = hrTimeToNanoseconds2(timeInputToHrTime2(resource[PerformanceTimingNames2.FETCH_START]));
+      const resourceEndTime = hrTimeToNanoseconds2(timeInputToHrTime2(resource[PerformanceTimingNames2.RESPONSE_END]));
+      const currentGap = spanEndTime - resourceEndTime;
+      if (resourceStartTime >= minTime && (!bestGap || currentGap < bestGap)) {
+        bestGap = currentGap;
+        mainRequest = resource;
+      }
+    }
+    return mainRequest;
+  }
+  function filterResourcesForSpan2(spanUrl, startTimeHR, endTimeHR, resources, ignoredResources, initiatorType) {
+    const startTime = hrTimeToNanoseconds2(startTimeHR);
+    const endTime = hrTimeToNanoseconds2(endTimeHR);
+    let filteredResources = resources.filter((resource) => {
+      const resourceStartTime = hrTimeToNanoseconds2(timeInputToHrTime2(resource[PerformanceTimingNames2.FETCH_START]));
+      const resourceEndTime = hrTimeToNanoseconds2(timeInputToHrTime2(resource[PerformanceTimingNames2.RESPONSE_END]));
+      return resource.initiatorType.toLowerCase() === (initiatorType || "xmlhttprequest") && resource.name === spanUrl && resourceStartTime >= startTime && resourceEndTime <= endTime;
+    });
+    if (filteredResources.length > 0) {
+      filteredResources = filteredResources.filter((resource) => {
+        return !ignoredResources.has(resource);
+      });
+    }
+    return filteredResources;
+  }
+  function parseUrl2(url) {
+    if (typeof URL === "function") {
+      return new URL(url, typeof document !== "undefined" ? document.baseURI : typeof location !== "undefined" ? location.href : void 0);
+    }
+    const element = getUrlNormalizingAnchor2();
+    element.href = url;
+    return element;
+  }
+  function shouldPropagateTraceHeaders2(spanUrl, propagateTraceHeaderCorsUrls) {
+    let propagateTraceHeaderUrls = propagateTraceHeaderCorsUrls || [];
+    if (typeof propagateTraceHeaderUrls === "string" || propagateTraceHeaderUrls instanceof RegExp) {
+      propagateTraceHeaderUrls = [propagateTraceHeaderUrls];
+    }
+    const parsedSpanUrl = parseUrl2(spanUrl);
+    if (parsedSpanUrl.origin === getOrigin2()) {
+      return true;
+    } else {
+      return propagateTraceHeaderUrls.some((propagateTraceHeaderUrl) => urlMatches2(spanUrl, propagateTraceHeaderUrl));
+    }
+  }
+
   // node_modules/@opentelemetry/instrumentation-xml-http-request/build/esm/semconv.js
   var ATTR_HTTP_HOST = "http.host";
   var ATTR_HTTP_METHOD = "http.method";
@@ -7332,7 +7601,7 @@
   var knownMethods;
   function getKnownMethods() {
     if (knownMethods === void 0) {
-      const cfgMethods = getStringListFromEnv("OTEL_INSTRUMENTATION_HTTP_KNOWN_METHODS");
+      const cfgMethods = getStringListFromEnv2("OTEL_INSTRUMENTATION_HTTP_KNOWN_METHODS");
       if (cfgMethods && cfgMethods.length > 0) {
         knownMethods = {};
         cfgMethods.forEach((m2) => {
@@ -7389,8 +7658,8 @@
      * @private
      */
     _addHeaders(xhr, spanUrl) {
-      const url = parseUrl(spanUrl).href;
-      if (!shouldPropagateTraceHeaders(url, this.getConfig().propagateTraceHeaderCorsUrls)) {
+      const url = parseUrl2(spanUrl).href;
+      if (!shouldPropagateTraceHeaders2(url, this.getConfig().propagateTraceHeaderCorsUrls)) {
         const headers2 = {};
         propagation.inject(context.active(), headers2);
         if (Object.keys(headers2).length > 0) {
@@ -7413,11 +7682,11 @@
     _addChildSpan(span, corsPreFlightRequest) {
       context.with(trace.setSpan(context.active(), span), () => {
         const childSpan = this.tracer.startSpan("CORS Preflight", {
-          startTime: corsPreFlightRequest[PerformanceTimingNames.FETCH_START]
+          startTime: corsPreFlightRequest[PerformanceTimingNames2.FETCH_START]
         });
         const skipOldSemconvContentLengthAttrs = !(this._semconvStability & SemconvStability.OLD);
-        addSpanNetworkEvents(childSpan, corsPreFlightRequest, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
-        childSpan.end(corsPreFlightRequest[PerformanceTimingNames.RESPONSE_END]);
+        addSpanNetworkEvents2(childSpan, corsPreFlightRequest, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
+        childSpan.end(corsPreFlightRequest[PerformanceTimingNames2.RESPONSE_END]);
       });
     }
     /**
@@ -7436,7 +7705,7 @@
           span.setAttribute(AttributeNames3.HTTP_STATUS_TEXT, xhrMem.statusText);
         }
         if (typeof spanUrl === "string") {
-          const parsedUrl = parseUrl(spanUrl);
+          const parsedUrl = parseUrl2(spanUrl);
           span.setAttribute(ATTR_HTTP_HOST, parsedUrl.host);
           span.setAttribute(ATTR_HTTP_SCHEME, parsedUrl.protocol.replace(":", ""));
         }
@@ -7474,7 +7743,7 @@
       xhrMem.createdResources = {
         observer: new PerformanceObserver((list) => {
           const entries = list.getEntries();
-          const parsedUrl = parseUrl(spanUrl);
+          const parsedUrl = parseUrl2(spanUrl);
           entries.forEach((entry) => {
             if (entry.initiatorType === "xmlhttprequest" && entry.name === parsedUrl.href) {
               if (xhrMem.createdResources) {
@@ -7497,7 +7766,7 @@
      */
     _clearResources() {
       if (this._tasksCount === 0 && this.getConfig().clearTimingResources) {
-        otperformance.clearResourceTimings();
+        otperformance2.clearResourceTimings();
         this._xhrMem = /* @__PURE__ */ new WeakMap();
         this._usedResources = /* @__PURE__ */ new WeakSet();
       }
@@ -7512,9 +7781,9 @@
       }
       let resources = xhrMem.createdResources.entries;
       if (!resources || !resources.length) {
-        resources = otperformance.getEntriesByType("resource");
+        resources = otperformance2.getEntriesByType("resource");
       }
-      const resource = getResource(parseUrl(spanUrl).href, startTime, endTime, resources, this._usedResources);
+      const resource = getResource2(parseUrl2(spanUrl).href, startTime, endTime, resources, this._usedResources);
       if (resource.mainRequest) {
         const mainRequest = resource.mainRequest;
         this._markResourceAsUsed(mainRequest);
@@ -7524,7 +7793,7 @@
           this._markResourceAsUsed(corsPreFlightRequest);
         }
         const skipOldSemconvContentLengthAttrs = !(this._semconvStability & SemconvStability.OLD);
-        addSpanNetworkEvents(span, mainRequest, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
+        addSpanNetworkEvents2(span, mainRequest, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
       }
     }
     /**
@@ -7551,12 +7820,12 @@
      * @private
      */
     _createSpan(xhr, url, method) {
-      if (isUrlIgnored(url, this.getConfig().ignoreUrls)) {
+      if (isUrlIgnored2(url, this.getConfig().ignoreUrls)) {
         this._diag.debug("ignoring span as url matches ignored url");
         return;
       }
       let name = "";
-      const parsedUrl = parseUrl(url);
+      const parsedUrl = parseUrl2(url);
       const attributes = {};
       if (this._semconvStability & SemconvStability.OLD) {
         name = method.toUpperCase();
@@ -7664,7 +7933,7 @@
             }
           }
         }
-        const performanceEndTime = hrTime();
+        const performanceEndTime = hrTime2();
         const endTime = Date.now();
         setTimeout(() => {
           endSpanTimeout(eventName, xhrMem, performanceEndTime, endTime);
@@ -7719,7 +7988,7 @@
             }
             context.with(trace.setSpan(context.active(), currentSpan), () => {
               plugin._tasksCount++;
-              xhrMem.sendStartTime = hrTime();
+              xhrMem.sendStartTime = hrTime2();
               currentSpan.addEvent(EventNames2.METHOD_SEND);
               this.addEventListener("abort", onAbort);
               this.addEventListener("error", onError);
@@ -7863,6 +8132,13 @@
     return new BoundedQueueExportPromiseHandler(options.concurrencyLimit);
   }
 
+  // node_modules/@opentelemetry/otlp-exporter-base/node_modules/@opentelemetry/core/build/esm/ExportResult.js
+  var ExportResultCode2;
+  (function(ExportResultCode3) {
+    ExportResultCode3[ExportResultCode3["SUCCESS"] = 0] = "SUCCESS";
+    ExportResultCode3[ExportResultCode3["FAILED"] = 1] = "FAILED";
+  })(ExportResultCode2 || (ExportResultCode2 = {}));
+
   // node_modules/@opentelemetry/otlp-exporter-base/build/esm/logging-response-handler.js
   function isPartialSuccessResponse(response) {
     return Object.prototype.hasOwnProperty.call(response, "partialSuccess");
@@ -7900,7 +8176,7 @@
       this._diagLogger.debug("items to be sent", internalRepresentation);
       if (this._promiseQueue.hasReachedLimit()) {
         resultCallback({
-          code: ExportResultCode.FAILED,
+          code: ExportResultCode2.FAILED,
           error: new Error("Concurrent export limit reached")
         });
         return;
@@ -7908,7 +8184,7 @@
       const serializedRequest = this._serializer.serializeRequest(internalRepresentation);
       if (serializedRequest == null) {
         resultCallback({
-          code: ExportResultCode.FAILED,
+          code: ExportResultCode2.FAILED,
           error: new Error("Nothing to send")
         });
         return;
@@ -7924,28 +8200,28 @@
             }
           }
           resultCallback({
-            code: ExportResultCode.SUCCESS
+            code: ExportResultCode2.SUCCESS
           });
           return;
         } else if (response.status === "failure" && response.error) {
           resultCallback({
-            code: ExportResultCode.FAILED,
+            code: ExportResultCode2.FAILED,
             error: response.error
           });
           return;
         } else if (response.status === "retryable") {
           resultCallback({
-            code: ExportResultCode.FAILED,
+            code: ExportResultCode2.FAILED,
             error: (_a = response.error) != null ? _a : new OTLPExporterError("Export failed with retryable status")
           });
         } else {
           resultCallback({
-            code: ExportResultCode.FAILED,
+            code: ExportResultCode2.FAILED,
             error: new OTLPExporterError("Export failed with unknown error")
           });
         }
       }, (reason) => resultCallback({
-        code: ExportResultCode.FAILED,
+        code: ExportResultCode2.FAILED,
         error: reason
       })));
     }
@@ -7971,6 +8247,15 @@
     }, { timeout: options.timeoutMillis });
   }
 
+  // node_modules/@opentelemetry/otlp-transformer/node_modules/@opentelemetry/core/build/esm/common/time.js
+  var NANOSECOND_DIGITS3 = 9;
+  var NANOSECOND_DIGITS_IN_MILLIS3 = 6;
+  var MILLISECONDS_TO_NANOSECONDS3 = Math.pow(10, NANOSECOND_DIGITS_IN_MILLIS3);
+  var SECOND_TO_NANOSECONDS3 = Math.pow(10, NANOSECOND_DIGITS3);
+  function hrTimeToNanoseconds3(time) {
+    return time[0] * SECOND_TO_NANOSECONDS3 + time[1];
+  }
+
   // node_modules/@opentelemetry/otlp-transformer/build/esm/common/hex-to-binary.js
   function intValue(charCode) {
     if (charCode >= 48 && charCode <= 57) {
@@ -7993,24 +8278,24 @@
   }
 
   // node_modules/@opentelemetry/otlp-transformer/build/esm/common/utils.js
-  function hrTimeToNanos(hrTime3) {
+  function hrTimeToNanos(hrTime4) {
     const NANOSECONDS = BigInt(1e9);
-    return BigInt(Math.trunc(hrTime3[0])) * NANOSECONDS + BigInt(Math.trunc(hrTime3[1]));
+    return BigInt(Math.trunc(hrTime4[0])) * NANOSECONDS + BigInt(Math.trunc(hrTime4[1]));
   }
   function toLongBits(value) {
     const low = Number(BigInt.asUintN(32, value));
     const high = Number(BigInt.asUintN(32, value >> BigInt(32)));
     return { low, high };
   }
-  function encodeAsLongBits(hrTime3) {
-    const nanos = hrTimeToNanos(hrTime3);
+  function encodeAsLongBits(hrTime4) {
+    const nanos = hrTimeToNanos(hrTime4);
     return toLongBits(nanos);
   }
-  function encodeAsString(hrTime3) {
-    const nanos = hrTimeToNanos(hrTime3);
+  function encodeAsString(hrTime4) {
+    const nanos = hrTimeToNanos(hrTime4);
     return nanos.toString();
   }
-  var encodeTimestamp = typeof BigInt !== "undefined" ? encodeAsString : hrTimeToNanoseconds;
+  var encodeTimestamp = typeof BigInt !== "undefined" ? encodeAsString : hrTimeToNanoseconds3;
   function identity(value) {
     return value;
   }
@@ -8503,6 +8788,130 @@
     }
   };
 
+  // node_modules/@opentelemetry/opentelemetry-browser-detector/node_modules/@opentelemetry/resources/build/esm/utils.js
+  var isPromiseLike2 = (val) => {
+    return val !== null && typeof val === "object" && typeof val.then === "function";
+  };
+
+  // node_modules/@opentelemetry/opentelemetry-browser-detector/node_modules/@opentelemetry/resources/build/esm/ResourceImpl.js
+  var ResourceImpl2 = class _ResourceImpl {
+    constructor(resource, options) {
+      __publicField(this, "_rawAttributes");
+      __publicField(this, "_asyncAttributesPending", false);
+      __publicField(this, "_schemaUrl");
+      __publicField(this, "_memoizedAttributes");
+      var _a;
+      const attributes = (_a = resource.attributes) != null ? _a : {};
+      this._rawAttributes = Object.entries(attributes).map(([k2, v2]) => {
+        if (isPromiseLike2(v2)) {
+          this._asyncAttributesPending = true;
+        }
+        return [k2, v2];
+      });
+      this._rawAttributes = guardedRawAttributes2(this._rawAttributes);
+      this._schemaUrl = validateSchemaUrl2(options == null ? void 0 : options.schemaUrl);
+    }
+    static FromAttributeList(attributes, options) {
+      const res = new _ResourceImpl({}, options);
+      res._rawAttributes = guardedRawAttributes2(attributes);
+      res._asyncAttributesPending = attributes.filter(([_2, val]) => isPromiseLike2(val)).length > 0;
+      return res;
+    }
+    get asyncAttributesPending() {
+      return this._asyncAttributesPending;
+    }
+    async waitForAsyncAttributes() {
+      if (!this.asyncAttributesPending) {
+        return;
+      }
+      for (let i2 = 0; i2 < this._rawAttributes.length; i2++) {
+        const [k2, v2] = this._rawAttributes[i2];
+        this._rawAttributes[i2] = [k2, isPromiseLike2(v2) ? await v2 : v2];
+      }
+      this._asyncAttributesPending = false;
+    }
+    get attributes() {
+      var _a;
+      if (this.asyncAttributesPending) {
+        diag2.error("Accessing resource attributes before async attributes settled");
+      }
+      if (this._memoizedAttributes) {
+        return this._memoizedAttributes;
+      }
+      const attrs = {};
+      for (const [k2, v2] of this._rawAttributes) {
+        if (isPromiseLike2(v2)) {
+          diag2.debug(`Unsettled resource attribute ${k2} skipped`);
+          continue;
+        }
+        if (v2 != null) {
+          (_a = attrs[k2]) != null ? _a : attrs[k2] = v2;
+        }
+      }
+      if (!this._asyncAttributesPending) {
+        this._memoizedAttributes = attrs;
+      }
+      return attrs;
+    }
+    getRawAttributes() {
+      return this._rawAttributes;
+    }
+    get schemaUrl() {
+      return this._schemaUrl;
+    }
+    merge(resource) {
+      if (resource == null)
+        return this;
+      const mergedSchemaUrl = mergeSchemaUrl2(this, resource);
+      const mergedOptions = mergedSchemaUrl ? { schemaUrl: mergedSchemaUrl } : void 0;
+      return _ResourceImpl.FromAttributeList([...resource.getRawAttributes(), ...this.getRawAttributes()], mergedOptions);
+    }
+  };
+  function resourceFromAttributes2(attributes, options) {
+    return ResourceImpl2.FromAttributeList(Object.entries(attributes), options);
+  }
+  function emptyResource2() {
+    return resourceFromAttributes2({});
+  }
+  function guardedRawAttributes2(attributes) {
+    return attributes.map(([k2, v2]) => {
+      if (isPromiseLike2(v2)) {
+        return [
+          k2,
+          v2.catch((err) => {
+            diag2.debug("promise rejection for resource attribute: %s - %s", k2, err);
+            return void 0;
+          })
+        ];
+      }
+      return [k2, v2];
+    });
+  }
+  function validateSchemaUrl2(schemaUrl) {
+    if (typeof schemaUrl === "string" || schemaUrl === void 0) {
+      return schemaUrl;
+    }
+    diag2.warn("Schema URL must be string or undefined, got %s. Schema URL will be ignored.", schemaUrl);
+    return void 0;
+  }
+  function mergeSchemaUrl2(old, updating) {
+    const oldSchemaUrl = old == null ? void 0 : old.schemaUrl;
+    const updatingSchemaUrl = updating == null ? void 0 : updating.schemaUrl;
+    const isOldEmpty = oldSchemaUrl === void 0 || oldSchemaUrl === "";
+    const isUpdatingEmpty = updatingSchemaUrl === void 0 || updatingSchemaUrl === "";
+    if (isOldEmpty) {
+      return updatingSchemaUrl;
+    }
+    if (isUpdatingEmpty) {
+      return oldSchemaUrl;
+    }
+    if (oldSchemaUrl === updatingSchemaUrl) {
+      return oldSchemaUrl;
+    }
+    diag2.warn('Schema URL merge conflict: old resource has "%s", updating resource has "%s". Resulting resource will have undefined Schema URL.', oldSchemaUrl, updatingSchemaUrl);
+    return void 0;
+  }
+
   // node_modules/@opentelemetry/opentelemetry-browser-detector/build/esm/types.js
   var BROWSER_ATTRIBUTES = {
     PLATFORM: "browser.platform",
@@ -8517,7 +8926,7 @@
     detect(config) {
       const isBrowser2 = typeof window !== "undefined" && typeof document !== "undefined";
       if (!isBrowser2) {
-        return emptyResource();
+        return emptyResource2();
       }
       const browserResource = getBrowserAttributes();
       return this._getResourceAttributes(browserResource, config);
@@ -8532,7 +8941,7 @@
     _getResourceAttributes(browserResource, _config) {
       if (!browserResource[BROWSER_ATTRIBUTES.USER_AGENT] && !browserResource[BROWSER_ATTRIBUTES.PLATFORM]) {
         diag2.debug("BrowserDetector failed: Unable to find required browser resources. ");
-        return emptyResource();
+        return emptyResource2();
       } else {
         return { attributes: browserResource };
       }
@@ -9189,258 +9598,6 @@
     return semconvStability;
   }
 
-  // node_modules/@opentelemetry/instrumentation-fetch/node_modules/@opentelemetry/core/build/esm/platform/browser/environment.js
-  function getStringListFromEnv2(_2) {
-    return void 0;
-  }
-
-  // node_modules/@opentelemetry/instrumentation-fetch/node_modules/@opentelemetry/core/build/esm/platform/browser/index.js
-  var otperformance2 = performance;
-
-  // node_modules/@opentelemetry/instrumentation-fetch/node_modules/@opentelemetry/core/build/esm/common/time.js
-  var NANOSECOND_DIGITS2 = 9;
-  var NANOSECOND_DIGITS_IN_MILLIS2 = 6;
-  var MILLISECONDS_TO_NANOSECONDS2 = Math.pow(10, NANOSECOND_DIGITS_IN_MILLIS2);
-  var SECOND_TO_NANOSECONDS2 = Math.pow(10, NANOSECOND_DIGITS2);
-  function millisToHrTime2(epochMillis) {
-    const epochSeconds = epochMillis / 1e3;
-    const seconds = Math.trunc(epochSeconds);
-    const nanos = Math.round(epochMillis % 1e3 * MILLISECONDS_TO_NANOSECONDS2);
-    return [seconds, nanos];
-  }
-  function hrTime2(performanceNow) {
-    const timeOrigin = millisToHrTime2(otperformance2.timeOrigin);
-    const now = millisToHrTime2(typeof performanceNow === "number" ? performanceNow : otperformance2.now());
-    return addHrTimes2(timeOrigin, now);
-  }
-  function timeInputToHrTime2(time) {
-    if (isTimeInputHrTime2(time)) {
-      return time;
-    } else if (typeof time === "number") {
-      if (time < otperformance2.timeOrigin) {
-        return hrTime2(time);
-      } else {
-        return millisToHrTime2(time);
-      }
-    } else if (time instanceof Date) {
-      return millisToHrTime2(time.getTime());
-    } else {
-      throw TypeError("Invalid input type");
-    }
-  }
-  function hrTimeToNanoseconds2(time) {
-    return time[0] * SECOND_TO_NANOSECONDS2 + time[1];
-  }
-  function isTimeInputHrTime2(value) {
-    return Array.isArray(value) && value.length === 2 && typeof value[0] === "number" && typeof value[1] === "number";
-  }
-  function addHrTimes2(time1, time2) {
-    const out = [time1[0] + time2[0], time1[1] + time2[1]];
-    if (out[1] >= SECOND_TO_NANOSECONDS2) {
-      out[1] -= SECOND_TO_NANOSECONDS2;
-      out[0] += 1;
-    }
-    return out;
-  }
-
-  // node_modules/@opentelemetry/instrumentation-fetch/node_modules/@opentelemetry/core/build/esm/utils/url.js
-  function urlMatches2(url, urlToMatch) {
-    if (typeof urlToMatch === "string") {
-      return url === urlToMatch;
-    } else {
-      return !!url.match(urlToMatch);
-    }
-  }
-  function isUrlIgnored2(url, ignoredUrls) {
-    if (!ignoredUrls) {
-      return false;
-    }
-    for (const ignoreUrl of ignoredUrls) {
-      if (urlMatches2(url, ignoreUrl)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  // node_modules/@opentelemetry/instrumentation-fetch/node_modules/@opentelemetry/sdk-trace-web/build/esm/enums/PerformanceTimingNames.js
-  var PerformanceTimingNames2;
-  (function(PerformanceTimingNames3) {
-    PerformanceTimingNames3["CONNECT_END"] = "connectEnd";
-    PerformanceTimingNames3["CONNECT_START"] = "connectStart";
-    PerformanceTimingNames3["DECODED_BODY_SIZE"] = "decodedBodySize";
-    PerformanceTimingNames3["DOM_COMPLETE"] = "domComplete";
-    PerformanceTimingNames3["DOM_CONTENT_LOADED_EVENT_END"] = "domContentLoadedEventEnd";
-    PerformanceTimingNames3["DOM_CONTENT_LOADED_EVENT_START"] = "domContentLoadedEventStart";
-    PerformanceTimingNames3["DOM_INTERACTIVE"] = "domInteractive";
-    PerformanceTimingNames3["DOMAIN_LOOKUP_END"] = "domainLookupEnd";
-    PerformanceTimingNames3["DOMAIN_LOOKUP_START"] = "domainLookupStart";
-    PerformanceTimingNames3["ENCODED_BODY_SIZE"] = "encodedBodySize";
-    PerformanceTimingNames3["FETCH_START"] = "fetchStart";
-    PerformanceTimingNames3["LOAD_EVENT_END"] = "loadEventEnd";
-    PerformanceTimingNames3["LOAD_EVENT_START"] = "loadEventStart";
-    PerformanceTimingNames3["NAVIGATION_START"] = "navigationStart";
-    PerformanceTimingNames3["REDIRECT_END"] = "redirectEnd";
-    PerformanceTimingNames3["REDIRECT_START"] = "redirectStart";
-    PerformanceTimingNames3["REQUEST_START"] = "requestStart";
-    PerformanceTimingNames3["RESPONSE_END"] = "responseEnd";
-    PerformanceTimingNames3["RESPONSE_START"] = "responseStart";
-    PerformanceTimingNames3["SECURE_CONNECTION_START"] = "secureConnectionStart";
-    PerformanceTimingNames3["START_TIME"] = "startTime";
-    PerformanceTimingNames3["UNLOAD_EVENT_END"] = "unloadEventEnd";
-    PerformanceTimingNames3["UNLOAD_EVENT_START"] = "unloadEventStart";
-  })(PerformanceTimingNames2 || (PerformanceTimingNames2 = {}));
-
-  // node_modules/@opentelemetry/instrumentation-fetch/node_modules/@opentelemetry/sdk-trace-web/build/esm/semconv.js
-  var ATTR_HTTP_RESPONSE_CONTENT_LENGTH2 = "http.response_content_length";
-  var ATTR_HTTP_RESPONSE_CONTENT_LENGTH_UNCOMPRESSED2 = "http.response_content_length_uncompressed";
-
-  // node_modules/@opentelemetry/instrumentation-fetch/node_modules/@opentelemetry/sdk-trace-web/build/esm/utils.js
-  var urlNormalizingAnchor2;
-  function getUrlNormalizingAnchor2() {
-    if (!urlNormalizingAnchor2) {
-      urlNormalizingAnchor2 = document.createElement("a");
-    }
-    return urlNormalizingAnchor2;
-  }
-  function hasKey2(obj, key) {
-    return key in obj;
-  }
-  function addSpanNetworkEvent2(span, performanceName, entries, ignoreZeros = true) {
-    if (hasKey2(entries, performanceName) && typeof entries[performanceName] === "number" && !(ignoreZeros && entries[performanceName] === 0)) {
-      return span.addEvent(performanceName, entries[performanceName]);
-    }
-    return void 0;
-  }
-  function addSpanNetworkEvents2(span, resource, ignoreNetworkEvents = false, ignoreZeros, skipOldSemconvContentLengthAttrs) {
-    if (ignoreZeros === void 0) {
-      ignoreZeros = resource[PerformanceTimingNames2.START_TIME] !== 0;
-    }
-    if (!ignoreNetworkEvents) {
-      addSpanNetworkEvent2(span, PerformanceTimingNames2.FETCH_START, resource, ignoreZeros);
-      addSpanNetworkEvent2(span, PerformanceTimingNames2.DOMAIN_LOOKUP_START, resource, ignoreZeros);
-      addSpanNetworkEvent2(span, PerformanceTimingNames2.DOMAIN_LOOKUP_END, resource, ignoreZeros);
-      addSpanNetworkEvent2(span, PerformanceTimingNames2.CONNECT_START, resource, ignoreZeros);
-      addSpanNetworkEvent2(span, PerformanceTimingNames2.SECURE_CONNECTION_START, resource, ignoreZeros);
-      addSpanNetworkEvent2(span, PerformanceTimingNames2.CONNECT_END, resource, ignoreZeros);
-      addSpanNetworkEvent2(span, PerformanceTimingNames2.REQUEST_START, resource, ignoreZeros);
-      addSpanNetworkEvent2(span, PerformanceTimingNames2.RESPONSE_START, resource, ignoreZeros);
-      addSpanNetworkEvent2(span, PerformanceTimingNames2.RESPONSE_END, resource, ignoreZeros);
-    }
-    if (!skipOldSemconvContentLengthAttrs) {
-      const encodedLength = resource[PerformanceTimingNames2.ENCODED_BODY_SIZE];
-      if (encodedLength !== void 0) {
-        span.setAttribute(ATTR_HTTP_RESPONSE_CONTENT_LENGTH2, encodedLength);
-      }
-      const decodedLength = resource[PerformanceTimingNames2.DECODED_BODY_SIZE];
-      if (decodedLength !== void 0 && encodedLength !== decodedLength) {
-        span.setAttribute(ATTR_HTTP_RESPONSE_CONTENT_LENGTH_UNCOMPRESSED2, decodedLength);
-      }
-    }
-  }
-  function sortResources2(filteredResources) {
-    return filteredResources.slice().sort((a2, b2) => {
-      const valueA = a2[PerformanceTimingNames2.FETCH_START];
-      const valueB = b2[PerformanceTimingNames2.FETCH_START];
-      if (valueA > valueB) {
-        return 1;
-      } else if (valueA < valueB) {
-        return -1;
-      }
-      return 0;
-    });
-  }
-  function getOrigin2() {
-    return typeof location !== "undefined" ? location.origin : void 0;
-  }
-  function getResource2(spanUrl, startTimeHR, endTimeHR, resources, ignoredResources = /* @__PURE__ */ new WeakSet(), initiatorType) {
-    const parsedSpanUrl = parseUrl2(spanUrl);
-    spanUrl = parsedSpanUrl.toString();
-    const filteredResources = filterResourcesForSpan2(spanUrl, startTimeHR, endTimeHR, resources, ignoredResources, initiatorType);
-    if (filteredResources.length === 0) {
-      return {
-        mainRequest: void 0
-      };
-    }
-    if (filteredResources.length === 1) {
-      return {
-        mainRequest: filteredResources[0]
-      };
-    }
-    const sorted = sortResources2(filteredResources);
-    if (parsedSpanUrl.origin !== getOrigin2() && sorted.length > 1) {
-      let corsPreFlightRequest = sorted[0];
-      let mainRequest = findMainRequest2(sorted, corsPreFlightRequest[PerformanceTimingNames2.RESPONSE_END], endTimeHR);
-      const responseEnd = corsPreFlightRequest[PerformanceTimingNames2.RESPONSE_END];
-      const fetchStart = mainRequest[PerformanceTimingNames2.FETCH_START];
-      if (fetchStart < responseEnd) {
-        mainRequest = corsPreFlightRequest;
-        corsPreFlightRequest = void 0;
-      }
-      return {
-        corsPreFlightRequest,
-        mainRequest
-      };
-    } else {
-      return {
-        mainRequest: filteredResources[0]
-      };
-    }
-  }
-  function findMainRequest2(resources, corsPreFlightRequestEndTime, spanEndTimeHR) {
-    const spanEndTime = hrTimeToNanoseconds2(spanEndTimeHR);
-    const minTime = hrTimeToNanoseconds2(timeInputToHrTime2(corsPreFlightRequestEndTime));
-    let mainRequest = resources[1];
-    let bestGap;
-    const length = resources.length;
-    for (let i2 = 1; i2 < length; i2++) {
-      const resource = resources[i2];
-      const resourceStartTime = hrTimeToNanoseconds2(timeInputToHrTime2(resource[PerformanceTimingNames2.FETCH_START]));
-      const resourceEndTime = hrTimeToNanoseconds2(timeInputToHrTime2(resource[PerformanceTimingNames2.RESPONSE_END]));
-      const currentGap = spanEndTime - resourceEndTime;
-      if (resourceStartTime >= minTime && (!bestGap || currentGap < bestGap)) {
-        bestGap = currentGap;
-        mainRequest = resource;
-      }
-    }
-    return mainRequest;
-  }
-  function filterResourcesForSpan2(spanUrl, startTimeHR, endTimeHR, resources, ignoredResources, initiatorType) {
-    const startTime = hrTimeToNanoseconds2(startTimeHR);
-    const endTime = hrTimeToNanoseconds2(endTimeHR);
-    let filteredResources = resources.filter((resource) => {
-      const resourceStartTime = hrTimeToNanoseconds2(timeInputToHrTime2(resource[PerformanceTimingNames2.FETCH_START]));
-      const resourceEndTime = hrTimeToNanoseconds2(timeInputToHrTime2(resource[PerformanceTimingNames2.RESPONSE_END]));
-      return resource.initiatorType.toLowerCase() === (initiatorType || "xmlhttprequest") && resource.name === spanUrl && resourceStartTime >= startTime && resourceEndTime <= endTime;
-    });
-    if (filteredResources.length > 0) {
-      filteredResources = filteredResources.filter((resource) => {
-        return !ignoredResources.has(resource);
-      });
-    }
-    return filteredResources;
-  }
-  function parseUrl2(url) {
-    if (typeof URL === "function") {
-      return new URL(url, typeof document !== "undefined" ? document.baseURI : typeof location !== "undefined" ? location.href : void 0);
-    }
-    const element = getUrlNormalizingAnchor2();
-    element.href = url;
-    return element;
-  }
-  function shouldPropagateTraceHeaders2(spanUrl, propagateTraceHeaderCorsUrls) {
-    let propagateTraceHeaderUrls = propagateTraceHeaderCorsUrls || [];
-    if (typeof propagateTraceHeaderUrls === "string" || propagateTraceHeaderUrls instanceof RegExp) {
-      propagateTraceHeaderUrls = [propagateTraceHeaderUrls];
-    }
-    const parsedSpanUrl = parseUrl2(spanUrl);
-    if (parsedSpanUrl.origin === getOrigin2()) {
-      return true;
-    } else {
-      return propagateTraceHeaderUrls.some((propagateTraceHeaderUrl) => urlMatches2(spanUrl, propagateTraceHeaderUrl));
-    }
-  }
-
   // node_modules/@opentelemetry/instrumentation-fetch/build/esm/enums/AttributeNames.js
   var AttributeNames4;
   (function(AttributeNames5) {
@@ -9579,7 +9736,7 @@
   var knownMethods2;
   function getKnownMethods2() {
     if (knownMethods2 === void 0) {
-      const cfgMethods = getStringListFromEnv2("OTEL_INSTRUMENTATION_HTTP_KNOWN_METHODS");
+      const cfgMethods = getStringListFromEnv("OTEL_INSTRUMENTATION_HTTP_KNOWN_METHODS");
       if (cfgMethods && cfgMethods.length > 0) {
         knownMethods2 = {};
         cfgMethods.forEach((m2) => {
@@ -9630,11 +9787,11 @@
      */
     _addChildSpan(span, corsPreFlightRequest) {
       const childSpan = this.tracer.startSpan("CORS Preflight", {
-        startTime: corsPreFlightRequest[PerformanceTimingNames2.FETCH_START]
+        startTime: corsPreFlightRequest[PerformanceTimingNames.FETCH_START]
       }, trace.setSpan(context.active(), span));
       const skipOldSemconvContentLengthAttrs = !(this._semconvStability & SemconvStability2.OLD);
-      addSpanNetworkEvents2(childSpan, corsPreFlightRequest, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
-      childSpan.end(corsPreFlightRequest[PerformanceTimingNames2.RESPONSE_END]);
+      addSpanNetworkEvents(childSpan, corsPreFlightRequest, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
+      childSpan.end(corsPreFlightRequest[PerformanceTimingNames.RESPONSE_END]);
     }
     /**
      * Adds more attributes to span just before ending it
@@ -9642,7 +9799,7 @@
      * @param response
      */
     _addFinalSpanAttributes(span, response) {
-      const parsedUrl = parseUrl2(response.url);
+      const parsedUrl = parseUrl(response.url);
       if (this._semconvStability & SemconvStability2.OLD) {
         span.setAttribute(ATTR_HTTP_STATUS_CODE2, response.status);
         if (response.statusText != null) {
@@ -9669,7 +9826,7 @@
      * @param spanUrl
      */
     _addHeaders(options, spanUrl) {
-      if (!shouldPropagateTraceHeaders2(spanUrl, this.getConfig().propagateTraceHeaderCorsUrls)) {
+      if (!shouldPropagateTraceHeaders(spanUrl, this.getConfig().propagateTraceHeaderCorsUrls)) {
         const headers = {};
         propagation.inject(context.active(), headers);
         if (Object.keys(headers).length > 0) {
@@ -9713,7 +9870,7 @@
      * @param options
      */
     _createSpan(url, options = {}) {
-      if (isUrlIgnored2(url, this.getConfig().ignoreUrls)) {
+      if (isUrlIgnored(url, this.getConfig().ignoreUrls)) {
         this._diag.debug("ignoring span as url matches ignored url");
         return;
       }
@@ -9757,7 +9914,7 @@
         }
         resources = performance.getEntriesByType("resource");
       }
-      const resource = getResource2(resourcesObserver.spanUrl, resourcesObserver.startTime, endTime, resources, this._usedResources, "fetch");
+      const resource = getResource(resourcesObserver.spanUrl, resourcesObserver.startTime, endTime, resources, this._usedResources, "fetch");
       if (resource.mainRequest) {
         const mainRequest = resource.mainRequest;
         this._markResourceAsUsed(mainRequest);
@@ -9767,7 +9924,7 @@
           this._markResourceAsUsed(corsPreFlightRequest);
         }
         const skipOldSemconvContentLengthAttrs = !(this._semconvStability & SemconvStability2.OLD);
-        addSpanNetworkEvents2(span, mainRequest, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
+        addSpanNetworkEvents(span, mainRequest, this.getConfig().ignoreNetworkEvents, void 0, skipOldSemconvContentLengthAttrs);
       }
     }
     /**
@@ -9786,8 +9943,8 @@
      * @param response
      */
     _endSpan(span, spanData, response) {
-      const endTime = millisToHrTime2(Date.now());
-      const performanceEndTime = hrTime2();
+      const endTime = millisToHrTime(Date.now());
+      const performanceEndTime = hrTime();
       this._addFinalSpanAttributes(span, response);
       if (this._semconvStability & SemconvStability2.STABLE) {
         if (response.status >= 400) {
@@ -9829,7 +9986,7 @@
         }
         return function patchConstructor(...args) {
           const self2 = this;
-          const url = parseUrl2(args[0] instanceof Request ? args[0].url : String(args[0])).href;
+          const url = parseUrl(args[0] instanceof Request ? args[0].url : String(args[0])).href;
           const options = args[0] instanceof Request ? args[0] : args[1] || {};
           const createdSpan = plugin._createSpan(url, options);
           if (!createdSpan) {
@@ -9984,7 +10141,7 @@
      * @param spanUrl
      */
     _prepareSpanData(spanUrl) {
-      const startTime = hrTime2();
+      const startTime = hrTime();
       const entries = [];
       if (typeof PerformanceObserver !== "function") {
         return { entries, startTime, spanUrl };
