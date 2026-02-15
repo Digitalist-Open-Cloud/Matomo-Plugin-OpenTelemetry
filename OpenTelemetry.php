@@ -32,6 +32,7 @@ use OpenTelemetry\API\Metrics\MeterInterface;
 use Piwik\Plugins\OpenTelemetry\SystemSettings;
 use Monolog\Logger;
 use Piwik\Plugins\OpenTelemetry\Handler\OpenTelemetryHandler;
+use Monolog\Handler\NullHandler;
 
 /***
  * Main class to create traces.
@@ -46,8 +47,11 @@ class OpenTelemetry extends Plugin
     private static $meter = null;
     private static $apiDurationHistogram = null;
     private static $apiStartTime = null;
+    private static $memoryHistogram = null;
 
-
+    /**
+     * Metrics for API requests.
+     */
     private static function meter(): MeterInterface
     {
         if (!self::$meter) {
@@ -55,33 +59,57 @@ class OpenTelemetry extends Plugin
         }
         return self::$meter;
     }
+
     /**
-     * The events we want to create traces from.
-     * And needed JS files and variables for client tracing.
+     * Metrics for peak memory usage for request.
+     */
+    private static function memoryHistogram()
+    {
+        if (!self::$memoryHistogram) {
+            self::$memoryHistogram = Globals::meterProvider()
+                ->getMeter('matomo.php')
+                ->createHistogram(
+                    'matomo.php.memory.peak',
+                    'By',
+                    'Peak PHP memory usage per request'
+                );
+        }
+
+        return self::$memoryHistogram;
+    }
+
+    /**
+     * The events we want to use for OpenTelemetry.
+     * Also add needed JS files and variables for client tracing.
      */
     public function registerEvents(): array
     {
         return [
-            'Http.sendHttpRequest'     => 'onRequestStart',
+            'Http.sendHttpRequest' => 'onRequestStart',
             'Http.sendHttpRequest.end' => 'onRequestEnd',
-            'API.Request.dispatch'     => 'onApiStart',
+            'API.Request.dispatch' => 'onApiStart',
             'API.Request.dispatch.end' => 'onApiEnd',
             'AssetManager.getJavaScriptFiles' => 'getJSFiles',
-            'Template.jsGlobalVariables'      => 'addJsVariables',
+            'Template.jsGlobalVariables' => 'addJsVariables',
             'Platform.initialized' => 'attachOtelHandler',
         ];
     }
 
+    /**
+     * Attach logger, to catch logs from Monolog.
+     */
     public function attachOtelHandler(): void
     {
         $logger = StaticContainer::get('Psr\Log\LoggerInterface');
 
         if ($logger instanceof Logger) {
             $logger->pushHandler(
-                new OpenTelemetryHandler(Logger::INFO)
+                new OpenTelemetryHandler(Logger::DEBUG)
             );
+            //$logger->pushHandler(new NullHandler(Logger::DEBUG));
         }
     }
+
     /**
      * Normal HTTP requests in Matomo UI.
      */
@@ -105,7 +133,7 @@ class OpenTelemetry extends Plugin
     }
 
     /**
-     * The events we want to create traces from.
+     * When request starts.
      */
     public function onRequestStart(): void
     {
@@ -126,7 +154,7 @@ class OpenTelemetry extends Plugin
             ->setAttribute('http.method', $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN')
             ->setStartTimestamp((int) (microtime(true) * 1e9))
             ->startSpan();
-            // @todo: Not working yet, set site id from baggage (js in this case), if we have it.
+            // @todo: Not really working yet, set site id from baggage (js in this case), if we have it.
             $baggage = Baggage::getCurrent();
             $siteId = $baggage->getValue('matomo.site_id');
         if ($siteId !== null) {
@@ -141,9 +169,17 @@ class OpenTelemetry extends Plugin
      */
     public function onRequestEnd(): void
     {
+        $peakMemory = memory_get_peak_usage(true);
+        self::memoryHistogram()->record($peakMemory, [
+            'process.runtime.name' => php_sapi_name(),
+        ]);
         if (self::$httpSpan) {
             self::$httpSpan->setStatus(
                 StatusCode::STATUS_OK
+            );
+            self::$httpSpan->setAttribute(
+                'php.memory.peak',
+                memory_get_peak_usage(true)
             );
             self::$httpSpan->end((int) (microtime(true) * 1e9));
             self::$httpSpan = null;
@@ -185,6 +221,11 @@ class OpenTelemetry extends Plugin
     {
         if (self::$activeSpan) {
             $durationMs = null;
+            $peakMemory = memory_get_peak_usage(true);
+
+            self::memoryHistogram()->record($peakMemory, [
+                'process.runtime.name' => php_sapi_name(),
+            ]);
 
             if (self::$apiStartTime !== null) {
                 $durationMs = (microtime(true) - self::$apiStartTime) * 1000;
@@ -194,6 +235,7 @@ class OpenTelemetry extends Plugin
                 'matomo.api.method' => $_GET['method'] ?? 'unknown',
                 'http.method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown',
                 'http.status_code' => http_response_code() ?: 200,
+                'php.memory.peak' => memory_get_peak_usage(true),
             ];
             if ($durationMs !== null && self::$apiDurationHistogram) {
                 self::$apiDurationHistogram->record(
@@ -220,7 +262,7 @@ class OpenTelemetry extends Plugin
     }
 
     /**
-     * Get needed javascript variables from Matomo.
+     * Get needed JavaScript variables from Matomo.
      */
     public function addJsVariables(&$out)
     {
@@ -235,6 +277,7 @@ class OpenTelemetry extends Plugin
 
         $serviceName = $settings->serviceName->getValue();
         $otelEndpoint = $settings->otelEndpoint->getValue();
+        $resourceAttributes = $settings->resourceAttributes->getValue();
 
         $out .= "piwik.openTelemetryEnabled = " . json_encode($enabled) . ";\n";
         $out .= "piwik.openTelemetryServiceName = " . json_encode($serviceName) . ";\n";
@@ -244,5 +287,6 @@ class OpenTelemetry extends Plugin
         $out .= "piwik.openTelemetryXMLHttpRequestMonitoring= " . json_encode($enableXMLHttpRequestMonitoring) . ";\n";
         $out .= "piwik.openTelemetryWebVitals = " . json_encode($enableWebVitals) . ";\n";
         $out .= "piwik.openTelemetryUxMonitoring = " . json_encode($enableUxMonitoring) . ";\n";
+        $out .= "piwik.openTelemetryResourceAttributes = " . json_encode($resourceAttributes) . ";\n";
     }
 }

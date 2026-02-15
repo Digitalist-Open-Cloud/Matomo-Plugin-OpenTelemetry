@@ -55,6 +55,9 @@ class SystemSettings extends MatomoSettings
     /** @var Setting */
     public $enableXMLHttpRequestMonitoring;
 
+    /** @var Setting */
+    public $resourceAttributes;
+
     protected function init()
     {
         $this->enabled = $this->enabledSetting();
@@ -66,6 +69,7 @@ class SystemSettings extends MatomoSettings
         $this->enableDocumentLoadMonitoring = $this->documentLoadSetting();
         $this->enableUserInteractionMonitoring = $this->userInteractionSetting();
         $this->enableXMLHttpRequestMonitoring = $this->xmlHttpRequestSetting();
+        $this->resourceAttributes = $this->resourceAttributesSetting();
     }
 
     private function enabledSetting()
@@ -76,6 +80,7 @@ class SystemSettings extends MatomoSettings
             FieldConfig::TYPE_BOOL,
             function (FieldConfig $field) {
                 $field->title = Piwik::translate('OpenTelemetry_Enabled');
+                $field->introduction =  Piwik::translate('OpenTelemetry_EnabledIntroduction');
                 $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
                 $field->description = Piwik::translate(
                     'OpenTelemetry_EnabledDescription'
@@ -84,6 +89,21 @@ class SystemSettings extends MatomoSettings
         );
     }
 
+    private function resourceAttributesSetting()
+    {
+        return $this->makeSetting(
+            'resourceAttributes',
+            '',
+            FieldConfig::TYPE_STRING,
+            function (FieldConfig $field) {
+                $field->title = Piwik::translate('OpenTelemetry_ResourceAttributes');
+                $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
+                $field->description = Piwik::translate(
+                    'OpenTelemetry_ResourceAttributesDescription'
+                );
+            }
+        );
+    }
 
     private function cspConnectSrcSetting()
     {

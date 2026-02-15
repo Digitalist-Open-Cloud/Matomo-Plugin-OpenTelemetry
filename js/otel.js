@@ -8797,8 +8797,12 @@
     const detectedResources = detectResources({
       detectors: [browserDetector]
     });
+    const customAttributes = parseResourceAttributes(
+      CONFIG.resourceAttributes
+    );
     let resource = resourceFromAttributes({
-      [ATTR_SERVICE_NAME]: SERVICE_NAME
+      [ATTR_SERVICE_NAME]: SERVICE_NAME,
+      ...customAttributes
     });
     resource = resource.merge(detectedResources);
     const provider = new WebTracerProvider({
@@ -8879,6 +8883,19 @@
           currentPageSpan.end();
         }
       });
+    }
+    function parseResourceAttributes(input) {
+      if (!input || typeof input !== "string") {
+        return {};
+      }
+      return input.split(",").map((pair) => pair.trim()).filter(Boolean).reduce((acc, pair) => {
+        const [key, ...rest] = pair.split("=");
+        if (!key || rest.length === 0) {
+          return acc;
+        }
+        acc[key.trim()] = rest.join("=").trim();
+        return acc;
+      }, {});
     }
     function recordErrorSpan(name, error) {
       var _a2;

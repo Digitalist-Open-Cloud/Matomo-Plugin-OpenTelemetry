@@ -10,7 +10,7 @@ While using OpenTelemetry from Matomo, you can collect issues in your installati
 that could be hard to catch in any other way.
 
 If you use the plugin both in frontend and in the backend you can collect data about
-your Matomo installation that could be hard in other ways.
+your Matomo installation that could be hard to get in other ways.
 
 OpenTelemetry is an open standard that is supported by many vendors, and it is open source.
 
@@ -25,6 +25,8 @@ need a backend to collect the data.
 
 This is an early version of the plugin, and things could break. It also require some technical
 knowledge to setup on the PHP side of things. But goal is that it should be as easy as possible.
+
+It will **not** be published on <https://plugins.matomo.org/> before we reach version 1.0.0.
 
 ## Configuration
 
@@ -53,11 +55,11 @@ you need to set CSP in plugin settings to: `https://mytracer.com:4318`.
 
 There is also auto-instrumentation libraries, that give you more detailed information.
 
-If you want auto instrumentation database queries:
+If you want auto instrumentation database queries (you should):
 
 - `open-telemetry/opentelemetry-auto-pdo` (MariaDB and Mysql)
 
-Files, input output
+Files, input output (this will create a lot of traces):
 
 - `open-telemetry/opentelemetry-auto-io`
 
@@ -138,14 +140,13 @@ npx esbuild src/otel.js \
 
 ## Performance
 
-While you measure performance with OpenTelemetry, adding Open Telemetry itself could to some
+While you measure performance with OpenTelemetry, adding OpenTelemetry itself could to some
 small extent affect the performance of the Matomo application, but it should be very minimal.
 
 For PHP tracing, OTEL hooks into the running processes.
 
 For browser telemetry requests are done from the frontend, and it should not affect payloads too much,
 we are talking maybe milliseconds. The script used is about 130kb.
-
 
 ## Software Bill of Materials (SBOM)
 

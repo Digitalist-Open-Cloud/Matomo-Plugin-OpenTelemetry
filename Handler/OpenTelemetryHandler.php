@@ -14,8 +14,8 @@ class OpenTelemetryHandler extends AbstractProcessingHandler
           ->getLogger('matomo');
 
         $attributes = [];
-        $attributes['monolog.channel'] = (string) ($record['channel'] ?? 'matomo');
-        $attributes['monolog.level']   = (string) ($record['level_name'] ?? 'INFO');
+        $attributes['monolog.channel'] = (string) ($record['channel'] ?? 'piwik');
+        $attributes['monolog.level']   = (string) ($record['level_name'] ?? 'DEBUG');
 
         if (!empty($record['context']) && is_array($record['context'])) {
             foreach ($record['context'] as $key => $value) {
@@ -31,7 +31,7 @@ class OpenTelemetryHandler extends AbstractProcessingHandler
         $logRecord = (new LogRecord())
           ->setBody((string) $record['message'])
           ->setSeverityText($record['level_name'])
-          ->setSeverityNumber($this->mapLevel($record['level']))
+          ->setSeverityNumber($this->mapLevel($record['level_name']))
           ->setAttributes($attributes)
           ->setTimestamp(
               (int) ($record['datetime']->getTimestamp() * 1_000_000_000)

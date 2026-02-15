@@ -1,9 +1,9 @@
 {
   "OpenTelemetry": {
     "CspConnectSrc": "Set CSP",
-    "CspConnectSrcDescription": "Set Content Security Policy to allow Matomo connect to a OTEL collector",
+    "CspConnectSrcDescription": "Set Content Security Policy to allow Matomo connect to a OTEL collector, like http://127.0.0.1:4318 or https://myendpoint:443",
     "Enabled": "OpenTelemetry enabled",
-    "EnabledDescription": "Enable OpenTelemetry.",
+    "EnabledDescription": "Enable OpenTelemetry for client (browser).",
     "EnableDocumentLoadMonitoring": "Enable document load monitoring",
     "EnableDocumentLoadMonitoringDescription": "Covers much of the instance usage, including page load times.",
     "EnableUserInteractionMonitoring": "Enable user interaction monitoring",
@@ -17,6 +17,9 @@
     "OtelEndpoint": "Endpoint URL",
     "OtelEndpointDescription": "The full URL to which OpenTelemetry data is sent, for example `https://myhost.org:4318/v1/traces` or `https://myhost.org`. Normally, an HTTP endpoint is required.",
     "ServiceName": "Service name",
-    "ServiceNameDescription": "The name of the service used to identify the browser (client) in OpenTelemetry. Do not use the same name as the backend (PHP), as this may cause issues."
+    "ServiceNameDescription": "The name of the service used to identify the browser (client) in OpenTelemetry. Do not use the same name as the backend (PHP), as this may cause issues.",
+    "EnabledIntroduction": "OpenTelemetry settings for client (browser).",
+    "ResourceAttributes": "Resource attributes",
+    "ResourceAttributesDescription": "Resource attributes to add to all traces, like: host.name=matomo.loc"
   }
 }

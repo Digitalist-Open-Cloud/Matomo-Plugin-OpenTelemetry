@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:d02fe73f-b6d5-493d-be2a-878d8a1672ec",
+  "serialNumber": "urn:uuid:2e709dfb-a24f-4136-b589-ca9865d164a4",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-02-07T02:19:32+00:00",
+    "timestamp": "2026-02-15T21:09:12+00:00",
     "tools": {
       "components": [
         {
@@ -17,7 +17,7 @@
       ]
     },
     "component": {
-      "bom-ref": "64d79be5-f093-4940-91a1-f316d6dfb05c",
+      "bom-ref": "4b35efb3-627a-498d-8c3b-0e05fb1bf982",
       "type": "application",
       "name": ".",
       "properties": [
@@ -30,7 +30,7 @@
   },
   "components": [
     {
-      "bom-ref": "dcc712ae-43e1-4158-9da6-6ad8d0de7663",
+      "bom-ref": "90abf78b-8abe-4c08-b835-5847add1967f",
       "type": "application",
       "name": "package-lock.json",
       "properties": [
@@ -1109,13 +1109,13 @@
   ],
   "dependencies": [
     {
-      "ref": "64d79be5-f093-4940-91a1-f316d6dfb05c",
+      "ref": "4b35efb3-627a-498d-8c3b-0e05fb1bf982",
       "dependsOn": [
-        "dcc712ae-43e1-4158-9da6-6ad8d0de7663"
+        "90abf78b-8abe-4c08-b835-5847add1967f"
       ]
     },
     {
-      "ref": "dcc712ae-43e1-4158-9da6-6ad8d0de7663",
+      "ref": "90abf78b-8abe-4c08-b835-5847add1967f",
       "dependsOn": [
         "pkg:npm/%40opentelemetry/api@1.9.0",
         "pkg:npm/%40opentelemetry/context-zone@2.5.0",
