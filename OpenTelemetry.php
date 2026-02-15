@@ -32,7 +32,7 @@ use OpenTelemetry\API\Metrics\MeterInterface;
 use Piwik\Plugins\OpenTelemetry\SystemSettings;
 use Monolog\Logger;
 use Piwik\Plugins\OpenTelemetry\Handler\OpenTelemetryHandler;
-use Monolog\Handler\NullHandler;
+use Piwik\Log\LoggerInterface;
 
 /***
  * Main class to create traces.
@@ -138,7 +138,15 @@ class OpenTelemetry extends Plugin
     public function onRequestStart(): void
     {
         $propagator = Globals::propagator();
-        $parentContext = $propagator->extract($_SERVER);
+        $headers = [];
+
+        foreach ($_SERVER as $key => $value) {
+            if (str_starts_with($key, 'HTTP_')) {
+                $headerName = strtolower(str_replace('_', '-', substr($key, 5)));
+                $headers[$headerName] = $value;
+            }
+        }
+        $parentContext = $propagator->extract($headers);
 
         Context::storage()->attach($parentContext);
 

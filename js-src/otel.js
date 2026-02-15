@@ -16,6 +16,7 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { resourceFromAttributes, detectResources } from "@opentelemetry/resources";
 import { browserDetector } from '@opentelemetry/opentelemetry-browser-detector';
 import { onCLS, onLCP, onINP } from "web-vitals";
+import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
 
 (function initOpenTelemetry() {
   // Configuration from start.js (Matomo variables)
@@ -93,6 +94,11 @@ import { onCLS, onLCP, onINP } from "web-vitals";
   if (CONFIG.enableXMLHttpRequestMonitoring) {
     instrumentations.push(
       new XMLHttpRequestInstrumentation({
+        propagateTraceHeaderCorsUrls: [/.*/],
+      })
+    );
+    instrumentations.push(
+      new FetchInstrumentation({
         propagateTraceHeaderCorsUrls: [/.*/],
       })
     );
