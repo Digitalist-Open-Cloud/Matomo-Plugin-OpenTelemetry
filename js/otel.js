@@ -10030,7 +10030,7 @@
 
   // js-src/otel.js
   (function initOpenTelemetry() {
-    var _a, _b, _c, _d;
+    var _a, _b, _c;
     const CONFIG = window.MatomoOpenTelemetry || {};
     if (!CONFIG.enabled) {
       return;
@@ -10060,23 +10060,10 @@
       contextManager: new ZoneContextManager(),
       propagator: new CompositePropagator({
         propagators: [
-          new W3CTraceContextPropagator(),
-          new W3CBaggagePropagator()
+          new W3CTraceContextPropagator()
         ]
       })
     });
-    const siteId = (_c = window.piwik) == null ? void 0 : _c.idSite;
-    if (siteId !== void 0 && siteId !== null) {
-      const baggage = propagation.createBaggage({
-        "matomo.site_id": { value: String(siteId) }
-      });
-      const baggageContext = propagation.setBaggage(
-        context.active(),
-        baggage
-      );
-      context.with(baggageContext, () => {
-      });
-    }
     const instrumentations = [];
     if (CONFIG.enableDocumentLoadMonitoring) {
       instrumentations.push(
@@ -10178,7 +10165,7 @@
         return;
       }
       const observer = new MutationObserver((mutations) => {
-        var _a2, _b2, _c2, _d2;
+        var _a2, _b2, _c2, _d;
         for (const mutation of mutations) {
           for (const node of mutation.addedNodes) {
             if (!(node instanceof HTMLElement)) {
@@ -10188,7 +10175,7 @@
             if (!errorNode) {
               continue;
             }
-            const message = (_d2 = (_c2 = errorNode.querySelector(".notification-body div")) == null ? void 0 : _c2.innerText) == null ? void 0 : _d2.trim();
+            const message = (_d = (_c2 = errorNode.querySelector(".notification-body div")) == null ? void 0 : _c2.innerText) == null ? void 0 : _d.trim();
             if (!message) {
               continue;
             }
@@ -10243,7 +10230,7 @@
       x(emitWebVital);
       S(emitWebVital);
     }
-    if (CONFIG.enableUxMonitoring && "PerformanceObserver" in window && ((_d = PerformanceObserver.supportedEntryTypes) == null ? void 0 : _d.includes("longtask"))) {
+    if (CONFIG.enableUxMonitoring && "PerformanceObserver" in window && ((_c = PerformanceObserver.supportedEntryTypes) == null ? void 0 : _c.includes("longtask"))) {
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           const span = tracer.startSpan(

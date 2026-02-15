@@ -3,7 +3,6 @@ import { WebTracerProvider } from "@opentelemetry/sdk-trace-web";
 import { ZoneContextManager } from '@opentelemetry/context-zone';
 import {
   CompositePropagator,
-  W3CBaggagePropagator,
   W3CTraceContextPropagator,
 } from '@opentelemetry/core';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
@@ -58,24 +57,9 @@ import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
     propagator: new CompositePropagator({
       propagators: [
         new W3CTraceContextPropagator(),
-        new W3CBaggagePropagator(),
       ],
     }),
   });
-  const siteId = window.piwik?.idSite;
-  if (siteId !== undefined && siteId !== null) {
-    const baggage = propagation.createBaggage({
-      'matomo.site_id': { value: String(siteId) },
-    });
-
-    const baggageContext = propagation.setBaggage(
-      context.active(),
-      baggage
-    );
-    context.with(baggageContext, () => {
-
-    });
-  }
 
   const instrumentations = [];
 

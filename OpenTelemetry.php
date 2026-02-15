@@ -48,6 +48,9 @@ class OpenTelemetry extends Plugin
     private static $apiDurationHistogram = null;
     private static $apiStartTime = null;
     private static $memoryHistogram = null;
+    private static $archiveStartTime = null;
+    private static $archiveDurationHistogram = null;
+    private static $archiveRunsCounter = null;
 
     /**
      * Metrics for API requests.
@@ -78,6 +81,26 @@ class OpenTelemetry extends Plugin
         return self::$memoryHistogram;
     }
 
+    private static function archiveMetrics()
+    {
+        if (!self::$archiveDurationHistogram) {
+            $meter = \OpenTelemetry\API\Globals::meterProvider()
+                ->getMeter('matomo.archive');
+
+            self::$archiveDurationHistogram = $meter->createHistogram(
+                'matomo.archive.duration',
+                'ms',
+                'Duration of Matomo core archive runs'
+            );
+
+            self::$archiveRunsCounter = $meter->createCounter(
+                'matomo.archive.runs',
+                '1',
+                'Number of archive runs'
+            );
+        }
+    }
+
     /**
      * The events we want to use for OpenTelemetry.
      * Also add needed JS files and variables for client tracing.
@@ -92,6 +115,9 @@ class OpenTelemetry extends Plugin
             'AssetManager.getJavaScriptFiles' => 'getJSFiles',
             'Template.jsGlobalVariables' => 'addJsVariables',
             'Platform.initialized' => 'attachOtelHandler',
+            'CronArchive.init.start' => 'onArchiveStart',
+            'CronArchive.end' => 'onArchiveEnd',
+
         ];
     }
 
@@ -130,6 +156,34 @@ class OpenTelemetry extends Plugin
             self::$apiTracer = Globals::tracerProvider()->getTracer('matomo.api');
         }
         return self::$apiTracer;
+    }
+
+    public function onArchiveStart(): void
+    {
+        // if (!self::$metricsEnabled) {
+        //     return;
+        // }
+
+        self::$archiveStartTime = microtime(true);
+    }
+
+    public function onArchiveEnd(): void
+    {
+        // if (!self::$metricsEnabled || self::$archiveStartTime === null) {
+        //     return;
+        // }
+
+        self::archiveMetrics();
+
+        $durationMs = (microtime(true) - self::$archiveStartTime) * 1000;
+
+        self::$archiveDurationHistogram->record($durationMs, [
+            'process.runtime.name' => PHP_SAPI,
+        ]);
+
+        self::$archiveRunsCounter->add(1);
+
+        self::$archiveStartTime = null;
     }
 
     /**
