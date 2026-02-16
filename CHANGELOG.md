@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1] - 2026-02-15
+
+### Added
+
+- [PHP] Metrics for memory usage, core archiving, api requests
+- [PHP] Log exporter
+
 ## [0.1.0] - 2026-02-07
 
 ### Added

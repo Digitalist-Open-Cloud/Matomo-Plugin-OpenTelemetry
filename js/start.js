@@ -16,6 +16,7 @@
     enableXMLHttpRequestMonitoring: Boolean(piwik.openTelemetryXMLHttpRequestMonitoring),
     enableWebVitals: Boolean(piwik.openTelemetryWebVitals),
     enableUxMonitoring: Boolean(piwik.openTelemetryUxMonitoring),
+    resourceAttributes: piwik.openTelemetryResourceAttributes,
   };
 
 })(jQuery, require);

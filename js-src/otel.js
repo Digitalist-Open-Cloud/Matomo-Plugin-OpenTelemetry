@@ -3,7 +3,6 @@ import { WebTracerProvider } from "@opentelemetry/sdk-trace-web";
 import { ZoneContextManager } from '@opentelemetry/context-zone';
 import {
   CompositePropagator,
-  W3CBaggagePropagator,
   W3CTraceContextPropagator,
 } from '@opentelemetry/core';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
@@ -16,6 +15,7 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { resourceFromAttributes, detectResources } from "@opentelemetry/resources";
 import { browserDetector } from '@opentelemetry/opentelemetry-browser-detector';
 import { onCLS, onLCP, onINP } from "web-vitals";
+import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
 
 (function initOpenTelemetry() {
   // Configuration from start.js (Matomo variables)
@@ -32,8 +32,13 @@ import { onCLS, onLCP, onINP } from "web-vitals";
     detectors: [browserDetector],
   });
 
+  const customAttributes = parseResourceAttributes(
+    CONFIG.resourceAttributes
+  );
+
   let resource = resourceFromAttributes({
     [ATTR_SERVICE_NAME]: SERVICE_NAME,
+    ...customAttributes,
   });
   resource = resource.merge(detectedResources);
 
@@ -52,24 +57,9 @@ import { onCLS, onLCP, onINP } from "web-vitals";
     propagator: new CompositePropagator({
       propagators: [
         new W3CTraceContextPropagator(),
-        new W3CBaggagePropagator(),
       ],
     }),
   });
-  const siteId = window.piwik?.idSite;
-  if (siteId !== undefined && siteId !== null) {
-    const baggage = propagation.createBaggage({
-      'matomo.site_id': { value: String(siteId) },
-    });
-
-    const baggageContext = propagation.setBaggage(
-      context.active(),
-      baggage
-    );
-    context.with(baggageContext, () => {
-
-    });
-  }
 
   const instrumentations = [];
 
@@ -88,6 +78,11 @@ import { onCLS, onLCP, onINP } from "web-vitals";
   if (CONFIG.enableXMLHttpRequestMonitoring) {
     instrumentations.push(
       new XMLHttpRequestInstrumentation({
+        propagateTraceHeaderCorsUrls: [/.*/],
+      })
+    );
+    instrumentations.push(
+      new FetchInstrumentation({
         propagateTraceHeaderCorsUrls: [/.*/],
       })
     );
@@ -136,6 +131,25 @@ import { onCLS, onLCP, onINP } from "web-vitals";
     });
   }
 
+  // Get defined resource attributes.
+  function parseResourceAttributes(input) {
+    if (!input || typeof input !== "string") {
+      return {};
+    }
+
+    return input
+      .split(",")
+      .map(pair => pair.trim())
+      .filter(Boolean)
+      .reduce((acc, pair) => {
+        const [key, ...rest] = pair.split("=");
+        if (!key || rest.length === 0) {
+          return acc;
+        }
+        acc[key.trim()] = rest.join("=").trim();
+        return acc;
+      }, {});
+  }
   // Error tracking
   function recordErrorSpan(name, error) {
     try {
