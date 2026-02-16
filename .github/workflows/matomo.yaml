@@ -5,8 +5,7 @@ on:
   workflow_dispatch: {}
   push:
     branches:
-      - main
-      - metrics
+      - tests
 jobs:
   PluginTests:
     runs-on: ubuntu-latest

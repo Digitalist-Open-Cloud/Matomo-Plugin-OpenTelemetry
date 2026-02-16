@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2] - 2026-02-16
+
+### Added
+
+- Just some minor code style fixes.
+
 ## [0.1.1] - 2026-02-15
 
 ### Added
