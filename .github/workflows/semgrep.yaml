@@ -5,8 +5,9 @@ on:
   pull_request: {}
   workflow_dispatch: {}
   push:
-    branches: ["5.x-dev"]
-
+    branches:
+      - main
+      - metrics
 jobs:
   semgrep:
     name: semgrep-oss/scan
