@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.3] - 2026-02-18
+
+### Changed
+
+- JS libraries updated.
+
 ## [0.1.2] - 2026-02-16
 
 ### Added
