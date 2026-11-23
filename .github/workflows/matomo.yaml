@@ -4,8 +4,7 @@ on:
   pull_request: {}
   workflow_dispatch: {}
   push:
-    branches:
-      - tests
+    branches: ["5.x-dev"]
 jobs:
   PluginTests:
     runs-on: ubuntu-latest
