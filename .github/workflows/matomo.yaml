@@ -23,6 +23,7 @@ jobs:
         uses: Digitalist-Open-Cloud/Matomo-github-action-tests@main
         with:
           plugin-name: 'OpenTelemetry'
+          setup-script: 'tests/ci/install-opentelemetry.sh'
           php-version: ${{ matrix.php }}
           test-type: 'PluginTests'
           matomo-test-branch: ${{ matrix.target }}

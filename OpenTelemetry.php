@@ -21,302 +21,310 @@
 
 namespace Piwik\Plugins\OpenTelemetry;
 
-use Piwik\Plugin;
-use Piwik\Container\StaticContainer;
+use Monolog\Logger;
 use OpenTelemetry\API\Globals;
+use OpenTelemetry\API\Trace\SpanInterface;
 use OpenTelemetry\API\Trace\SpanKind;
 use OpenTelemetry\API\Trace\StatusCode;
-use OpenTelemetry\Context\Context;
-use OpenTelemetry\API\Baggage\Baggage;
-use OpenTelemetry\API\Metrics\MeterInterface;
-use Piwik\Plugins\OpenTelemetry\SystemSettings;
-use Monolog\Logger;
+use OpenTelemetry\Context\ScopeInterface;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugin;
 use Piwik\Plugins\OpenTelemetry\Handler\OpenTelemetryHandler;
-use Piwik\Log\LoggerInterface;
 
-/***
- * Main class to create traces.
+/**
+ * Sends traces, metrics and logs of Matomo itself to OpenTelemetry: a span for each request to
+ * Matomo, for each API method it runs and for each request Matomo makes to another server, and
+ * the settings the browser needs to send its own.
  */
 class OpenTelemetry extends Plugin
 {
-    private static $activeSpan = null;
-    private static $httpSpan = null;
-    private static $httpTracer = null;
-    private static $httpScope = null;
-    private static $apiTracer = null;
-    private static $meter = null;
-    private static $apiDurationHistogram = null;
-    private static $apiStartTime = null;
-    private static $memoryHistogram = null;
+    public const MASK = '***';
+
+    // Names of values that are never sent: passwords, tokens and keys.
+    private const SECRET_NAME = '/pass(word|wd|phrase)?|pwd|token|secret|credential|key|salt|hash|signature|cookie|session|nonce|auth/i';
+
+    private const REQUEST = 'request';
+    private const CLIENT = 'client';
+    private const API = 'api';
+
+    /**
+     * The spans that are open, the innermost last: the span, what detaches it, when it started,
+     * what it is a span of and its name.
+     *
+     * @var array<int, array{0: SpanInterface, 1: ScopeInterface|null, 2: float, 3: string, 4: string}>
+     */
+    private static $open = [];
+
+    /**
+     * @var float|null
+     */
     private static $archiveStartTime = null;
-    private static $archiveDurationHistogram = null;
-    private static $archiveRunsCounter = null;
 
     /**
-     * Metrics for API requests.
+     * @var bool
      */
-    private static function meter(): MeterInterface
-    {
-        if (!self::$meter) {
-            self::$meter = Globals::meterProvider()->getMeter('matomo.api');
-        }
-        return self::$meter;
-    }
+    private static $endsOnShutdown = false;
 
-    /**
-     * Metrics for peak memory usage for request.
-     */
-    private static function memoryHistogram()
-    {
-        if (!self::$memoryHistogram) {
-            self::$memoryHistogram = Globals::meterProvider()
-                ->getMeter('matomo.php')
-                ->createHistogram(
-                    'matomo.php.memory.peak',
-                    'By',
-                    'Peak PHP memory usage per request'
-                );
-        }
-
-        return self::$memoryHistogram;
-    }
-
-    private static function archiveMetrics()
-    {
-        if (!self::$archiveDurationHistogram) {
-            $meter = \OpenTelemetry\API\Globals::meterProvider()
-                ->getMeter('matomo.archive');
-
-            self::$archiveDurationHistogram = $meter->createHistogram(
-                'matomo.archive.duration',
-                'ms',
-                'Duration of Matomo core archive runs'
-            );
-
-            self::$archiveRunsCounter = $meter->createCounter(
-                'matomo.archive.runs',
-                '1',
-                'Number of archive runs'
-            );
-        }
-    }
-
-    /**
-     * The events we want to use for OpenTelemetry.
-     * Also add needed JS files and variables for client tracing.
-     */
     public function registerEvents(): array
     {
-        return [
-            'Http.sendHttpRequest' => 'onRequestStart',
-            'Http.sendHttpRequest.end' => 'onRequestEnd',
-            'API.Request.dispatch' => 'onApiStart',
-            'API.Request.dispatch.end' => 'onApiEnd',
+        $events = [
             'AssetManager.getJavaScriptFiles' => 'getJSFiles',
             'Template.jsGlobalVariables' => 'addJsVariables',
+        ];
+        // The packages of OpenTelemetry for PHP are installed apart from the plugin. Without them
+        // only the browser is measured.
+        if (!self::isInstalledForPhp()) {
+            return $events;
+        }
+
+        return $events + [
+            'Request.dispatch' => 'onRequestStart',
+            'Request.dispatch.end' => 'onRequestEnd',
+            'Http.sendHttpRequest' => 'onHttpClientStart',
+            'Http.sendHttpRequest.end' => 'onHttpClientEnd',
+            'API.Request.dispatch' => 'onApiStart',
+            'API.Request.dispatch.end' => 'onApiEnd',
             'Platform.initialized' => 'attachOtelHandler',
             'CronArchive.init.start' => 'onArchiveStart',
             'CronArchive.end' => 'onArchiveEnd',
-
         ];
     }
 
+    public static function isInstalledForPhp(): bool
+    {
+        return class_exists(Globals::class);
+    }
+
     /**
-     * Attach logger, to catch logs from Monolog.
+     * Sends what Matomo logs to OpenTelemetry as well.
      */
     public function attachOtelHandler(): void
     {
         $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-
         if ($logger instanceof Logger) {
-            $logger->pushHandler(
-                new OpenTelemetryHandler(Logger::DEBUG)
-            );
-            //$logger->pushHandler(new NullHandler(Logger::DEBUG));
+            $logger->pushHandler(new OpenTelemetryHandler(Logger::DEBUG));
         }
     }
 
     /**
-     * Normal HTTP requests in Matomo UI.
+     * A request to Matomo starts. The span continues the trace of the caller when the request
+     * carries one.
      */
-    private static function httpTracer()
+    public function onRequestStart($module = '', $action = ''): void
     {
-        if (!self::$httpTracer) {
-            self::$httpTracer = Globals::tracerProvider()->getTracer('matomo.http');
+        $headers = [];
+        foreach ($_SERVER as $key => $value) {
+            if (is_string($value) && strpos($key, 'HTTP_') === 0) {
+                $headers[strtolower(str_replace('_', '-', substr($key, 5)))] = $value;
+            }
         }
-        return self::$httpTracer;
+        $method = self::toText($_SERVER['REQUEST_METHOD'] ?? 'unknown');
+
+        $span = Globals::tracerProvider()->getTracer('matomo.http')
+            ->spanBuilder($method . ' ' . self::toText($module) . '.' . self::toText($action))
+            ->setSpanKind(SpanKind::KIND_SERVER)
+            ->setParent(Globals::propagator()->extract($headers))
+            ->setAttribute('http.method', $method)
+            ->setAttribute('http.url', self::maskSecrets(self::toText($_SERVER['REQUEST_URI'] ?? '')))
+            ->setAttribute('matomo.module', self::toText($module))
+            ->setAttribute('matomo.action', self::toText($action))
+            ->startSpan();
+
+        self::open($span, self::REQUEST, '');
+
+        // A request that ends with exit() never reaches the end of the dispatch.
+        if (!self::$endsOnShutdown) {
+            self::$endsOnShutdown = true;
+            register_shutdown_function([self::class, 'endAll']);
+        }
+    }
+
+    public function onRequestEnd(): void
+    {
+        $peakMemory = memory_get_peak_usage(true);
+        Globals::meterProvider()->getMeter('matomo.php')
+            ->createHistogram('matomo.php.memory.peak', 'By', 'Peak PHP memory usage per request')
+            ->record($peakMemory, ['process.runtime.name' => PHP_SAPI]);
+
+        self::close(self::REQUEST, ['php.memory.peak' => $peakMemory, 'http.status_code' => http_response_code() ?: 200]);
     }
 
     /**
-     * API requests, these happens often in Matomo UI.
+     * Matomo asks another server for something.
      */
-    private static function apiTracer()
+    public function onHttpClientStart($url = '', $parameters = []): void
     {
-        if (!self::$apiTracer) {
-            self::$apiTracer = Globals::tracerProvider()->getTracer('matomo.api');
+        $url = self::toText($url);
+        $method = self::toText(is_array($parameters) ? ($parameters['httpMethod'] ?? 'GET') : 'GET');
+
+        $span = Globals::tracerProvider()->getTracer('matomo.http')
+            ->spanBuilder($method . ' ' . (parse_url($url, PHP_URL_HOST) ?: 'unknown'))
+            ->setSpanKind(SpanKind::KIND_CLIENT)
+            ->setAttribute('http.method', $method)
+            ->setAttribute('http.url', self::maskSecrets($url))
+            ->startSpan();
+
+        self::open($span, self::CLIENT, '');
+    }
+
+    public function onHttpClientEnd($url = '', $parameters = [], $response = null, $status = null): void
+    {
+        self::close(self::CLIENT, is_numeric($status) ? ['http.status_code' => (int) $status] : []);
+    }
+
+    /**
+     * Matomo runs a method of its API. One request can run several, also inside one another.
+     */
+    public function onApiStart($parameters = [], $plugin = '', $method = ''): void
+    {
+        $name = self::toText($plugin) . '.' . self::toText($method);
+
+        $span = Globals::tracerProvider()->getTracer('matomo.api')
+            ->spanBuilder('API ' . $name)
+            ->setSpanKind(SpanKind::KIND_INTERNAL)
+            ->setAttribute('matomo.api.method', $name)
+            ->startSpan();
+
+        self::open($span, self::API, $name);
+    }
+
+    public function onApiEnd($returnedValue = null, $call = []): void
+    {
+        $name = is_array($call) ? self::toText($call['module'] ?? '') . '.' . self::toText($call['action'] ?? '') : '';
+        $index = self::find(self::API, $name);
+        if ($index === null) {
+            return;
         }
-        return self::$apiTracer;
+
+        Globals::meterProvider()->getMeter('matomo.api')
+            ->createHistogram('matomo.api.request.duration', 'ms', 'Duration of Matomo API requests')
+            ->record((microtime(true) - self::$open[$index][2]) * 1000, ['matomo.api.method' => $name]);
+
+        self::close(self::API, [], $name);
     }
 
     public function onArchiveStart(): void
     {
-        // if (!self::$metricsEnabled) {
-        //     return;
-        // }
-
         self::$archiveStartTime = microtime(true);
     }
 
     public function onArchiveEnd(): void
     {
-        // if (!self::$metricsEnabled || self::$archiveStartTime === null) {
-        //     return;
-        // }
+        if (self::$archiveStartTime === null) {
+            return;
+        }
 
-        self::archiveMetrics();
-
-        $durationMs = (microtime(true) - self::$archiveStartTime) * 1000;
-
-        self::$archiveDurationHistogram->record($durationMs, [
-            'process.runtime.name' => PHP_SAPI,
-        ]);
-
-        self::$archiveRunsCounter->add(1);
+        $meter = Globals::meterProvider()->getMeter('matomo.archive');
+        $meter->createHistogram('matomo.archive.duration', 'ms', 'Duration of Matomo core archive runs')
+            ->record((microtime(true) - self::$archiveStartTime) * 1000, ['process.runtime.name' => PHP_SAPI]);
+        $meter->createCounter('matomo.archive.runs', '1', 'Number of archive runs')->add(1);
 
         self::$archiveStartTime = null;
     }
 
     /**
-     * When request starts.
+     * Ends the spans that are still open, the innermost first.
      */
-    public function onRequestStart(): void
+    public static function endAll(): void
     {
-        $propagator = Globals::propagator();
-        $headers = [];
+        while (self::$open) {
+            self::close(end(self::$open)[3], []);
+        }
+    }
 
-        foreach ($_SERVER as $key => $value) {
-            if (str_starts_with($key, 'HTTP_')) {
-                $headerName = strtolower(str_replace('_', '-', substr($key, 5)));
-                $headers[$headerName] = $value;
+    /**
+     * An address without the values of its parameters that are secret, such as token_auth.
+     */
+    public static function maskSecrets(string $url): string
+    {
+        $parts = explode('?', $url, 2);
+        if (!isset($parts[1])) {
+            return $url;
+        }
+        [$query, $fragment] = explode('#', $parts[1], 2) + ['', null];
+
+        $pairs = [];
+        foreach (explode('&', $query) as $pair) {
+            [$name, $value] = explode('=', $pair, 2) + ['', null];
+            $isSecret = $value !== null && preg_match(self::SECRET_NAME, rawurldecode($name));
+            $pairs[] = $isSecret ? $name . '=' . self::MASK : $pair;
+        }
+
+        return $parts[0] . '?' . implode('&', $pairs) . ($fragment === null ? '' : '#' . $fragment);
+    }
+
+    /**
+     * @param string $name the name of a value in the context of a log entry
+     */
+    public static function isSecretName(string $name): bool
+    {
+        return preg_match(self::SECRET_NAME, $name) === 1;
+    }
+
+    private static function open(SpanInterface $span, string $type, string $name): void
+    {
+        // What Matomo does next belongs to the span, except for a request to another server,
+        // which is over when Matomo goes on.
+        self::$open[] = [$span, $type === self::CLIENT ? null : $span->activate(), microtime(true), $type, $name];
+    }
+
+    /**
+     * @return int|null where the innermost open span of the type is, with the name when it has one
+     */
+    private static function find(string $type, string $name): ?int
+    {
+        $ofType = null;
+        for ($index = count(self::$open) - 1; $index >= 0; $index--) {
+            if (self::$open[$index][3] !== $type) {
+                continue;
             }
-        }
-        $parentContext = $propagator->extract($headers);
-
-        Context::storage()->attach($parentContext);
-
-        $tracer = self::httpTracer();
-
-        self::$httpSpan = $tracer
-            ->spanBuilder(
-                ($_SERVER['REQUEST_METHOD'] ?? 'unknown') . ' ' . ($_SERVER['REQUEST_URI'] ?? '/')
-            )
-            ->setSpanKind(SpanKind::KIND_SERVER)
-            ->setParent($parentContext)
-            ->setAttribute('http.url', $_SERVER['REQUEST_URI'] ?? 'unknown')
-            ->setAttribute('http.method', $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN')
-            ->setStartTimestamp((int) (microtime(true) * 1e9))
-            ->startSpan();
-            // @todo: Not really working yet, set site id from baggage (js in this case), if we have it.
-            $baggage = Baggage::getCurrent();
-            $siteId = $baggage->getValue('matomo.site_id');
-        if ($siteId !== null) {
-            self::$httpSpan->setAttribute('matomo.site_id', $siteId);
-        }
-
-        self::$httpScope = self::$httpSpan->activate();
-    }
-
-    /**
-     * HTTP request end.
-     */
-    public function onRequestEnd(): void
-    {
-        $peakMemory = memory_get_peak_usage(true);
-        self::memoryHistogram()->record($peakMemory, [
-            'process.runtime.name' => php_sapi_name(),
-        ]);
-        if (self::$httpSpan) {
-            self::$httpSpan->setStatus(
-                StatusCode::STATUS_OK
-            );
-            self::$httpSpan->setAttribute(
-                'php.memory.peak',
-                memory_get_peak_usage(true)
-            );
-            self::$httpSpan->end((int) (microtime(true) * 1e9));
-            self::$httpSpan = null;
-        }
-    }
-
-    /**
-     * API start event.
-     */
-    public function onApiStart(): void
-    {
-        $tracer = self::apiTracer();
-
-        self::$apiStartTime = microtime(true);
-        if (!self::$apiDurationHistogram) {
-            self::$apiDurationHistogram = self::meter()
-                ->createHistogram(
-                    'matomo.api.request.duration',
-                    'ms',
-                    'Duration of Matomo API requests'
-                );
-        }
-
-        self::$activeSpan = $tracer
-            ->spanBuilder('API ' . ($_GET['method'] ?? 'unknown'))
-            ->setSpanKind(SpanKind::KIND_SERVER)
-            ->setAttribute('matomo.api.method', $_GET['method'] ?? 'unknown')
-            ->setAttribute('http.method', $_SERVER['REQUEST_METHOD'] ?? 'unknown')
-            ->setStartTimestamp((int) (microtime(true) * 1e9))
-            ->startSpan();
-
-        self::$activeSpan->activate();
-    }
-
-    /**
-     * API end event.
-     */
-    public function onApiEnd(): void
-    {
-        if (self::$activeSpan) {
-            $durationMs = null;
-            $peakMemory = memory_get_peak_usage(true);
-
-            self::memoryHistogram()->record($peakMemory, [
-                'process.runtime.name' => php_sapi_name(),
-            ]);
-
-            if (self::$apiStartTime !== null) {
-                $durationMs = (microtime(true) - self::$apiStartTime) * 1000;
+            if (self::$open[$index][4] === $name) {
+                return $index;
             }
+            $ofType = $ofType ?? $index;
+        }
 
-            $attributes = [
-                'matomo.api.method' => $_GET['method'] ?? 'unknown',
-                'http.method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown',
-                'http.status_code' => http_response_code() ?: 200,
-                'php.memory.peak' => memory_get_peak_usage(true),
-            ];
-            if ($durationMs !== null && self::$apiDurationHistogram) {
-                self::$apiDurationHistogram->record(
-                    $durationMs,
-                    $attributes
-                );
+        return $ofType;
+    }
+
+    /**
+     * Ends an open span, and the spans opened inside it that were never ended, as when an API
+     * method throws.
+     *
+     * @param array<string, int|string> $attributes for the span
+     */
+    private static function close(string $type, array $attributes, string $name = ''): void
+    {
+        $index = self::find($type, $name);
+        if ($index === null) {
+            return;
+        }
+
+        while (count(self::$open) > $index) {
+            [$span, $scope] = array_pop(self::$open);
+            if ($scope !== null) {
+                $scope->detach();
             }
-            self::$activeSpan->setAttribute('http.status_code', $attributes['http.status_code']);
-            self::$activeSpan->setStatus(StatusCode::STATUS_OK);
-            self::$activeSpan->end();
-
-            self::$activeSpan = null;
-            self::$apiStartTime = null;
+            if (count(self::$open) === $index) {
+                foreach ($attributes as $key => $value) {
+                    $span->setAttribute($key, $value);
+                }
+                $span->setStatus(StatusCode::STATUS_OK);
+            } else {
+                $span->setStatus(StatusCode::STATUS_ERROR, 'Not ended');
+            }
+            $span->end();
         }
     }
 
     /**
-     * Attach needed javascript files.
+     * @param mixed $value
      */
+    private static function toText($value): string
+    {
+        return is_scalar($value) ? (string) $value : '';
+    }
+
     public function getJSFiles(&$files)
     {
         $files[] = 'plugins/OpenTelemetry/js/start.js';
@@ -324,31 +332,25 @@ class OpenTelemetry extends Plugin
     }
 
     /**
-     * Get needed JavaScript variables from Matomo.
+     * Gives the browser the settings of its telemetry.
      */
     public function addJsVariables(&$out)
     {
         $settings = new SystemSettings();
+        $variables = [
+            'openTelemetryEnabled' => (bool) $settings->enabled->getValue(),
+            'openTelemetryServiceName' => (string) $settings->serviceName->getValue(),
+            'openTelemetryEndpoint' => (string) $settings->otelEndpoint->getValue(),
+            'openTelemetryDocumentLoadMonitoring' => (bool) $settings->enableDocumentLoadMonitoring->getValue(),
+            'openTelemetryUserInteractionMonitoring' => (bool) $settings->enableUserInteractionMonitoring->getValue(),
+            'openTelemetryXMLHttpRequestMonitoring' => (bool) $settings->enableXMLHttpRequestMonitoring->getValue(),
+            'openTelemetryWebVitals' => (bool) $settings->enableWebVitals->getValue(),
+            'openTelemetryUxMonitoring' => (bool) $settings->enableUxMonitoring->getValue(),
+            'openTelemetryResourceAttributes' => (string) $settings->resourceAttributes->getValue(),
+        ];
 
-        $enabled = (bool) $settings->enabled->getValue();
-        $enableDocumentLoadMonitoring = (bool) $settings->enableDocumentLoadMonitoring->getValue();
-        $enableUserInteractionMonitoring = (bool) $settings->enableUserInteractionMonitoring->getValue();
-        $enableXMLHttpRequestMonitoring = (bool) $settings->enableXMLHttpRequestMonitoring->getValue();
-        $enableWebVitals  = (bool) $settings->enableWebVitals->getValue();
-        $enableUxMonitoring = (bool) $settings->enableUxMonitoring->getValue();
-
-        $serviceName = $settings->serviceName->getValue();
-        $otelEndpoint = $settings->otelEndpoint->getValue();
-        $resourceAttributes = $settings->resourceAttributes->getValue();
-
-        $out .= "piwik.openTelemetryEnabled = " . json_encode($enabled) . ";\n";
-        $out .= "piwik.openTelemetryServiceName = " . json_encode($serviceName) . ";\n";
-        $out .= "piwik.openTelemetryEndpoint = " . json_encode($otelEndpoint) . ";\n";
-        $out .= "piwik.openTelemetryDocumentLoadMonitoring = " . json_encode($enableDocumentLoadMonitoring) . ";\n";
-        $out .= "piwik.openTelemetryUserInteractionMonitoring = " . json_encode($enableUserInteractionMonitoring) . ";\n";
-        $out .= "piwik.openTelemetryXMLHttpRequestMonitoring= " . json_encode($enableXMLHttpRequestMonitoring) . ";\n";
-        $out .= "piwik.openTelemetryWebVitals = " . json_encode($enableWebVitals) . ";\n";
-        $out .= "piwik.openTelemetryUxMonitoring = " . json_encode($enableUxMonitoring) . ";\n";
-        $out .= "piwik.openTelemetryResourceAttributes = " . json_encode($resourceAttributes) . ";\n";
+        foreach ($variables as $name => $value) {
+            $out .= "piwik.$name = " . json_encode($value, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) . ";\n";
+        }
     }
 }

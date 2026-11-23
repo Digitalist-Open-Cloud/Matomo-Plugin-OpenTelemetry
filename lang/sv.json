@@ -15,6 +15,13 @@
     "OtelEndpoint": "Endpoint URL",
     "OtelEndpointDescription": "Den fullständiga URL som OpenTelemetry-data skickas till, till exempel `https://myhost.org:4318/v1/traces` eller `https://myhost.org`. Normalt krävs en HTTP endpoint.",
     "ServiceName": "Servicens namn",
-    "ServiceNameDescription": "Namnet på den service som används för att identifiera webbläsare interaktioner i OpenTelemetry. Använd inte samma identifierare som för backend (PHP), eftersom detta kan orsaka problem."
+    "ServiceNameDescription": "Namnet på den service som används för att identifiera webbläsare interaktioner i OpenTelemetry. Använd inte samma identifierare som för backend (PHP), eftersom detta kan orsaka problem.",
+    "CspConnectSrc": "Ange CSP",
+    "CspConnectSrcDescription": "Ange Content Security Policy så att Matomo får ansluta till en OTEL-insamlare, till exempel http://127.0.0.1:4318 eller https://myendpoint:443",
+    "EnabledIntroduction": "Inställningar för OpenTelemetry i klienten (webbläsaren).",
+    "ResourceAttributes": "Resursattribut",
+    "ResourceAttributesDescription": "Resursattribut som läggs till alla spår, till exempel: host.name=matomo.loc",
+    "ErrorCspConnectSrc": "CSP-inställningen är en lista med värdar åtskilda med mellanslag, till exempel https://myendpoint:4318.",
+    "ErrorOtelEndpoint": "Slutpunkten är en webbadress som börjar med http:// eller https://."
   }
 }

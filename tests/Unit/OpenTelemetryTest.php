@@ -12,6 +12,8 @@ class OpenTelemetryTest extends TestCase
         $plugin = new OpenTelemetry();
         $events = $plugin->registerEvents();
 
+        $this->assertArrayHasKey('Request.dispatch', $events);
+        $this->assertArrayHasKey('Request.dispatch.end', $events);
         $this->assertArrayHasKey('Http.sendHttpRequest', $events);
         $this->assertArrayHasKey('Http.sendHttpRequest.end', $events);
         $this->assertArrayHasKey('API.Request.dispatch', $events);
