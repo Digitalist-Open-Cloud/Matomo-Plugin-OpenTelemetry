@@ -1,5 +1,10 @@
 # OpenTelemetry for Matomo
 
+[![PHPCS check](https://github.com/Digitalist-Open-Cloud/Matomo-Plugin-OpenTelemetry/actions/workflows/phpcs.yaml/badge.svg)](https://github.com/Digitalist-Open-Cloud/Matomo-Plugin-OpenTelemetry/actions/workflows/phpcs.yaml)
+[![Semgrep OSS scan](https://github.com/Digitalist-Open-Cloud/Matomo-Plugin-OpenTelemetry/actions/workflows/semgrep.yaml/badge.svg)](https://github.com/Digitalist-Open-Cloud/Matomo-Plugin-OpenTelemetry/actions/workflows/semgrep.yaml)
+[![Test plugin with Matomo](https://github.com/Digitalist-Open-Cloud/Matomo-Plugin-OpenTelemetry/actions/workflows/matomo.yaml/badge.svg)](https://github.com/Digitalist-Open-Cloud/Matomo-Plugin-OpenTelemetry/actions/workflows/matomo.yaml)
+[![PHPStan check](https://github.com/Digitalist-Open-Cloud/Matomo-Plugin-OpenTelemetry/actions/workflows/phpstan.yaml/badge.svg)](https://github.com/Digitalist-Open-Cloud/Matomo-Plugin-OpenTelemetry/actions/workflows/phpstan.yaml)
+
 ![OpenTelemetry logo](docs/assets/ot.png)
 
 The purpose of this plugin is to measure Matomo itself, how it performs and if there are issues,
@@ -36,9 +41,25 @@ If you are collecting telemetry from the UI, you must set Context Security Polic
 to post data to your collector. To allow it to connect to a collector with URL `https://mytracer.com:4318/v1/traces`
 you need to set CSP in plugin settings to: `https://mytracer.com:4318`.
 
+## What is sent
+
+With the packages for PHP installed, Matomo sends:
+
+- a span for each request to Matomo, named after its module and action;
+- a span for each API method it runs, inside the span of the request;
+- a span for each request Matomo makes to another server;
+- what Matomo logs;
+- metrics for peak memory, the duration of API methods and archive runs.
+
+The browser sends what you turn on in the settings. It adds the trace headers to requests to
+Matomo itself, not to other websites.
+
+The values of parameters that hold secrets, such as `token_auth` and passwords, are replaced by
+`***` in the addresses and log contexts that are sent.
+
 ## Requirements
 
-- At least PHP 8.0.x to install plugin.
+- At least PHP 8.0 to install the plugin.
 
 ### OpenTelemetry for PHP
 
@@ -122,14 +143,14 @@ To build release js-files:
 
 ```shell
 npm install
-npx esbuild src/otel.js \
+npx esbuild js-src/otel.js \
   --bundle \
   --sourcemap \
   --format=iife \
   --target=es2018 \
   --outfile=js/otel.js
 
-npx esbuild src/otel.js \
+npx esbuild js-src/otel.js \
   --bundle \
   --minify \
   --format=iife \

@@ -1,3 +1,4 @@
+"use strict";
 (() => {
   var __defProp = Object.defineProperty;
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -9410,14 +9411,10 @@
     }
     if (CONFIG.enableXMLHttpRequestMonitoring) {
       instrumentations.push(
-        new XMLHttpRequestInstrumentation({
-          propagateTraceHeaderCorsUrls: [/.*/]
-        })
+        new XMLHttpRequestInstrumentation()
       );
       instrumentations.push(
-        new FetchInstrumentation({
-          propagateTraceHeaderCorsUrls: [/.*/]
-        })
+        new FetchInstrumentation()
       );
     }
     if (instrumentations.length > 0) {
@@ -9426,25 +9423,30 @@
       });
     }
     const tracer = trace.getTracer(SERVICE_NAME);
+    const SECRET_NAME = /pass(word|wd|phrase)?|pwd|token|secret|credential|key|salt|hash|signature|cookie|session|nonce|auth/i;
+    function pageUrl() {
+      return window.location.href.replace(/([?&#][^=&#]*)=([^&#]*)/g, (pair, name) => SECRET_NAME.test(name) ? `${name}=***` : pair);
+    }
     let currentPageSpan = null;
     let currentPageContext = context.active();
     if (CONFIG.enableUxMonitoring) {
-      let startPageSpan = function() {
+      let startPageSpan2 = function() {
         if (currentPageSpan) {
           currentPageSpan.end();
         }
         currentPageSpan = tracer.startSpan("ui.page", {
           attributes: {
-            "http.url": window.location.href,
+            "http.url": pageUrl(),
             "http.path": window.location.pathname,
             "http.title": document.title
           }
         });
         currentPageContext = trace.setSpan(context.active(), currentPageSpan);
       };
-      startPageSpan();
+      var startPageSpan = startPageSpan2;
+      startPageSpan2();
       window.addEventListener("hashchange", () => {
-        startPageSpan();
+        startPageSpan2();
       });
       window.addEventListener("beforeunload", () => {
         if (currentPageSpan) {
@@ -9474,7 +9476,7 @@
         span.setAttribute("error.message", error.message);
         span.setAttribute("error.name", error.name);
         span.setAttribute("error.stack", (_a2 = error.stack) != null ? _a2 : "");
-        span.setAttribute("http.url", window.location.href);
+        span.setAttribute("http.url", pageUrl());
         span.setAttribute("http.path", window.location.pathname);
         span.setAttribute("http.title", document.title);
         span.end();
@@ -9518,7 +9520,7 @@
                 attributes: {
                   "ui.notification.type": "error",
                   "ui.notification.message": message,
-                  "http.url": window.location.href,
+                  "http.url": pageUrl(),
                   "http.path": window.location.pathname
                 }
               },
@@ -9540,12 +9542,12 @@
       observeAjaxErrors();
     }
     if (CONFIG.enableWebVitals) {
-      let emitWebVital = function(metric) {
+      let emitWebVital2 = function(metric) {
         const span = tracer.startSpan(
           "browser.web_vital",
           {
             attributes: {
-              "http.url": window.location.href,
+              "http.url": pageUrl(),
               "http.path": window.location.pathname
             }
           },
@@ -9559,9 +9561,10 @@
         });
         span.end();
       };
-      L(emitWebVital);
-      x(emitWebVital);
-      S(emitWebVital);
+      var emitWebVital = emitWebVital2;
+      L(emitWebVital2);
+      x(emitWebVital2);
+      S(emitWebVital2);
     }
     if (CONFIG.enableUxMonitoring && "PerformanceObserver" in window && ((_c = PerformanceObserver.supportedEntryTypes) == null ? void 0 : _c.includes("longtask"))) {
       const observer = new PerformanceObserver((list) => {
@@ -9570,7 +9573,7 @@
             "ux.long_task",
             {
               attributes: {
-                "http.url": window.location.href,
+                "http.url": pageUrl(),
                 "http.path": window.location.pathname
               }
             },

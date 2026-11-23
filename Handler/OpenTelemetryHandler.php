@@ -5,6 +5,7 @@ namespace Piwik\Plugins\OpenTelemetry\Handler;
 use Monolog\Handler\AbstractProcessingHandler;
 use OpenTelemetry\API\Globals;
 use OpenTelemetry\API\Logs\LogRecord;
+use Piwik\Plugins\OpenTelemetry\OpenTelemetry;
 
 class OpenTelemetryHandler extends AbstractProcessingHandler
 {
@@ -20,7 +21,9 @@ class OpenTelemetryHandler extends AbstractProcessingHandler
         if (!empty($record['context']) && is_array($record['context'])) {
             foreach ($record['context'] as $key => $value) {
                 $key = is_string($key) ? $key : 'context_' . $key;
-                if (is_scalar($value)) {
+                if (OpenTelemetry::isSecretName($key)) {
+                    $attributes['context.' . $key] = OpenTelemetry::MASK;
+                } elseif (is_scalar($value)) {
                     $attributes['context.' . $key] = $value;
                 } else {
                     $attributes['context.' . $key] = json_encode($value);

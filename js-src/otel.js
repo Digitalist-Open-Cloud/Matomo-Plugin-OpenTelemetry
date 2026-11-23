@@ -77,14 +77,10 @@ import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
 
   if (CONFIG.enableXMLHttpRequestMonitoring) {
     instrumentations.push(
-      new XMLHttpRequestInstrumentation({
-        propagateTraceHeaderCorsUrls: [/.*/],
-      })
+      new XMLHttpRequestInstrumentation()
     );
     instrumentations.push(
-      new FetchInstrumentation({
-        propagateTraceHeaderCorsUrls: [/.*/],
-      })
+      new FetchInstrumentation()
     );
   }
 
@@ -95,6 +91,14 @@ import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
   }
 
   const tracer = trace.getTracer(SERVICE_NAME);
+
+  // The address of the page without the values of parameters that are secret, such as token_auth.
+  const SECRET_NAME = /pass(word|wd|phrase)?|pwd|token|secret|credential|key|salt|hash|signature|cookie|session|nonce|auth/i;
+  function pageUrl() {
+    return window.location.href.replace(/([?&#][^=&#]*)=([^&#]*)/g, (pair, name) => (
+      SECRET_NAME.test(name) ? `${name}=***` : pair
+    ));
+  }
   let currentPageSpan = null;
   let currentPageContext = context.active();
 
@@ -107,7 +111,7 @@ import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
 
       currentPageSpan = tracer.startSpan("ui.page", {
         attributes: {
-          "http.url": window.location.href,
+          "http.url": pageUrl(),
           "http.path": window.location.pathname,
           "http.title": document.title,
         },
@@ -160,7 +164,7 @@ import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
       span.setAttribute("error.message", error.message);
       span.setAttribute("error.name", error.name);
       span.setAttribute("error.stack", error.stack ?? "");
-      span.setAttribute("http.url", window.location.href);
+      span.setAttribute("http.url", pageUrl());
       span.setAttribute("http.path", window.location.pathname);
       span.setAttribute("http.title", document.title);
 
@@ -221,7 +225,7 @@ import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
               attributes: {
                 "ui.notification.type": "error",
                 "ui.notification.message": message,
-                "http.url": window.location.href,
+                "http.url": pageUrl(),
                 "http.path": window.location.pathname,
               },
             },
@@ -252,7 +256,7 @@ import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
         "browser.web_vital",
         {
           attributes: {
-            "http.url": window.location.href,
+            "http.url": pageUrl(),
             "http.path": window.location.pathname,
           },
         },
@@ -286,7 +290,7 @@ import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
           "ux.long_task",
           {
             attributes: {
-              "http.url": window.location.href,
+              "http.url": pageUrl(),
               "http.path": window.location.pathname,
             },
           },

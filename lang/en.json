@@ -20,6 +20,8 @@
     "ServiceNameDescription": "The name of the service used to identify the browser (client) in OpenTelemetry. Do not use the same name as the backend (PHP), as this may cause issues.",
     "EnabledIntroduction": "OpenTelemetry settings for client (browser).",
     "ResourceAttributes": "Resource attributes",
-    "ResourceAttributesDescription": "Resource attributes to add to all traces, like: host.name=matomo.loc"
+    "ResourceAttributesDescription": "Resource attributes to add to all traces, like: host.name=matomo.loc",
+    "ErrorCspConnectSrc": "The CSP setting is a list of hosts separated by spaces, such as https://myendpoint:4318.",
+    "ErrorOtelEndpoint": "The endpoint is a web address that starts with http:// or https://."
   }
 }

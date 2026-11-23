@@ -117,6 +117,14 @@ class SystemSettings extends MatomoSettings
                 $field->description = Piwik::translate(
                     'OpenTelemetry_CspConnectSrcDescription'
                 );
+                // The value goes into the Content-Security-Policy header as it is.
+                $field->validate = function ($value) {
+                    foreach (preg_split('/\s+/', trim((string) $value), -1, PREG_SPLIT_NO_EMPTY) as $source) {
+                        if (!preg_match('~^(https?://)?[a-z0-9*]([a-z0-9.*-]*[a-z0-9])?(:([0-9]{1,5}|\*))?$~i', $source)) {
+                            throw new \Exception(Piwik::translate('OpenTelemetry_ErrorCspConnectSrc'));
+                        }
+                    }
+                };
             }
         );
     }
@@ -149,6 +157,12 @@ class SystemSettings extends MatomoSettings
                 $field->description = Piwik::translate(
                     'OpenTelemetry_OtelEndpointDescription'
                 );
+                $field->validate = function ($value) {
+                    $value = trim((string) $value);
+                    if ($value !== '' && (!preg_match('~^https?://[^\s/?#]+~i', $value) || filter_var($value, FILTER_VALIDATE_URL) === false)) {
+                        throw new \Exception(Piwik::translate('OpenTelemetry_ErrorOtelEndpoint'));
+                    }
+                };
             }
         );
     }
